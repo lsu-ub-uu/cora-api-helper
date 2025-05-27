@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Docs</title>
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <form><label>API URL: <input id="api-url" name="api-url" /></label><button>Load</button></form>
+
+    <div id="root"></div>
+    </body>
+    <script type="module" src="/app/main.js"></script>
+    <script>
+    // Function to get query parameter by name
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    // Check for 'api-url' query parameter
+    const apiUrl = getQueryParam('api-url') ?? "https://cora.epc.ub.uu.se/diva/rest";
+    console.log('API URL:', apiUrl);
+    if (apiUrl) {
+      document.getElementById('api-url').value = apiUrl;
+    }
+  </script>
+
+  </body>
+</html>

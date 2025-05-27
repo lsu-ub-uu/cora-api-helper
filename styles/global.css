@@ -1,0 +1,185 @@
+body {
+  font-size: 16px;
+  font-family: sans-serif;
+  font-size: 1rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#api-url {
+  width: 35ch;
+}
+
+#root {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 1rem;
+}
+
+button {
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer; /* Added cursor style for button */
+  font-family: inherit;
+}
+
+select {
+  margin-bottom: 1rem;
+}
+.api-docs {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+}
+
+.code-block {
+  padding: 1rem;
+  padding-left: 2rem;
+  font-size: 0.9rem;
+  font-family: monospace;
+  color: #fefefe;
+  background-color: #333;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.collection-variable-expand {
+  cursor: pointer;
+  background: rgb(255 255 255 / 10%);
+  border-radius: 2px;
+  margin-left: 1ch;
+
+  &:hover {
+    background: rgb(255 255 255 / 20%);
+  }
+
+  &:active {
+    background: rgb(255 255 255 / 30%);
+  }
+}
+
+.h3 {
+  font-family: monospace;
+  text-transform: uppercase;
+}
+
+.element {
+  position: relative;
+}
+
+.data-name {
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    background: rgb(255 255 255 / 20%);
+  }
+
+  &:active {
+    background: rgb(255 255 255 / 30%);
+  }
+}
+.element-popover {
+  font-family: sans-serif;
+  position: absolute;
+  top: 1lh;
+  left: 0;
+  z-index: 1;
+  min-width: max-content;
+  background: #ddd;
+  color: #333;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+
+  h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  h3,
+  p {
+    max-width: 30rem;
+  }
+}
+
+.element.collapsed {
+  .data-name::after {
+    content: " ...";
+  }
+
+  .multiplicity {
+    display: none;
+  }
+  .attributes {
+    display: none;
+  }
+
+  .element-children {
+    display: none;
+  }
+  .closing-tag {
+    display: none;
+  }
+}
+
+.element-children {
+  padding-left: 1.5rem;
+}
+
+.element-expand-button {
+  color: #aaa;
+  position: absolute;
+  left: -1rem;
+  top: -1px;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  background: none;
+  border-radius: 50%;
+
+  &:hover {
+    background: rgb(255 255 255 / 20%);
+  }
+
+  &:active {
+    background: rgb(255 255 255 / 30%);
+  }
+}
+
+.api-docs-nav-children {
+  padding-left: 1rem;
+}
+
+.final-value {
+  color: darkorange;
+}
+
+.collection-value {
+  color: deepskyblue;
+}
+
+.multiplicity {
+  color: hotpink;
+}
+
+.regex {
+  color: aquamarine;
+}
+
+.main-nav {
+  ul {
+    position: sticky;
+    top: 1rem;
+    list-style: none;
+    padding: 0;
+  }
+  a {
+    text-decoration: none;
+    color: darkblue;
+    &[aria-current="page"] {
+      color: coral;
+    }
+  }
+}
