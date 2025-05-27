@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
-    <form><label>API URL: <input id="api-url" name="api-url" /></label><button>Load</button></form>
+    <form>
+      <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
+      <datalist id="api-url-list">
+        <option value="https://cora.epc.ub.uu.se/diva/rest"></option>
+        <option value="https://cora.epc.ub.uu.se/alvin/rest"></option>
+        <option value="https://cora.epc.ub.uu.se/systemone/rest"></option>
+        <option value="https://pre.diva-portal.org/rest"></option>
+      </datalist>
+      <button>Load</button>
+    </form>
+    
 
     <div id="root"></div>
     </body>
