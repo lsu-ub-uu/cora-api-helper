@@ -1,6 +1,7 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
 import group from "./group.js";
+import radio from "./radio.js";
 import validationTypeSelect from "./validationTypeSelect.js";
 
 export default function validationType({
@@ -9,9 +10,9 @@ export default function validationType({
   validationTypePool,
   metadataPool,
 }) {
-  const selectedValidationTypeId = new URLSearchParams(
-    window.location.search
-  ).get("validationTypeId");
+  const search = new URLSearchParams(window.location.search);
+  const selectedValidationTypeId = search.get("validationTypeId");
+  const method = search.get("method") || "create";
   const recordTypeId = path.split("/").pop();
 
   if (!recordTypePool[recordTypeId]) {
@@ -49,11 +50,54 @@ export default function validationType({
             validationType: validationTypePool[selectedValidationTypeId],
             metadataPool,
             codeBlockElement: codeBlock,
+            method,
           });
         },
       })
     );
   }
+
+  const methods = document.createElement("div");
+  methods.appendChild(
+    radio({
+      name: "method",
+      value: "create",
+      label: "Create",
+      checked: method === "create",
+      onChange: (value) => {
+        const url = new URL(window.location);
+        url.searchParams.set("method", value);
+        window.history.replaceState({}, "", url);
+        renderValidationTypeDoc({
+          validationType,
+          metadataPool,
+          codeBlockElement: codeBlock,
+          method: value,
+        });
+      },
+    })
+  );
+  methods.appendChild(
+    radio({
+      name: "method",
+      value: "update",
+      label: "Update / Read",
+      checked: method === "update",
+      onChange: (value) => {
+        const url = new URL(window.location);
+        url.searchParams.set("method", value);
+        window.history.replaceState({}, "", url);
+        renderValidationTypeDoc({
+          validationType,
+          metadataPool,
+          codeBlockElement: codeBlock,
+          method: value,
+        });
+      },
+    })
+  );
+
+  root.appendChild(methods);
 
   const codeBlock = document.createElement("div");
   codeBlock.className = "code-block";
@@ -62,6 +106,7 @@ export default function validationType({
     validationType,
     metadataPool,
     codeBlockElement: codeBlock,
+    method,
   });
 
   root.appendChild(codeBlock);
@@ -72,8 +117,12 @@ function renderValidationTypeDoc({
   validationType,
   metadataPool,
   codeBlockElement,
+  method,
 }) {
-  const metadataLink = getFirstChildWithName(validationType, "metadataId");
+  const metadataLink = getFirstChildWithName(
+    validationType,
+    method === "create" ? "newMetadataId" : "metadataId"
+  );
   const metadataId = getFirstChildWithName(
     metadataLink,
     "linkedRecordId"
@@ -101,7 +150,7 @@ function getValidationTypesForRecordType({ validationTypePool, recordTypeId }) {
 }
 
 function pageTitle({ recordTypePool, recordTypeId }) {
-  const root = document.createElement("h1");
+  const root = document.createElement("h2");
   root.textContent = recordTypeId;
 
   const recordType = recordTypePool[recordTypeId];

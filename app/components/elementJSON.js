@@ -11,6 +11,8 @@ export default function jsonElement({
   repeatMax,
   children,
 }) {
+  const isRepeating = repeatMax !== "0" && repeatMax !== "1";
+
   const root = document.createElement("div");
   root.className = "json-element";
 
@@ -37,6 +39,13 @@ export default function jsonElement({
   nameInDataProperty.appendChild(multiplicity({ repeatMin, repeatMax }));
 
   root.appendChild(nameInDataProperty);
+
+  if (isRepeating) {
+    const repeatProperty = document.createElement("div");
+    repeatProperty.className = "json-property";
+    repeatProperty.innerHTML = `<span class="json-key">"repeatId"</span>: "<span class="regex">/.+/</span>",`;
+    root.appendChild(repeatProperty);
+  }
 
   root.appendChild(attributes({ metadataPool, metadata }));
 

@@ -7,49 +7,48 @@
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
-    <form id="load-form">
-      <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
-      <datalist id="api-url-list">
-        <option value="https://cora.epc.ub.uu.se/diva/rest"></option>
-        <option value="https://cora.epc.ub.uu.se/alvin/rest"></option>
-        <option value="https://cora.epc.ub.uu.se/systemone/rest"></option>
-        <option value="https://pre.diva-portal.org/rest"></option>
-      </datalist>
+    <header>
+      <h1>Cora API Viewer</h1>
+      <form id="load-form">
+        <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
+        <datalist id="api-url-list">
+          <option value="https://cora.epc.ub.uu.se/diva/rest"></option>
+          <option value="https://cora.epc.ub.uu.se/alvin/rest"></option>
+          <option value="https://cora.epc.ub.uu.se/systemone/rest"></option>
+          <option value="https://pre.diva-portal.org/rest"></option>
+        </datalist>
 
-      <label>Format</label>
-      <select id="format" name="format">
-        <option value="xml">XML</option>
-        <option value="json">JSON</option>
-      </select>
-    </form>
-    
+        <label>
+          Format
+          <select id="format" name="format">
+            <option value="xml">XML</option>
+            <option value="json">JSON</option>
+          </select>
+        </label>
+      </form>
+    </header>
+
 
     <div id="root"></div>
     </body>
     <script type="module" src="/app/main.js"></script>
     <script>
-    // Function to get query parameter by name
-    function getQueryParam(name) {
       const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
 
-    // Check for 'api-url' query parameter
-    const apiUrl = getQueryParam('api-url') ?? "https://cora.epc.ub.uu.se/diva/rest";
-    const format = getQueryParam('format') ?? "xml";
-    console.log('API URL:', apiUrl);
-    console.log('Format:', format); 
-    if (apiUrl) {
-      document.getElementById('api-url').value = apiUrl;
-    }
-    if (format) {
-      document.getElementById('format').value = format;
-    }
+      const apiUrl = params.get('api-url') ?? "https://cora.epc.ub.uu.se/diva/rest";
+      const format = params.get('format') ?? "xml";
+      console.log('API URL:', apiUrl);
+      console.log('Format:', format); 
+      if (apiUrl) {
+        document.getElementById('api-url').value = apiUrl;
+      }
+      if (format) {
+        document.getElementById('format').value = format;
+      }
 
-    document.getElementById('load-form').addEventListener('change', event => {
-      event.currentTarget.submit();
-    })
-    
+      document.getElementById('load-form').addEventListener('change', event => {
+        event.currentTarget.submit();
+      });
   </script>
 
   </body>

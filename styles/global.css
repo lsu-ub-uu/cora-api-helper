@@ -4,7 +4,23 @@ body {
   font-size: 1rem;
   display: grid;
   gap: 1rem;
+  padding: 0;
+  margin: 0;
+  padding-top: 0;
+}
+
+header {
+  background: #f0f0f0;
   padding: 1rem;
+  label {
+    display: inline-flex;
+    flex-direction: column;
+  }
+}
+
+input[type="radio"] {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
 }
 
 #api-url {
@@ -15,6 +31,7 @@ body {
   display: grid;
   grid-template-columns: minmax(15rem, max-content) 1fr;
   gap: 1rem;
+  padding: 1rem;
 }
 
 button {

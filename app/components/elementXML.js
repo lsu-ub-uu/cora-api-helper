@@ -12,6 +12,7 @@ export default function elementXML({
   children,
 }) {
   const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
+  const isRepeating = repeatMax !== "0" && repeatMax !== "1";
 
   const root = document.createElement("div");
   root.className = "element";
@@ -21,7 +22,8 @@ export default function elementXML({
   );
   root.appendChild(document.createTextNode("<"));
   root.appendChild(dataName({ metadata }));
-  root.appendChild(attributes({ metadataPool, metadata }));
+  root.appendChild(attributes({ metadataPool, metadata, isRepeating }));
+
   root.appendChild(document.createTextNode(`>`));
   root.appendChild(multiplicity({ repeatMin, repeatMax }));
 

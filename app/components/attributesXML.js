@@ -1,8 +1,9 @@
 import getAllChildrenWithName from "../utils/getAllChildrenWithName.js";
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import dataName from "./dataName.js";
 import itemCollection from "./itemCollection.js";
 
-export default function attributes({ metadataPool, metadata }) {
+export default function attributes({ metadataPool, metadata, isRepeating }) {
   const attributeReferences = getFirstChildWithName(
     metadata,
     "attributeReferences"
@@ -30,6 +31,12 @@ export default function attributes({ metadataPool, metadata }) {
     }
   });
 
+  if (isRepeating) {
+    const repeatSpan = document.createElement("span");
+    repeatSpan.innerHTML = ' repeatId="<span class="regex">/.+/</span>"';
+    root.appendChild(repeatSpan);
+  }
+
   return root;
 }
 
@@ -53,7 +60,11 @@ function createAttribute({ metadataPool, ref }) {
   const root = document.createElement("span");
   root.className = "attributes";
 
-  root.appendChild(document.createTextNode(` ${nameInData}=`));
+  const attributeKey = document.createElement("span");
+  attributeKey.appendChild(document.createTextNode(" "));
+  attributeKey.appendChild(dataName({ metadata: attributeMetadata }));
+  attributeKey.appendChild(document.createTextNode("="));
+  root.appendChild(attributeKey);
 
   if (finalValue) {
     const finalValueSpan = document.createElement("span");
