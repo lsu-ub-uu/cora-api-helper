@@ -49,5 +49,7 @@ function navigate({ recordTypePool, validationTypePool, metadataPool }) {
       navigate: () => navigate(pools),
     })
   );
-  root.appendChild(validationType({ path, validationTypePool, metadataPool }));
+  root.appendChild(
+    validationType({ path, recordTypePool, validationTypePool, metadataPool })
+  );
 }

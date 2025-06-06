@@ -1,7 +1,5 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import attributes from "./attributes.js";
-import getTextFromLink from "../utils/getTextFromLink.js";
-import showPopover from "./popover.js";
 import dataName from "./dataName.js";
 
 export default function element({

@@ -1,6 +1,5 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
-import showPopover from "./popover.js";
 
 export default function dataName({ metadata }) {
   const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
@@ -25,16 +24,34 @@ export default function dataName({ metadata }) {
   }
 
   root.className = "data-name";
-  root.textContent = nameInData;
-  root.role = "button";
-  root.tabIndex = 0;
-  root.setAttribute("aria-label", `Show text for ${nameInData}`);
-  root.addEventListener("click", onClick);
-  root.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onClick();
+  const button = document.createElement("button");
+  button.textContent = nameInData;
+
+  const popover = document.createElement("div");
+  popover.className = "popover";
+  popover.popover = "auto";
+
+  button.popoverTargetElement = popover;
+  button.popoverTargetAction = "toggle";
+
+  popover.addEventListener("beforetoggle", async (e) => {
+    if (e.newState === "open" && !e.target.dataset.loaded) {
+      const [text, defText] = await Promise.all([
+        getTextFromLink(getFirstChildWithName(metadata, "textId")),
+        getTextFromLink(getFirstChildWithName(metadata, "defTextId")),
+      ]);
+      const heading = document.createElement("h3");
+      heading.textContent = text;
+
+      const textContent = document.createElement("p");
+      textContent.textContent = defText;
+      e.target.appendChild(heading);
+      e.target.appendChild(textContent);
+      e.target.dataset.loaded = "true";
     }
   });
+
+  root.appendChild(button);
+  root.appendChild(popover);
   return root;
 }

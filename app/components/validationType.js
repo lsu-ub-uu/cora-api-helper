@@ -1,9 +1,11 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
 import group from "./group.js";
+import validationTypeSelect from "./validationTypeSelect.js";
 
 export default function validationType({
   path,
+  recordTypePool,
   validationTypePool,
   metadataPool,
 }) {
@@ -11,19 +13,11 @@ export default function validationType({
     window.location.search
   ).get("validationTypeId");
   const recordTypeId = path.split("/").pop();
-  const validationTypesForRecordType = Object.values(validationTypePool).filter(
-    (validationType) => {
-      const validatesRecordType = getFirstChildWithName(
-        validationType,
-        "validatesRecordType"
-      );
-      const validatesRecordTypeId = getFirstChildWithName(
-        validatesRecordType,
-        "linkedRecordId"
-      ).value;
-      return validatesRecordTypeId === recordTypeId;
-    }
-  );
+
+  const validationTypesForRecordType = getValidationTypesForRecordType({
+    validationTypePool,
+    recordTypeId,
+  });
 
   const validationType =
     validationTypesForRecordType.find((v) => {
@@ -32,57 +26,27 @@ export default function validationType({
       return selectedValidationTypeId === id;
     }) ?? validationTypesForRecordType[0];
 
-  const textId = getFirstChildWithName(validationType, "textId");
-
   const root = document.createElement("div");
 
-  root.innerHTML = `
-        <h1>${recordTypeId}</h1>
-    `;
-
-  getTextFromLink(textId).then((text) => {
-    document.querySelector("h1").textContent = text;
-  });
+  root.appendChild(pageTitle({ recordTypeId, recordTypePool }));
 
   if (validationTypesForRecordType.length > 1) {
-    const validationTypeSelectLabel = document.createElement("label");
-    validationTypeSelectLabel.innerHTML = "Validation Type: ";
-
-    const validationTypeSelect = document.createElement("select");
-    validationTypeSelectLabel.appendChild(validationTypeSelect);
-
-    validationTypesForRecordType.forEach((validationType) => {
-      const textId = getFirstChildWithName(validationType, "textId");
-
-      const recordInfo = getFirstChildWithName(validationType, "recordInfo");
-      const validationTypeId = getFirstChildWithName(recordInfo, "id").value;
-
-      const option = document.createElement("option");
-      option.value = validationTypeId;
-      option.textContent = validationTypeId;
-      getTextFromLink(textId).then((text) => {
-        option.textContent = text;
-      });
-
-      validationTypeSelect.appendChild(option);
-      if (selectedValidationTypeId) {
-        validationTypeSelect.value = selectedValidationTypeId;
-      }
-
-      validationTypeSelect.addEventListener("change", (e) => {
-        const selectedValidationTypeId = e.target.value;
-        const url = new URL(window.location);
-        url.searchParams.set("validationTypeId", selectedValidationTypeId);
-        window.history.replaceState({}, "", url);
-        renderValidationTypeDoc({
-          validationType: validationTypePool[selectedValidationTypeId],
-          metadataPool,
-          codeBlockElement: codeBlock,
-        });
-      });
-    });
-
-    root.appendChild(validationTypeSelectLabel);
+    root.appendChild(
+      validationTypeSelect({
+        selectedValidationTypeId,
+        validationTypesForRecordType,
+        onChange: (selectedValidationTypeId) => {
+          const url = new URL(window.location);
+          url.searchParams.set("validationTypeId", selectedValidationTypeId);
+          window.history.replaceState({}, "", url);
+          renderValidationTypeDoc({
+            validationType: validationTypePool[selectedValidationTypeId],
+            metadataPool,
+            codeBlockElement: codeBlock,
+          });
+        },
+      })
+    );
   }
 
   const codeBlock = document.createElement("div");
@@ -114,4 +78,31 @@ function renderValidationTypeDoc({
   codeBlockElement.appendChild(
     group({ metadataPool, groupId: metadataId, repeatMin: "1", repeatMax: "1" })
   );
+}
+
+function getValidationTypesForRecordType({ validationTypePool, recordTypeId }) {
+  return Object.values(validationTypePool).filter((validationType) => {
+    const validatesRecordType = getFirstChildWithName(
+      validationType,
+      "validatesRecordType"
+    );
+    const validatesRecordTypeId = getFirstChildWithName(
+      validatesRecordType,
+      "linkedRecordId"
+    ).value;
+    return validatesRecordTypeId === recordTypeId;
+  });
+}
+
+function pageTitle({ recordTypePool, recordTypeId }) {
+  const root = document.createElement("h1");
+  root.textContent = recordTypeId;
+
+  const recordType = recordTypePool[recordTypeId];
+  const recordTypeTextId = getFirstChildWithName(recordType, "textId");
+  getTextFromLink(recordTypeTextId).then((text) => {
+    root.textContent = text;
+  });
+
+  return root;
 }

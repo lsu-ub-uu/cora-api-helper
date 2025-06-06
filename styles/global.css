@@ -70,22 +70,24 @@ select {
 }
 
 .data-name {
-  position: relative;
-  cursor: pointer;
-  &:hover {
-    background: rgb(255 255 255 / 20%);
-  }
+  button {
+    user-select: text;
+    padding: 0;
+    cursor: pointer;
+    &:hover {
+      background: rgb(255 255 255 / 20%);
+    }
 
-  &:active {
-    background: rgb(255 255 255 / 30%);
+    &:active {
+      background: rgb(255 255 255 / 30%);
+    }
   }
 }
-.element-popover {
+.popover {
+  inset: unset;
+  position: relative;
   font-family: sans-serif;
-  position: absolute;
-  top: 1lh;
-  left: 0;
-  z-index: 1;
+  margin-top: 0.5rem;
   min-width: max-content;
   background: #ddd;
   color: #333;
@@ -96,10 +98,11 @@ select {
     margin-bottom: 0.5rem;
     font-size: 1rem;
     margin-top: 0;
+    max-width: 30rem;
   }
 
-  h3,
   p {
+    margin: 0;
     max-width: 30rem;
   }
 }
@@ -125,7 +128,7 @@ select {
 }
 
 .element-children {
-  padding-left: 1.5rem;
+  padding-left: 3ch;
 }
 
 .element-expand-button {
@@ -162,6 +165,7 @@ select {
 
 .multiplicity {
   color: hotpink;
+  user-select: none;
 }
 
 .regex {
