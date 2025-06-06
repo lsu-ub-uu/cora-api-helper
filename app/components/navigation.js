@@ -53,7 +53,8 @@ export default function navigation({ recordTypePool, path, navigate }) {
       a.addEventListener("click", (e) => {
         e.preventDefault();
         const href = e.target.getAttribute("href");
-        history.pushState({}, "", href);
+        const url = href + window.location.search;
+        history.pushState({}, "", url);
         navigate();
       });
 

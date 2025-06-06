@@ -11,7 +11,7 @@ export default function textVariable({
 
   const regex = document.createElement("div");
   regex.className = "regex";
-  regex.textContent = `String (RegEx: /${regexText}/)`;
+  regex.textContent = `/${regexText}/`;
 
   return element({
     metadataPool,

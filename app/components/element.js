@@ -1,6 +1,5 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import attributes from "./attributes.js";
-import dataName from "./dataName.js";
+import elementXML from "./elementXML.js";
+import elementJSON from "./elementJSON.js";
 
 export default function element({
   metadataPool,
@@ -9,57 +8,23 @@ export default function element({
   repeatMax,
   children,
 }) {
-  const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
+  const format =
+    new URLSearchParams(window.location.search).get("format") || "xml";
 
-  const root = document.createElement("div");
-  root.className = "element";
-
-  root.appendChild(
-    expandButton({ onClick: () => root.classList.toggle("collapsed") })
-  );
-  root.appendChild(document.createTextNode("<"));
-  root.appendChild(dataName({ metadata }));
-  root.appendChild(attributes({ metadataPool, metadata }));
-  root.appendChild(document.createTextNode(`>`));
-  root.appendChild(multiplicity({ repeatMin, repeatMax }));
-
-  const childrenDiv = document.createElement("div");
-  childrenDiv.className = "element-children";
-  if (Array.isArray(children)) {
-    children.forEach((child) => {
-      childrenDiv.appendChild(child);
+  if (format === "json") {
+    return elementJSON({
+      metadataPool,
+      metadata,
+      repeatMin,
+      repeatMax,
+      children,
     });
-  } else {
-    childrenDiv.appendChild(children);
   }
-
-  root.appendChild(childrenDiv);
-  root.appendChild(closingTag({ nameInData }));
-
-  return root;
-}
-
-function expandButton({ onClick }) {
-  const expandButton = document.createElement("button");
-  expandButton.className = "element-expand-button";
-  expandButton.textContent = "-";
-  expandButton.addEventListener("click", () => {
-    onClick();
-    expandButton.textContent = root.classList.contains("collapsed") ? "+" : "-";
+  return elementXML({
+    metadataPool,
+    metadata,
+    repeatMin,
+    repeatMax,
+    children,
   });
-  return expandButton;
-}
-
-function multiplicity({ repeatMin, repeatMax }) {
-  const multiplicitySpan = document.createElement("span");
-  multiplicitySpan.className = "multiplicity";
-  multiplicitySpan.textContent = `(${repeatMin} - ${repeatMax})`;
-  return multiplicitySpan;
-}
-
-function closingTag({ nameInData }) {
-  const closingTag = document.createElement("span");
-  closingTag.className = "closing-tag";
-  closingTag.textContent = `</${nameInData}>`;
-  return closingTag;
 }

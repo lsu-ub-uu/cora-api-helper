@@ -127,6 +127,42 @@ select {
   }
 }
 
+.json-property {
+  padding-left: 2ch;
+}
+
+.json-element {
+  position: relative;
+
+  .regex,
+  .collection-value,
+  .number-variable {
+    display: inline;
+  }
+
+  &.collapsed {
+    color: #aaa;
+
+    & .json-property {
+      display: none;
+    }
+    .multiplicity {
+      display: none;
+    }
+
+    & > .name-in-data {
+      display: inline;
+      padding: 0;
+    }
+
+    & > div {
+      display: inline;
+      &:last-child::before {
+        content: "... ";
+      }
+    }
+  }
+}
 .element-children {
   padding-left: 3ch;
 }

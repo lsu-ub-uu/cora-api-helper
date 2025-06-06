@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import getFirstChildWithName from "../utils/getFirstChildWithName";
 import childReference from "./childReference";
-import attributes from "./attributes";
+import attributes from "./attributesXML";
 import { screen } from "@testing-library/dom";
 
 vi.mock("./itemCollection.js", () => ({
@@ -13,7 +13,7 @@ vi.mock("./itemCollection.js", () => ({
   ),
 }));
 
-describe("attributes", () => {
+describe("attributes XML", () => {
   it("renders selectable attributes", () => {
     const metadataPool = {
       color: {

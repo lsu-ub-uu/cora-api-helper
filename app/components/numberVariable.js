@@ -16,9 +16,9 @@ export default function numberVariable({
   console.log({ metadata });
   const regex = document.createElement("div");
   regex.className = "number-variable";
-  regex.textContent = `Number (min: ${Number(min).toFixed(
-    numberOfDecimals
-  )}, max: ${Number(max).toFixed(numberOfDecimals)})`;
+  regex.textContent = `${Number(min).toFixed(numberOfDecimals)} - ${Number(
+    max
+  ).toFixed(numberOfDecimals)}`;
 
   return element({
     metadataPool,

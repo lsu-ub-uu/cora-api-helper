@@ -1,3 +1,4 @@
+import getAllChildrenWithName from "../utils/getAllChildrenWithName.js";
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import itemCollection from "./itemCollection.js";
 
@@ -11,7 +12,28 @@ export default function attributes({ metadataPool, metadata }) {
     return document.createDocumentFragment();
   }
 
-  const ref = getFirstChildWithName(attributeReferences, "ref");
+  const refs = getAllChildrenWithName(attributeReferences, "ref");
+  if (refs.length > 1) {
+    console.log(refs);
+  }
+
+  const root = document.createElement("span");
+
+  refs.forEach((ref, index) => {
+    const attributeElement = createAttribute({
+      metadataPool,
+      ref,
+    });
+    root.appendChild(attributeElement);
+    if (index < refs.length - 1) {
+      root.appendChild(document.createTextNode(" "));
+    }
+  });
+
+  return root;
+}
+
+function createAttribute({ metadataPool, ref }) {
   const linkedRecordId = getFirstChildWithName(ref, "linkedRecordId")?.value;
   const attributeMetadata = metadataPool[linkedRecordId];
   const collectionReference = getFirstChildWithName(
