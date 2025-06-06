@@ -5,7 +5,11 @@ import recordLink from "./recordLink.js";
 import collectionVariable from "./collectionVariable.js";
 import numberVariable from "./numberVariable.js";
 
-export default function childReference({ metadataPool, childReference }) {
+export default function childReference({
+  metadataPool,
+  childReference,
+  depth = 0,
+}) {
   const repeatMin = getFirstChildWithName(childReference, "repeatMin")?.value;
   const repeatMax = getFirstChildWithName(childReference, "repeatMax")?.value;
   const refLink = getFirstChildWithName(childReference, "ref");
@@ -21,6 +25,7 @@ export default function childReference({ metadataPool, childReference }) {
       groupId: refRecordId,
       repeatMin,
       repeatMax,
+      depth,
     });
   }
 

@@ -2,7 +2,18 @@ import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import childReference from "./childReference.js";
 import element from "./element.js";
 
-export default function group({ metadataPool, groupId, repeatMin, repeatMax }) {
+export default function group({
+  metadataPool,
+  groupId,
+  repeatMin,
+  repeatMax,
+  depth = 0,
+}) {
+  if (depth > 10) {
+    console.warn("Maximum depth exceeded in group rendering");
+    return document.createTextNode("<<MAX DEPTH EXCEEDED>>");
+  }
+
   const groupMetadata = metadataPool[groupId];
   const root = document.createElement("div");
 
@@ -22,7 +33,11 @@ export default function group({ metadataPool, groupId, repeatMin, repeatMax }) {
       repeatMin,
       repeatMax,
       children: childReferences.map((childRef) =>
-        childReference({ metadataPool, childReference: childRef })
+        childReference({
+          metadataPool,
+          childReference: childRef,
+          depth: depth + 1,
+        })
       ),
     })
   );
