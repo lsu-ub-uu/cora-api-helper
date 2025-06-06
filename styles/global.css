@@ -239,6 +239,9 @@ select {
   color: aquamarine;
 }
 
+summary {
+  cursor: pointer;
+}
 .number-variable {
   color: khaki;
 }
@@ -253,8 +256,6 @@ select {
     margin-bottom: 0.5rem;
   }
   ul {
-    position: sticky;
-    top: 1rem;
     list-style: none;
     padding: 0;
   }

@@ -2,6 +2,7 @@ import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
 import group from "./group.js";
 import radio from "./radio.js";
+import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";
 
 export default function validationType({
@@ -49,7 +50,7 @@ export default function validationType({
           renderValidationTypeDoc({
             validationType: validationTypePool[selectedValidationTypeId],
             metadataPool,
-            codeBlockElement: codeBlock,
+            element: docElement,
             method,
           });
         },
@@ -71,7 +72,7 @@ export default function validationType({
         renderValidationTypeDoc({
           validationType,
           metadataPool,
-          codeBlockElement: codeBlock,
+          element: docElement,
           method: value,
         });
       },
@@ -81,7 +82,7 @@ export default function validationType({
     radio({
       name: "method",
       value: "update",
-      label: "Update / Read",
+      label: "Update",
       checked: method === "update",
       onChange: (value) => {
         const url = new URL(window.location);
@@ -90,7 +91,7 @@ export default function validationType({
         renderValidationTypeDoc({
           validationType,
           metadataPool,
-          codeBlockElement: codeBlock,
+          element: docElement,
           method: value,
         });
       },
@@ -99,24 +100,23 @@ export default function validationType({
 
   root.appendChild(methods);
 
-  const codeBlock = document.createElement("div");
-  codeBlock.className = "code-block";
+  const docElement = document.createElement("div");
 
   renderValidationTypeDoc({
     validationType,
     metadataPool,
-    codeBlockElement: codeBlock,
+    element: docElement,
     method,
   });
 
-  root.appendChild(codeBlock);
+  root.appendChild(docElement);
   return root;
 }
 
 function renderValidationTypeDoc({
   validationType,
   metadataPool,
-  codeBlockElement,
+  element,
   method,
 }) {
   const metadataLink = getFirstChildWithName(
@@ -128,11 +128,18 @@ function renderValidationTypeDoc({
     "linkedRecordId"
   ).value;
 
-  codeBlockElement.innerHTML = "";
+  element.innerHTML = "";
 
-  codeBlockElement.appendChild(
+  element.appendChild(requestConfigDoc({ validationType }));
+
+  const dataFormat = document.createElement("div");
+  dataFormat.className = "code-block";
+
+  dataFormat.appendChild(
     group({ metadataPool, groupId: metadataId, repeatMin: "1", repeatMax: "1" })
   );
+
+  element.appendChild(dataFormat);
 }
 
 function getValidationTypesForRecordType({ validationTypePool, recordTypeId }) {
