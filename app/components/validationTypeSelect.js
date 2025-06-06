@@ -7,14 +7,11 @@ export default function validationTypeSelect({
   onChange,
 }) {
   const root = document.createElement("label");
-  root.innerHTML = "Validation Type: ";
+  root.textContent = "Validation Type: ";
 
   const validationTypeSelect = document.createElement("select");
-  root.appendChild(validationTypeSelect);
-
   validationTypesForRecordType.forEach((validationType) => {
     const textId = getFirstChildWithName(validationType, "textId");
-
     const recordInfo = getFirstChildWithName(validationType, "recordInfo");
     const validationTypeId = getFirstChildWithName(recordInfo, "id").value;
 
@@ -24,16 +21,17 @@ export default function validationTypeSelect({
     getTextFromLink(textId).then((text) => {
       option.textContent = text;
     });
-
     validationTypeSelect.appendChild(option);
-    if (selectedValidationTypeId) {
-      validationTypeSelect.value = selectedValidationTypeId;
-    }
-
-    validationTypeSelect.addEventListener("change", (e) =>
-      onChange(e.target.value)
-    );
   });
 
+  if (selectedValidationTypeId) {
+    validationTypeSelect.value = selectedValidationTypeId;
+  }
+
+  validationTypeSelect.addEventListener("change", (e) =>
+    onChange(e.target.value)
+  );
+
+  root.appendChild(validationTypeSelect);
   return root;
 }

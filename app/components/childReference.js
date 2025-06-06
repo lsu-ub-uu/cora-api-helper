@@ -3,6 +3,7 @@ import group from "./group.js";
 import textVariable from "./textVariable.js";
 import recordLink from "./recordLink.js";
 import collectionVariable from "./collectionVariable.js";
+import numberVariable from "./numberVariable.js";
 
 export default function childReference({ metadataPool, childReference }) {
   const repeatMin = getFirstChildWithName(childReference, "repeatMin")?.value;
@@ -34,6 +35,15 @@ export default function childReference({ metadataPool, childReference }) {
 
   if (type === "collectionVariable") {
     return collectionVariable({
+      metadataPool,
+      metadata: childMetadata,
+      repeatMin,
+      repeatMax,
+    });
+  }
+
+  if (type === "numberVariable") {
+    return numberVariable({
       metadataPool,
       metadata: childMetadata,
       repeatMin,

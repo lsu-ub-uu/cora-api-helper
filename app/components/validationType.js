@@ -14,6 +14,12 @@ export default function validationType({
   ).get("validationTypeId");
   const recordTypeId = path.split("/").pop();
 
+  if (!recordTypePool[recordTypeId]) {
+    const root = document.createElement("h1");
+    root.textContent = `Record type "${recordTypeId}" not found.`;
+    return root;
+  }
+
   const validationTypesForRecordType = getValidationTypesForRecordType({
     validationTypePool,
     recordTypeId,
@@ -99,6 +105,7 @@ function pageTitle({ recordTypePool, recordTypeId }) {
   root.textContent = recordTypeId;
 
   const recordType = recordTypePool[recordTypeId];
+  console.log({ recordTypePool, recordTypeId });
   const recordTypeTextId = getFirstChildWithName(recordType, "textId");
   getTextFromLink(recordTypeTextId).then((text) => {
     root.textContent = text;

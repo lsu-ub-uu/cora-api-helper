@@ -13,7 +13,7 @@ body {
 
 #root {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: minmax(15rem, max-content) 1fr;
   gap: 1rem;
 }
 
@@ -172,12 +172,28 @@ select {
   color: aquamarine;
 }
 
+.number-variable {
+  color: khaki;
+}
+
 .main-nav {
+  h2 {
+    font-size: 1.2rem;
+  }
+  h3 {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
   ul {
     position: sticky;
     top: 1rem;
     list-style: none;
     padding: 0;
+  }
+
+  ul ul {
+    padding-left: 1rem;
   }
   a {
     text-decoration: none;
