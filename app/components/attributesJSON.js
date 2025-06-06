@@ -19,7 +19,7 @@ export default function attributes({ metadataPool, metadata }) {
   }
 
   const root = document.createElement("div");
-  root.className = "json-property";
+  root.className = "indent";
 
   const attributesKey = document.createElement("span");
   attributesKey.innerHTML = '<span class="json-key">"attributes"</span>: {';
@@ -59,7 +59,7 @@ function createAttribute({ metadataPool, ref, lastAttribute }) {
   )?.value;
 
   const root = document.createElement("div");
-  root.classList = "attributes json-property";
+  root.classList = "attributes indent";
 
   const attributeKey = document.createElement("span");
   attributeKey.appendChild(document.createTextNode('"'));

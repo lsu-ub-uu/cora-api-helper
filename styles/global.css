@@ -136,7 +136,7 @@ select {
     display: none;
   }
 
-  .element-children {
+  .indent {
     display: none;
   }
   .closing-tag {
@@ -144,8 +144,8 @@ select {
   }
 }
 
-.json-property {
-  padding-left: 2ch;
+.indent {
+  padding-left: 3ch;
 }
 
 .json-key {
@@ -159,7 +159,8 @@ select {
     display: inline;
   }
 
-  .data-name {
+  .indent {
+    padding-left: 2ch;
   }
 
   &.collapsed {
@@ -169,7 +170,7 @@ select {
       color: #aaa;
     }
 
-    & .json-property {
+    & .indent {
       display: none;
     }
     .multiplicity {
@@ -188,9 +189,6 @@ select {
       }
     }
   }
-}
-.element-children {
-  padding-left: 3ch;
 }
 
 .element-expand-button {

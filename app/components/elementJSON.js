@@ -26,7 +26,7 @@ export default function jsonElement({
 
   const nameInDataProperty = document.createElement("div");
 
-  nameInDataProperty.classList = "json-property name-in-data";
+  nameInDataProperty.classList = "indent name-in-data";
 
   const nameKey = document.createElement("span");
   nameKey.innerHTML = `<span class="json-key">"name"</span>: "`;
@@ -42,7 +42,7 @@ export default function jsonElement({
 
   if (isRepeating) {
     const repeatProperty = document.createElement("div");
-    repeatProperty.className = "json-property";
+    repeatProperty.className = "indent";
     repeatProperty.innerHTML = `<span class="json-key">"repeatId"</span>: "<span class="regex">/.+/</span>",`;
     root.appendChild(repeatProperty);
   }
@@ -53,22 +53,22 @@ export default function jsonElement({
     root.appendChild(children);
   } else if (Array.isArray(children)) {
     const childrenProperty = document.createElement("div");
-    childrenProperty.className = "json-property";
+    childrenProperty.className = "indent";
     childrenProperty.innerHTML = `<span class="json-key">"children"</span>: [`;
     const childrenContainer = document.createElement("div");
-    childrenContainer.className = "json-property";
+    childrenContainer.className = "indent";
     root.appendChild(childrenProperty);
     (Array.isArray(children) ? children : [children]).forEach((child) => {
       childrenContainer.appendChild(child);
     });
     childrenProperty.appendChild(childrenContainer);
     const closingChildrenProperty = document.createElement("div");
-    closingChildrenProperty.className = "json-property";
+    closingChildrenProperty.className = "indent";
     closingChildrenProperty.textContent = "]";
     root.appendChild(closingChildrenProperty);
   } else {
     const valueProperty = document.createElement("div");
-    valueProperty.className = "json-property";
+    valueProperty.className = "indent";
     const valueKey = document.createElement("span");
     valueKey.innerHTML = '<span class="json-key">"value"</span>: "';
     valueProperty.appendChild(valueKey);

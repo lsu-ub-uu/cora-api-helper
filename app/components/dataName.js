@@ -31,10 +31,10 @@ export default function dataName({ metadata }) {
       e.target.appendChild(heading);
       e.target.appendChild(textContent);
       e.target.dataset.loaded = "true";
-
-      e.target.style.top = `${button.offsetTop + button.offsetHeight}px`;
-      e.target.style.left = `${button.offsetLeft}px`;
     }
+
+    e.target.style.top = `${button.offsetTop + button.offsetHeight}px`;
+    e.target.style.left = `${button.offsetLeft}px`;
   });
 
   root.appendChild(button);

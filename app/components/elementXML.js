@@ -28,7 +28,7 @@ export default function elementXML({
   root.appendChild(multiplicity({ repeatMin, repeatMax }));
 
   const childrenDiv = document.createElement("div");
-  childrenDiv.className = "element-children";
+  childrenDiv.className = "indent";
   if (Array.isArray(children)) {
     children.forEach((child) => {
       childrenDiv.appendChild(child);
