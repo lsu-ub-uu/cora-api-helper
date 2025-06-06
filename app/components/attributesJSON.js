@@ -1,5 +1,6 @@
 import getAllChildrenWithName from "../utils/getAllChildrenWithName.js";
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import dataName from "./dataName.js";
 import itemCollection from "./itemCollection.js";
 
 export default function attributes({ metadataPool, metadata }) {
@@ -19,7 +20,10 @@ export default function attributes({ metadataPool, metadata }) {
 
   const root = document.createElement("div");
   root.className = "json-property";
-  root.appendChild(document.createTextNode('"attributes": {'));
+
+  const attributesKey = document.createElement("span");
+  attributesKey.innerHTML = '<span class="json-key">"attributes"</span>: {';
+  root.appendChild(attributesKey);
 
   refs.forEach((ref, index) => {
     const attributeElement = createAttribute({
@@ -57,7 +61,12 @@ function createAttribute({ metadataPool, ref, lastAttribute }) {
   const root = document.createElement("div");
   root.classList = "attributes json-property";
 
-  root.appendChild(document.createTextNode(`"${nameInData}": `));
+  const attributeKey = document.createElement("span");
+  attributeKey.appendChild(document.createTextNode('"'));
+  attributeKey.appendChild(dataName({ metadata: attributeMetadata }));
+  attributeKey.className = "json-key";
+  attributeKey.appendChild(document.createTextNode('": '));
+  root.appendChild(attributeKey);
 
   if (finalValue) {
     const finalValueSpan = document.createElement("span");

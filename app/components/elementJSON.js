@@ -27,7 +27,7 @@ export default function jsonElement({
   nameInDataProperty.classList = "json-property name-in-data";
 
   const nameKey = document.createElement("span");
-  nameKey.textContent = `"name": "`;
+  nameKey.innerHTML = `<span class="json-key">"name"</span>: "`;
   nameInDataProperty.appendChild(nameKey);
   nameInDataProperty.appendChild(dataName({ metadata }));
   const closingQuote = document.createElement("span");
@@ -45,7 +45,7 @@ export default function jsonElement({
   } else if (Array.isArray(children)) {
     const childrenProperty = document.createElement("div");
     childrenProperty.className = "json-property";
-    childrenProperty.textContent = `"children": [`;
+    childrenProperty.innerHTML = `<span class="json-key">"children"</span>: [`;
     const childrenContainer = document.createElement("div");
     childrenContainer.className = "json-property";
     root.appendChild(childrenProperty);
@@ -61,7 +61,7 @@ export default function jsonElement({
     const valueProperty = document.createElement("div");
     valueProperty.className = "json-property";
     const valueKey = document.createElement("span");
-    valueKey.textContent = '"value": "';
+    valueKey.innerHTML = '<span class="json-key">"value"</span>: "';
     valueProperty.appendChild(valueKey);
     valueProperty.appendChild(children);
     const closingQuote = document.createElement("span");

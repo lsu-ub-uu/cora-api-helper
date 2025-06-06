@@ -23,22 +23,24 @@ export default function recordLink({
   if (format === "json") {
     recordLink.innerHTML = `
       <div class="json-property">
-      "children": [
+      <span class="json-key">"children"</span>: [
         <div class="json-property">
         <div>{</div>
           <div class="json-property">
-          "nameInData": "linkedRecordType",
+          <span class="json-key">"name"</span>: "linkedRecordType",
           </div>
           <div class="json-property">
-          "value": "<span class="final-value">${linkedRecordTypeValue}</span>"
+          <span class="json-key">"value"</span>: "<span class="final-value">${linkedRecordTypeValue}</span>"
           </div>
        <div>},</div>
         <div>{</div>
           <div class="json-property">
-          "nameInData": "linkedRecordId",
+          <span class="json-key">"name"</span>: "linkedRecordId",
           </div>
           <div class="json-property">
-          "value": "<span class="final-value">${finalValue ?? ""}</span>"
+          <span class="json-key">"value"</span>: "<span class="final-value">${
+            finalValue ?? ""
+          }</span>"
           </div>
         <div>}</div>
         </div>
