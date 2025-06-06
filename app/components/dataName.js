@@ -6,23 +6,6 @@ export default function dataName({ metadata }) {
 
   const root = document.createElement("span");
 
-  async function onClick() {
-    const [text, defText] = await Promise.all([
-      getTextFromLink(getFirstChildWithName(metadata, "textId")),
-      getTextFromLink(getFirstChildWithName(metadata, "defTextId")),
-    ]);
-    const heading = document.createElement("h3");
-    heading.textContent = text;
-
-    const textContent = document.createElement("p");
-    textContent.textContent = defText;
-
-    showPopover({
-      trigger: root,
-      children: [heading, textContent],
-    });
-  }
-
   root.className = "data-name";
   const button = document.createElement("button");
   button.textContent = nameInData;
@@ -48,6 +31,9 @@ export default function dataName({ metadata }) {
       e.target.appendChild(heading);
       e.target.appendChild(textContent);
       e.target.dataset.loaded = "true";
+
+      e.target.style.top = `${button.offsetTop + button.offsetHeight}px`;
+      e.target.style.left = `${button.offsetLeft}px`;
     }
   });
 

@@ -82,10 +82,6 @@ select {
   text-transform: uppercase;
 }
 
-.element {
-  position: relative;
-}
-
 .data-name {
   button {
     user-select: text;
@@ -103,8 +99,9 @@ select {
   }
 }
 .popover {
+  position: absolute;
+  overlay: unset;
   inset: unset;
-  position: relative;
   font-family: sans-serif;
   margin-top: 0.5rem;
   min-width: max-content;
@@ -156,8 +153,6 @@ select {
 }
 
 .json-element {
-  position: relative;
-
   .regex,
   .collection-value,
   .number-variable {
