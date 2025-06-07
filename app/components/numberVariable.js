@@ -13,7 +13,6 @@ export default function numberVariable({
   const numberOfDecimals =
     getFirstChildWithName(metadata, "numberOfDecimals")?.value ?? 0;
 
-  console.log({ metadata });
   const regex = document.createElement("div");
   regex.className = "number-variable";
   regex.textContent = `${Number(min).toFixed(numberOfDecimals)} - ${Number(

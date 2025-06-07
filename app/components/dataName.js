@@ -24,7 +24,7 @@ export default function dataName({ metadata }) {
         getTextFromLink(getFirstChildWithName(metadata, "defTextId")),
       ]);
       const heading = document.createElement("h3");
-      heading.textContent = text;
+      heading.textContent = `${text}`;
 
       const textContent = document.createElement("p");
       textContent.textContent = defText;
@@ -33,8 +33,9 @@ export default function dataName({ metadata }) {
       e.target.dataset.loaded = "true";
     }
 
-    e.target.style.top = `${button.offsetTop + button.offsetHeight}px`;
-    e.target.style.left = `${button.offsetLeft}px`;
+    const rect = button.getBoundingClientRect();
+    e.target.style.top = `${rect.bottom + window.scrollY}px`;
+    e.target.style.left = `${rect.left + window.scrollX}px`;
   });
 
   root.appendChild(button);

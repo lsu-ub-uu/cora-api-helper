@@ -1,5 +1,6 @@
 export default function radio({ name, value, label, checked, onChange }) {
-  const root = document.createDocumentFragment();
+  const root = document.createElement("label");
+  root.className = "radio-button";
 
   const radio = document.createElement("input");
   radio.id = value;
@@ -13,11 +14,7 @@ export default function radio({ name, value, label, checked, onChange }) {
     }
   });
 
-  const labelElement = document.createElement("label");
-  labelElement.textContent = label;
-  labelElement.htmlFor = value;
-
   root.appendChild(radio);
-  root.appendChild(labelElement);
+  root.appendChild(document.createTextNode(label));
   return root;
 }

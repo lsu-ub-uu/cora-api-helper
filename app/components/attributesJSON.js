@@ -14,9 +14,6 @@ export default function attributes({ metadataPool, metadata }) {
   }
 
   const refs = getAllChildrenWithName(attributeReferences, "ref");
-  if (refs.length > 1) {
-    console.log(refs);
-  }
 
   const root = document.createElement("div");
   root.className = "indent";

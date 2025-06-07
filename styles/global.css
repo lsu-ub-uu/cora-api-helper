@@ -1,26 +1,46 @@
 body {
   font-size: 16px;
   font-family: sans-serif;
-  font-size: 1rem;
   display: grid;
-  gap: 1rem;
   padding: 0;
   margin: 0;
   padding-top: 0;
 }
+h1,
+h2,
+h3 {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 
 header {
-  background: #f0f0f0;
-  padding: 1rem;
+  background: darkslategray;
+  color: #fefefe;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
   label {
     display: inline-flex;
     flex-direction: column;
   }
+  h1 {
+    margin: 0;
+    margin-right: auto;
+  }
 }
 
-input[type="radio"] {
-  margin-left: 1rem;
-  margin-bottom: 1rem;
+hr {
+  height: 1px;
+  background: #ccc;
+  border: none;
+}
+
+.radio-button {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 #api-url {
@@ -52,6 +72,7 @@ select {
 }
 
 .code-block {
+  position: relative;
   padding: 1rem;
   padding-left: 2rem;
   font-size: 0.9rem;
@@ -60,6 +81,27 @@ select {
   background-color: #333;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.legend {
+  font-size: 0.9rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  line-height: 1.5;
+  gap: 0.5rem;
+  dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+  }
+  dd {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  dd:before {
+    content: ": ";
+  }
 }
 
 .collection-variable-expand {
@@ -83,12 +125,15 @@ select {
 }
 
 .data-name {
+  position: relative;
+
   button {
     user-select: text;
     padding: 0;
     cursor: pointer;
     border-radius: 2px;
     background: rgb(255 255 255 / 6%);
+    font-size: inherit;
     &:hover {
       background: rgb(255 255 255 / 20%);
     }
@@ -122,6 +167,11 @@ select {
     margin: 0;
     max-width: 30rem;
   }
+}
+
+.element,
+.json-element {
+  position: relative;
 }
 
 .element.collapsed {
@@ -245,8 +295,6 @@ summary {
   }
   h3 {
     font-size: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
   }
   ul {
     list-style: none;
@@ -257,6 +305,7 @@ summary {
     padding-left: 1rem;
   }
   a {
+    font-size: 0.9rem;
     text-decoration: none;
     color: darkblue;
     &[aria-current="page"] {

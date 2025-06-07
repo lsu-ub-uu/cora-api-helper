@@ -1,6 +1,7 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
 import group from "./group.js";
+import legend from "./legend.js";
 import radio from "./radio.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";
@@ -139,6 +140,8 @@ function renderValidationTypeDoc({
     group({ metadataPool, groupId: metadataId, repeatMin: "1", repeatMax: "1" })
   );
 
+  dataFormat.appendChild(legend());
+
   element.appendChild(dataFormat);
 }
 
@@ -161,7 +164,6 @@ function pageTitle({ recordTypePool, recordTypeId }) {
   root.textContent = recordTypeId;
 
   const recordType = recordTypePool[recordTypeId];
-  console.log({ recordTypePool, recordTypeId });
   const recordTypeTextId = getFirstChildWithName(recordType, "textId");
   getTextFromLink(recordTypeTextId).then((text) => {
     root.textContent = text;

@@ -4,7 +4,6 @@ export default async function listRecordType(recordType) {
   const apiUrl =
     new URLSearchParams(window.location.search).get("api-url") ??
     "https://cora.epc.ub.uu.se/diva/rest";
-  console.log("API URL:", apiUrl);
   const response = await fetch(`${apiUrl}/record/${recordType}`, {
     headers: { Accept: "application/vnd.cora.recordList+json" },
     cache: "force-cache",
