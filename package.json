@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "web-dev-server --app-index index.html --open",
+    "start": "web-dev-server --app-index index.html --open --watch",
     "test": "vitest"
   },
   "author": "",
