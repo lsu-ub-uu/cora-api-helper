@@ -6,6 +6,7 @@ export default function textVariable({
   metadata,
   repeatMin,
   repeatMax,
+  lastChild,
 }) {
   const regexText = getFirstChildWithName(metadata, "regEx")?.value;
 
@@ -19,5 +20,6 @@ export default function textVariable({
     repeatMin,
     repeatMax,
     children: regex,
+    lastChild,
   });
 }

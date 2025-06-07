@@ -9,6 +9,7 @@ export default function childReference({
   metadataPool,
   childReference,
   depth = 0,
+  lastChild = true,
 }) {
   const repeatMin = getFirstChildWithName(childReference, "repeatMin")?.value;
   const repeatMax = getFirstChildWithName(childReference, "repeatMax")?.value;
@@ -26,6 +27,7 @@ export default function childReference({
       repeatMin,
       repeatMax,
       depth,
+      lastChild,
     });
   }
 
@@ -35,6 +37,7 @@ export default function childReference({
       metadata: childMetadata,
       repeatMin,
       repeatMax,
+      lastChild,
     });
   }
 
@@ -44,6 +47,7 @@ export default function childReference({
       metadata: childMetadata,
       repeatMin,
       repeatMax,
+      lastChild,
     });
   }
 
@@ -53,6 +57,7 @@ export default function childReference({
       metadata: childMetadata,
       repeatMin,
       repeatMax,
+      lastChild,
     });
   }
 
@@ -62,6 +67,7 @@ export default function childReference({
       metadata: childMetadata,
       repeatMin,
       repeatMax,
+      lastChild,
     });
   }
 

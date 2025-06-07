@@ -7,6 +7,7 @@ export default function element({
   repeatMin,
   repeatMax,
   children,
+  lastChild = true,
 }) {
   const format =
     new URLSearchParams(window.location.search).get("format") || "xml";
@@ -18,6 +19,7 @@ export default function element({
       repeatMin,
       repeatMax,
       children,
+      lastChild,
     });
   }
   return elementXML({

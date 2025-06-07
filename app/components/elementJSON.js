@@ -10,6 +10,7 @@ export default function jsonElement({
   repeatMin,
   repeatMax,
   children,
+  lastChild = true,
 }) {
   const isRepeating = repeatMax !== "0" && repeatMax !== "1";
 
@@ -80,7 +81,7 @@ export default function jsonElement({
   }
 
   const closingBracket = document.createElement("div");
-  closingBracket.textContent = "},";
+  closingBracket.textContent = `}${lastChild ? "" : ","}`;
   root.appendChild(closingBracket);
 
   return root;

@@ -6,6 +6,7 @@ export default function recordLink({
   metadata,
   repeatMin,
   repeatMax,
+  lastChild = true,
 }) {
   const format =
     new URLSearchParams(window.location.search).get("format") || "xml";
@@ -70,5 +71,6 @@ export default function recordLink({
     repeatMin,
     repeatMax,
     children: recordLink,
+    lastChild,
   });
 }

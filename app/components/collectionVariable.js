@@ -7,6 +7,7 @@ export default function collectionVariable({
   metadataPool,
   repeatMin,
   repeatMax,
+  lastChild = true,
 }) {
   const collectionItemsDiv = document.createElement("div");
   collectionItemsDiv.className = "collection-value";
@@ -22,5 +23,6 @@ export default function collectionVariable({
     repeatMin,
     repeatMax,
     children: collectionItemsDiv,
+    lastChild,
   });
 }

@@ -6,6 +6,7 @@ export default function numberVariable({
   metadata,
   repeatMin,
   repeatMax,
+  lastChild,
 }) {
   const regexText = getFirstChildWithName(metadata, "regEx")?.value;
   const min = getFirstChildWithName(metadata, "min")?.value;
@@ -25,5 +26,6 @@ export default function numberVariable({
     repeatMin,
     repeatMax,
     children: regex,
+    lastChild,
   });
 }

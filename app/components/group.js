@@ -8,6 +8,7 @@ export default function group({
   repeatMin,
   repeatMax,
   depth = 0,
+  lastChild = true,
 }) {
   if (depth > 10) {
     console.warn("Maximum depth exceeded in group rendering");
@@ -32,13 +33,15 @@ export default function group({
       metadata: groupMetadata,
       repeatMin,
       repeatMax,
-      children: childReferences.map((childRef) =>
+      children: childReferences.map((childRef, index) =>
         childReference({
           metadataPool,
           childReference: childRef,
           depth: depth + 1,
+          lastChild: index === childReferences.length - 1,
         })
       ),
+      lastChild,
     })
   );
   return root;
