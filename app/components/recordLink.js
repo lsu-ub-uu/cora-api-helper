@@ -38,9 +38,11 @@ export default function recordLink({
           <span class="json-key">"name"</span>: "linkedRecordId",
           </div>
           <div class="indent">
-          <span class="json-key">"value"</span>: "<span class="final-value">${
-            finalValue ?? ""
-          }</span>"
+          <span class="json-key">"value"</span>: "${
+            finalValue
+              ? "<span class='final-value'>" + finalValue + "</span>"
+              : "<span class='id'>{id}</span>"
+          }"
           </div>
         <div>}</div>
         </div>
@@ -52,9 +54,11 @@ export default function recordLink({
         &lt;linkedRecordType&gt;<span class='final-value'>${linkedRecordTypeValue}</span>&lt;/linkedRecordType&gt;
     </div>    
     <div> 
-        &lt;linkedRecordId&gt;<span class='final-value'>${
-          finalValue ?? ""
-        }</span>&lt;/linkedRecordId&gt;
+        &lt;linkedRecordId&gt;${
+          finalValue
+            ? "<span class='final-value'>" + finalValue + "</span>"
+            : "<span class='id'>{id}</span>"
+        }&lt;/linkedRecordId&gt;
     </div>`;
   }
 

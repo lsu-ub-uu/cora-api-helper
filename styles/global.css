@@ -89,18 +89,22 @@ select {
   top: 1rem;
   right: 1rem;
   line-height: 1.5;
-  gap: 0.5rem;
+
   dl {
     margin: 0;
     display: grid;
     grid-template-columns: max-content 1fr;
+    column-gap: 0.5rem;
+  }
+  dt {
+    text-align: right;
   }
   dd {
     margin: 0;
     font-family: sans-serif;
+    cursor: help;
   }
   dd:before {
-    content: ": ";
   }
 }
 
@@ -167,6 +171,10 @@ select {
     margin: 0;
     max-width: 30rem;
   }
+}
+
+.id {
+  color: Silver;
 }
 
 .element,
