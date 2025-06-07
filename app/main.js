@@ -40,7 +40,7 @@ async function loadPools() {
 
 function navigate({ recordTypePool, validationTypePool, metadataPool }) {
   const path = window.location.pathname;
-  const root = document.getElementById("root");
+  const root = document.getElementById("app");
   root.innerHTML = "";
   root.appendChild(
     navigation({

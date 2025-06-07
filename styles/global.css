@@ -1,3 +1,26 @@
+:root {
+  --color-background: #333;
+  --color-foreground: #fefefe;
+  --color-header-bg: darkslategray;
+  --color-header-fg: #fefefe;
+  --color-hr: #ccc;
+  --color-link: darkblue;
+  --color-link-active: black;
+  --color-final-value: darkorange;
+  --color-collection-value: deepskyblue;
+  --color-multiplicity: hotpink;
+  --color-regex: aquamarine;
+  --color-number-variable: khaki;
+  --color-id: silver;
+  --color-json-key: plum;
+  --color-popover-bg: #ddd;
+  --color-popover-fg: #333;
+  --color-element-expand: #aaa;
+  --color-button-bg: rgb(255 255 255 / 6%);
+  --color-button-hover: rgb(255 255 255 / 20%);
+  --color-button-active: rgb(255 255 255 / 30%);
+}
+
 body {
   font-size: 16px;
   font-family: sans-serif;
@@ -6,25 +29,27 @@ body {
   margin: 0;
   padding-top: 0;
 }
+
 h1,
 h2,
 h3 {
-  font-size: 1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
 header {
-  background: darkslategray;
-  color: #fefefe;
+  background: var(--color-header-bg);
+  color: var(--color-header-fg);
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
   gap: 2rem;
+
   label {
     display: inline-flex;
     flex-direction: column;
   }
+
   h1 {
     margin: 0;
     margin-right: auto;
@@ -33,7 +58,7 @@ header {
 
 hr {
   height: 1px;
-  background: #ccc;
+  background: var(--color-hr);
   border: none;
 }
 
@@ -47,7 +72,7 @@ hr {
   width: 35ch;
 }
 
-#root {
+#app {
   display: grid;
   grid-template-columns: minmax(15rem, max-content) 1fr;
   gap: 1rem;
@@ -58,7 +83,7 @@ button {
   color: inherit;
   background: none;
   border: none;
-  cursor: pointer; /* Added cursor style for button */
+  cursor: pointer;
   font-family: inherit;
 }
 
@@ -77,8 +102,8 @@ select {
   padding-left: 2rem;
   font-size: 0.9rem;
   font-family: monospace;
-  color: #fefefe;
-  background-color: #333;
+  color: var(--color-foreground);
+  background-color: var(--color-background);
   border-radius: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -110,16 +135,16 @@ select {
 
 .collection-variable-expand {
   cursor: pointer;
-  background: rgb(255 255 255 / 10%);
+  background: var(--color-button-bg);
   border-radius: 2px;
   margin-left: 1ch;
 
   &:hover {
-    background: rgb(255 255 255 / 20%);
+    background: var(--color-button-hover);
   }
 
   &:active {
-    background: rgb(255 255 255 / 30%);
+    background: var(--color-button-active);
   }
 }
 
@@ -136,14 +161,14 @@ select {
     padding: 0;
     cursor: pointer;
     border-radius: 2px;
-    background: rgb(255 255 255 / 6%);
+    background: var(--color-button-bg);
     font-size: inherit;
     &:hover {
-      background: rgb(255 255 255 / 20%);
+      background: var(--color-button-hover);
     }
 
     &:active {
-      background: rgb(255 255 255 / 30%);
+      background: var(--color-button-active);
     }
   }
 }
@@ -154,8 +179,8 @@ select {
   font-family: sans-serif;
   margin-top: 0.5rem;
   min-width: max-content;
-  background: #ddd;
-  color: #333;
+  background: var(--color-popover-bg);
+  color: var(--color-popover-fg);
   border-radius: 0.5rem;
   padding: 0.5rem;
   border: none;
@@ -174,7 +199,7 @@ select {
 }
 
 .id {
-  color: Silver;
+  color: var(--color-id);
 }
 
 .element,
@@ -207,7 +232,7 @@ select {
 }
 
 .json-key {
-  color: Plum;
+  color: var(--color-json-key);
 }
 
 .json-element {
@@ -222,10 +247,10 @@ select {
   }
 
   &.collapsed {
-    color: #aaa;
+    color: var(--color-element-expand);
 
     .json-key {
-      color: #aaa;
+      color: var(--color-element-expand);
     }
 
     & .indent {
@@ -250,7 +275,7 @@ select {
 }
 
 .element-expand-button {
-  color: #aaa;
+  color: var(--color-element-expand);
   position: absolute;
   left: -1rem;
   top: -1px;
@@ -261,11 +286,11 @@ select {
   border-radius: 50%;
 
   &:hover {
-    background: rgb(255 255 255 / 20%);
+    background: var(--color-button-hover);
   }
 
   &:active {
-    background: rgb(255 255 255 / 30%);
+    background: var(--color-button-active);
   }
 }
 
@@ -274,27 +299,27 @@ select {
 }
 
 .final-value {
-  color: darkorange;
+  color: var(--color-final-value);
 }
 
 .collection-value {
-  color: deepskyblue;
+  color: var(--color-collection-value);
 }
 
 .multiplicity {
-  color: hotpink;
+  color: var(--color-multiplicity);
   user-select: none;
 }
 
 .regex {
-  color: aquamarine;
+  color: var(--color-regex);
 }
 
 summary {
   cursor: pointer;
 }
 .number-variable {
-  color: khaki;
+  color: var(--color-number-variable);
 }
 
 .main-nav {
@@ -315,9 +340,18 @@ summary {
   a {
     font-size: 0.9rem;
     text-decoration: none;
-    color: darkblue;
+    color: var(--color-link);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
     &[aria-current="page"] {
-      color: coral;
+      color: var(--color-link-active);
+      font-weight: bold;
+      position: relative;
+      &:before {
+        content: ">";
+        position: absolute;
+        left: -0.25rem;
+      }
     }
   }
 }

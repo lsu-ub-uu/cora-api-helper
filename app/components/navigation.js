@@ -46,7 +46,7 @@ export default function navigation({ recordTypePool, path, navigate }) {
         a.textContent = text;
       });
 
-      if (path.startsWith(href)) {
+      if (path.startsWith(href + "/") || path === href) {
         a.setAttribute("aria-current", "page");
       }
 
