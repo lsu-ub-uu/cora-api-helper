@@ -42,9 +42,11 @@ export default function navigation({ recordTypePool, path, navigate }) {
         recordTypePool[recordTypeId],
         "textId"
       );
-      getTextFromLink(textId).then((text) => {
-        a.textContent = text;
-      });
+      getTextFromLink(textId)
+        .then((text) => {
+          a.textContent = text;
+        })
+        .catch(() => {});
 
       if (path.startsWith(href + "/") || path === href) {
         a.setAttribute("aria-current", "page");

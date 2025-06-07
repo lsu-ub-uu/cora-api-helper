@@ -56,11 +56,9 @@ describe("attributes XML", () => {
     };
 
     document.body.appendChild(attributes({ metadataPool, metadata }));
-
+    expect(screen.getByText("color")).toBeInTheDocument();
     expect(
-      screen.getByText(
-        (content, element) => element.textContent === 'color="red | blue"'
-      )
+      screen.getByText((_, element) => element.textContent === '"red | blue"')
     ).toBeInTheDocument();
   });
 });
