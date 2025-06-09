@@ -90,11 +90,6 @@ button {
 select {
   margin-bottom: 1rem;
 }
-.api-docs {
-  display: grid;
-  grid-template-columns: 10rem 1fr;
-  gap: 1rem;
-}
 
 .code-block {
   position: relative;
@@ -129,8 +124,6 @@ select {
     font-family: sans-serif;
     cursor: help;
   }
-  dd:before {
-  }
 }
 
 .collection-variable-expand {
@@ -146,11 +139,6 @@ select {
   &:active {
     background: var(--color-button-active);
   }
-}
-
-.h3 {
-  font-family: monospace;
-  text-transform: uppercase;
 }
 
 .data-name {
@@ -292,10 +280,6 @@ select {
   &:active {
     background: var(--color-button-active);
   }
-}
-
-.api-docs-nav-children {
-  padding-left: 1rem;
 }
 
 .final-value {

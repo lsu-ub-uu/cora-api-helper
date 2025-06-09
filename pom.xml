@@ -10,9 +10,9 @@
     <version>2.7.0</version>
   </parent>
 
-  <artifactId>api-docs</artifactId>
+  <artifactId>cora-api-helper</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <name>API Docs</name>
+  <name>Cora API Helper</name>
 
   <properties>
     <frontend-maven-plugin.version>1.15.10-atlassian-2</frontend-maven-plugin.version>
@@ -21,9 +21,9 @@
 
 
   <scm>
-    <connection>scm:git:https://github.com/lsu-ub-uu/api-docs.git</connection>
-    <developerConnection>scm:git:https://github.com/lsu-ub-uu/api-docs.git</developerConnection>
-    <url>https://github.com/lsu-ub-uu/api-docs.git</url>
+    <connection>scm:git:https://github.com/lsu-ub-uu/cora-api-helper.git</connection>
+    <developerConnection>scm:git:https://github.com/lsu-ub-uu/cora-api-helper.git</developerConnection>
+    <url>https://github.com/lsu-ub-uu/cora-api-helper.git</url>
     <tag>HEAD</tag>
   </scm>
 

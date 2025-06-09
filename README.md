@@ -1,4 +1,4 @@
-# Cora API documentation
+# Cora API helper
 
 ## Install dev dependencies
 
