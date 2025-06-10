@@ -1,5 +1,6 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
+import xpath from "../utils/xpath.js";
 
 export default function navigation({ recordTypePool, path, navigate }) {
   const nav = document.createElement("nav");
@@ -13,8 +14,7 @@ export default function navigation({ recordTypePool, path, navigate }) {
 
   const groups = Object.keys(recordTypePool).reduce((acc, recordTypeId) => {
     const recordType = recordTypePool[recordTypeId];
-    const group =
-      getFirstChildWithName(recordType, "groupOfRecordType")?.value || "Other";
+    const group = xpath(recordType, "//groupOfRecordType") || "Other";
     if (!acc[group]) acc[group] = [];
     acc[group].push(recordTypeId);
     return acc;
@@ -38,10 +38,8 @@ export default function navigation({ recordTypePool, path, navigate }) {
       a.href = href;
       a.textContent = recordTypeId;
 
-      const textId = getFirstChildWithName(
-        recordTypePool[recordTypeId],
-        "textId"
-      );
+      const textId = xpath(recordTypePool[recordTypeId], "/recordType/textId");
+
       getTextFromLink(textId)
         .then((text) => {
           a.textContent = text;

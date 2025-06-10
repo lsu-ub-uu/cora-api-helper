@@ -13,17 +13,16 @@ navigate(pools);
 async function loadPools() {
   const loadingTextTimeout = setTimeout(() => {
     document.getElementById(
-      "root"
+      "app"
     ).innerHTML = `Loading metadata, please wait...`;
   }, 200);
 
   console.log("Loading metadata pools...");
-  const [recordTypePool, validationTypePool, metadataPool, textPool] =
-    await Promise.all([
-      listRecordType("recordType"),
-      listRecordType("validationType"),
-      listRecordType("metadata"),
-    ]);
+  const [recordTypePool, validationTypePool, metadataPool] = await Promise.all([
+    listRecordType("recordType"),
+    listRecordType("validationType"),
+    listRecordType("metadata"),
+  ]);
   clearTimeout(loadingTextTimeout);
 
   console.log("Pools loaded!", {

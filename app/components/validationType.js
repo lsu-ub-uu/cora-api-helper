@@ -1,5 +1,5 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
+import xpath from "../utils/xpath.js";
 import group from "./group.js";
 import legend from "./legend.js";
 import radio from "./radio.js";
@@ -27,11 +27,9 @@ export default function validationType({
     validationTypePool,
     recordTypeId,
   });
-
   const validationType =
     validationTypesForRecordType.find((v) => {
-      const recordInfo = getFirstChildWithName(v, "recordInfo");
-      const id = getFirstChildWithName(recordInfo, "id").value;
+      const id = xpath(v, "/*/recordInfo/id");
       return selectedValidationTypeId === id;
     }) ?? validationTypesForRecordType[0];
 
@@ -120,15 +118,10 @@ function renderValidationTypeDoc({
   element,
   method,
 }) {
-  const metadataLink = getFirstChildWithName(
+  const metadataId = xpath(
     validationType,
-    method === "create" ? "newMetadataId" : "metadataId"
+    `/*/${method === "create" ? "newMetadataId" : "metadataId"}/linkedRecordId`
   );
-  const metadataId = getFirstChildWithName(
-    metadataLink,
-    "linkedRecordId"
-  ).value;
-
   element.innerHTML = "";
 
   element.appendChild(requestConfigDoc({ validationType }));
@@ -147,14 +140,10 @@ function renderValidationTypeDoc({
 
 function getValidationTypesForRecordType({ validationTypePool, recordTypeId }) {
   return Object.values(validationTypePool).filter((validationType) => {
-    const validatesRecordType = getFirstChildWithName(
+    const validatesRecordTypeId = xpath(
       validationType,
-      "validatesRecordType"
+      "/*/validatesRecordType/linkedRecordId"
     );
-    const validatesRecordTypeId = getFirstChildWithName(
-      validatesRecordType,
-      "linkedRecordId"
-    ).value;
     return validatesRecordTypeId === recordTypeId;
   });
 }
@@ -164,7 +153,7 @@ function pageTitle({ recordTypePool, recordTypeId }) {
   root.textContent = recordTypeId;
 
   const recordType = recordTypePool[recordTypeId];
-  const recordTypeTextId = getFirstChildWithName(recordType, "textId");
+  const recordTypeTextId = xpath(recordType, "/*/textId");
   getTextFromLink(recordTypeTextId).then((text) => {
     root.textContent = text;
   });

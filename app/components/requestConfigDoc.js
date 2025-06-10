@@ -1,18 +1,14 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import xpath from "../utils/xpath.js";
 
 export default function requestConfigDoc({ validationType }) {
   const search = new URLSearchParams(window.location.search);
   const format = search.get("format") || "xml";
   const method = search.get("method") || "create";
 
-  const recordTypeLink = getFirstChildWithName(
+  const recordTypeId = xpath(
     validationType,
-    "validatesRecordType"
+    "/*/validatesRecordType/linkedRecordId"
   );
-  const recordTypeId = getFirstChildWithName(
-    recordTypeLink,
-    "linkedRecordId"
-  ).value;
 
   const apiUrl =
     new URLSearchParams(window.location.search).get("api-url") ??

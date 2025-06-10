@@ -1,19 +1,14 @@
 import getAllChildrenWithName from "../utils/getAllChildrenWithName.js";
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import xpath from "../utils/xpath.js";
 import dataName from "./dataName.js";
 import itemCollection from "./itemCollection.js";
 
 export default function attributes({ metadataPool, metadata }) {
-  const attributeReferences = getFirstChildWithName(
+  const attributeMetadataIds = xpath(
     metadata,
-    "attributeReferences"
+    "/*/attributeReferences/ref/linkedRecordId"
   );
-
-  if (!attributeReferences) {
-    return document.createDocumentFragment();
-  }
-
-  const refs = getAllChildrenWithName(attributeReferences, "ref");
 
   const root = document.createElement("div");
   root.className = "indent";
@@ -22,11 +17,11 @@ export default function attributes({ metadataPool, metadata }) {
   attributesKey.innerHTML = '<span class="json-key">"attributes"</span>: {';
   root.appendChild(attributesKey);
 
-  refs.forEach((ref, index) => {
+  attributeMetadataIds.forEach((attributeMetadataId, index) => {
     const attributeElement = createAttribute({
       metadataPool,
-      ref,
-      lastAttribute: index === refs.length - 1,
+      attributeMetadataId,
+      lastAttribute: index === attributeMetadataIds.length - 1,
     });
     root.appendChild(attributeElement);
   });
@@ -38,22 +33,10 @@ export default function attributes({ metadataPool, metadata }) {
   return root;
 }
 
-function createAttribute({ metadataPool, ref, lastAttribute }) {
-  const linkedRecordId = getFirstChildWithName(ref, "linkedRecordId")?.value;
-  const attributeMetadata = metadataPool[linkedRecordId];
-  const collectionReference = getFirstChildWithName(
-    attributeMetadata,
-    "refCollection"
-  );
-  const nameInData = getFirstChildWithName(
-    attributeMetadata,
-    "nameInData"
-  )?.value;
-
-  const finalValue = getFirstChildWithName(
-    attributeMetadata,
-    "finalValue"
-  )?.value;
+function createAttribute({ metadataPool, attributeMetadataId, lastAttribute }) {
+  const attributeMetadata = metadataPool[attributeMetadataId];
+  const collectionReference = xpath(attributeMetadata, "/*/refCollection");
+  const finalValue = xpath(attributeMetadata, "/*/finalValue");
 
   const root = document.createElement("div");
   root.classList = "attributes indent";

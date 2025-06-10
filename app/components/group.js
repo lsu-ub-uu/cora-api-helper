@@ -1,4 +1,3 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import childReference from "./childReference.js";
 import element from "./element.js";
 
