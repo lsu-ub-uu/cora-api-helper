@@ -9,7 +9,6 @@ export default function itemCollection({ metadataPool, collectionReference }) {
     collectionReference,
     "linkedRecordId"
   )?.value;
-
   const itemCollectionMetadata = metadataPool[itemCollectionId];
   const collectionItemReferences = getFirstChildWithName(
     itemCollectionMetadata,
@@ -22,6 +21,7 @@ export default function itemCollection({ metadataPool, collectionReference }) {
 
   const collectionItems = collectionItemReferences.map((itemRef) => {
     const itemRefId = getFirstChildWithName(itemRef, "linkedRecordId")?.value;
+
     return metadataPool[itemRefId];
   });
 
@@ -56,9 +56,7 @@ export default function itemCollection({ metadataPool, collectionReference }) {
 function renderCollectionItems(collectionItems) {
   const root = document.createDocumentFragment();
   collectionItems.forEach((item, index) => {
-    const itemName = getFirstChildWithName(item, "nameInData")?.value;
     const isLastItem = index === collectionItems.length - 1;
-
     root.appendChild(dataName({ metadata: item }));
     if (!isLastItem) {
       root.appendChild(document.createTextNode(" | "));

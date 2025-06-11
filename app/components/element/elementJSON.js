@@ -1,6 +1,6 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import attributesJSON from "./attributesJSON.js";
-import dataName from "./dataName.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import attributesJSON from "../attributesJSON.js";
+import dataName from "../dataName.js";
 import expandButton from "./expandButton.js";
 import multiplicity from "./multiplicity.js";
 
@@ -50,7 +50,7 @@ export default function jsonElement({
 
   root.appendChild(attributesJSON({ metadataPool, metadata }));
 
-  if (metadata.attributes?.type === "recordLink") {
+  if (metadata.attributes.type === "recordLink") {
     root.appendChild(children);
   } else if (Array.isArray(children)) {
     const childrenProperty = document.createElement("div");

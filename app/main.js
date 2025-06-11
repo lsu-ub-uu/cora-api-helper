@@ -5,25 +5,24 @@ import listRecordType from "./services/listRecordType.js";
 const pools = await loadPools();
 
 window.addEventListener("popstate", () => {
-  navigate(pools);
+  render(pools);
 });
 
-navigate(pools);
+render(pools);
 
 async function loadPools() {
   const loadingTextTimeout = setTimeout(() => {
     document.getElementById(
-      "root"
+      "app"
     ).innerHTML = `Loading metadata, please wait...`;
   }, 200);
 
   console.log("Loading metadata pools...");
-  const [recordTypePool, validationTypePool, metadataPool, textPool] =
-    await Promise.all([
-      listRecordType("recordType"),
-      listRecordType("validationType"),
-      listRecordType("metadata"),
-    ]);
+  const [recordTypePool, validationTypePool, metadataPool] = await Promise.all([
+    listRecordType("recordType"),
+    listRecordType("validationType"),
+    listRecordType("metadata"),
+  ]);
   clearTimeout(loadingTextTimeout);
 
   console.log("Pools loaded!", {
@@ -31,6 +30,7 @@ async function loadPools() {
     validationTypePool,
     metadataPool,
   });
+
   return {
     recordTypePool,
     validationTypePool,
@@ -38,7 +38,7 @@ async function loadPools() {
   };
 }
 
-function navigate({ recordTypePool, validationTypePool, metadataPool }) {
+function render({ recordTypePool, validationTypePool, metadataPool }) {
   const path = window.location.pathname;
   const root = document.getElementById("app");
   root.innerHTML = "";
@@ -46,7 +46,7 @@ function navigate({ recordTypePool, validationTypePool, metadataPool }) {
     navigation({
       path,
       recordTypePool,
-      navigate: () => navigate(pools),
+      navigate: () => render(pools),
     })
   );
   root.appendChild(

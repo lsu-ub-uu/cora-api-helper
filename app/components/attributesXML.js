@@ -23,9 +23,6 @@ export default function attributes({ metadataPool, metadata, isRepeating }) {
       ref,
     });
     root.appendChild(attributeElement);
-    if (index < refs.length - 1) {
-      root.appendChild(document.createTextNode(" "));
-    }
   });
 
   if (isRepeating) {

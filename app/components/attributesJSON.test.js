@@ -1,6 +1,7 @@
+import { screen } from "@testing-library/dom";
 import { describe, expect, it, vi } from "vitest";
-import getFirstChildWithName from "../utils/getFirstChildWithName";
-import attributes from "./attributesXML";
+import attributesJSON from "./attributesJSON.js";
+import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 
 vi.mock("./itemCollection.js", () => ({
   default: vi.fn(({ collectionReference }) =>
@@ -11,8 +12,8 @@ vi.mock("./itemCollection.js", () => ({
   ),
 }));
 
-describe("attributes XML", () => {
-  it("renders two attributes", () => {
+describe("attributesJSON", () => {
+  it("renders attributes in JSON format", () => {
     const metadataPool = {
       color: {
         type: "collectionVariable",
@@ -53,10 +54,9 @@ describe("attributes XML", () => {
       ],
     };
 
-    document.body.appendChild(attributes({ metadataPool, metadata }));
-
+    document.body.appendChild(attributesJSON({ metadataPool, metadata }));
     expect(document.body.textContent).toEqual(
-      ' color="red | blue" size="small | large"'
+      '"attributes": {"color": "red | blue","size": "small | large"},'
     );
   });
 
@@ -88,44 +88,10 @@ describe("attributes XML", () => {
       ],
     };
 
-    document.body.appendChild(attributes({ metadataPool, metadata }));
-
-    expect(document.body.textContent).toEqual(' color="red"');
-  });
-
-  it("appends repeatId if repeating", () => {
-    const metadataPool = {
-      color: {
-        type: "collectionVariable",
-        children: [
-          { name: "nameInData", value: "color" },
-          {
-            name: "refCollection",
-            children: [{ name: "linkedRecordId", value: "colorCollection" }],
-          },
-        ],
-      },
-    };
-    const metadata = {
-      children: [
-        {
-          name: "attributeReferences",
-          children: [
-            {
-              name: "ref",
-              children: [{ name: "linkedRecordId", value: "color" }],
-            },
-          ],
-        },
-      ],
-    };
-
-    document.body.appendChild(
-      attributes({ metadataPool, metadata, isRepeating: true })
-    );
+    document.body.appendChild(attributesJSON({ metadataPool, metadata }));
 
     expect(document.body.textContent).toEqual(
-      ' color="red | blue" repeatId="/.+/"'
+      '"attributes": {"color": "red"},'
     );
   });
 });

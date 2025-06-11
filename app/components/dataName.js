@@ -3,7 +3,6 @@ import getTextFromLink from "../utils/getTextFromLink.js";
 
 export default function dataName({ metadata }) {
   const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
-
   const root = document.createElement("span");
 
   root.className = "data-name";
