@@ -1,5 +1,5 @@
 export function getValidationType() {
-  return getSearchParamValue("validationType", "default");
+  return getSearchParamValue("validationType");
 }
 
 export function getMethod() {
