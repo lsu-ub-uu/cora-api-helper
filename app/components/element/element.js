@@ -1,6 +1,6 @@
 import elementXML from "./elementXML.js";
 import elementJSON from "./elementJSON.js";
-import { getFormat } from "../utils/searchParams.js";
+import { getFormat } from "../../utils/searchParams.js";
 
 export default function element({
   metadataPool,

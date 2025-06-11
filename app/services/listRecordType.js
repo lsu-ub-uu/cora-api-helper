@@ -1,9 +1,8 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import { getApiUrl } from "../utils/searchParams.js";
 
 export default async function listRecordType(recordType) {
-  const apiUrl =
-    new URLSearchParams(window.location.search).get("api-url") ??
-    "https://cora.epc.ub.uu.se/diva/rest";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/record/${recordType}`, {
     headers: { Accept: "application/vnd.cora.recordList+json" },
     cache: "force-cache",

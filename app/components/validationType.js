@@ -1,5 +1,6 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
+import { getMethod, getValidationType } from "../utils/searchParams.js";
 import group from "./group.js";
 import legend from "./legend.js";
 import radio from "./radio.js";
@@ -12,15 +13,12 @@ export default function validationType({
   validationTypePool,
   metadataPool,
 }) {
-  const search = new URLSearchParams(window.location.search);
-  const selectedValidationTypeId = search.get("validationTypeId");
-  const method = search.get("method") || "create";
+  const selectedValidationTypeId = getValidationType();
+  const method = getMethod();
   const recordTypeId = path.split("/").pop();
 
   if (!recordTypePool[recordTypeId]) {
-    const root = document.createElement("h1");
-    root.textContent = `Record type "${recordTypeId}" not found.`;
-    return root;
+    return notFound({ recordTypeId });
   }
 
   const validationTypesForRecordType = getValidationTypesForRecordType({
@@ -169,5 +167,11 @@ function pageTitle({ recordTypePool, recordTypeId }) {
     root.textContent = text;
   });
 
+  return root;
+}
+
+function notFound({ recordTypeId }) {
+  const root = document.createElement("h1");
+  root.textContent = `Record type "${recordTypeId}" not found.`;
   return root;
 }

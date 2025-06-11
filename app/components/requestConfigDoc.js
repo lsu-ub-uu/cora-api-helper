@@ -1,9 +1,9 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import { getApiUrl, getFormat, getMethod } from "../utils/searchParams.js";
 
 export default function requestConfigDoc({ validationType }) {
-  const search = new URLSearchParams(window.location.search);
-  const format = search.get("format") || "xml";
-  const method = search.get("method") || "create";
+  const format = getFormat();
+  const method = getMethod();
 
   const recordTypeLink = getFirstChildWithName(
     validationType,
@@ -14,9 +14,7 @@ export default function requestConfigDoc({ validationType }) {
     "linkedRecordId"
   ).value;
 
-  const apiUrl =
-    new URLSearchParams(window.location.search).get("api-url") ??
-    "https://cora.epc.ub.uu.se/diva/rest";
+  const apiUrl = getApiUrl();
 
   const requestUrl = `${apiUrl}/record/${recordTypeId}${
     method === "update" ? "/{id}" : ""

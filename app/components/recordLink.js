@@ -1,4 +1,5 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import { getFormat } from "../utils/searchParams.js";
 import element from "./element.js";
 
 export default function recordLink({
@@ -8,8 +9,7 @@ export default function recordLink({
   repeatMax,
   lastChild = true,
 }) {
-  const format =
-    new URLSearchParams(window.location.search).get("format") || "xml";
+  const format = getFormat();
 
   const linkedRecordType = getFirstChildWithName(metadata, "linkedRecordType");
   const linkedRecordTypeValue = getFirstChildWithName(
