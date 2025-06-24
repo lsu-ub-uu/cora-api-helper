@@ -1,7 +1,7 @@
-import getAllChildrenWithName from "../utils/getAllChildrenWithName.js";
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import dataName from "./dataName.js";
-import itemCollection from "./itemCollection.js";
+import getAllChildrenWithName from "../../utils/getAllChildrenWithName.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import dataName from "../dataName/dataName.js";
+import itemCollection from "../itemCollection/itemCollection.js";
 
 export default function attributes({ metadataPool, metadata }) {
   const attributeReferences = getFirstChildWithName(

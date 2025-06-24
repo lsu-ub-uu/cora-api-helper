@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/dom";
 import { describe, expect, it, vi } from "vitest";
 import dataName from "./dataName";
-import * as getTextFromLinkModule from "../utils/getTextFromLink.js";
+import * as getTextFromLinkModule from "../../utils/getTextFromLink.js";
 
 describe("dataName", () => {
   it("renders a button", async () => {

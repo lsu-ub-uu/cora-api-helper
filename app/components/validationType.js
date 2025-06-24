@@ -1,8 +1,8 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
 import { getMethod, getValidationType } from "../utils/searchParams.js";
-import group from "./group.js";
-import legend from "./legend.js";
+import group from "./group/group.js";
+import legend from "./legend/legend.js";
 import radio from "./radio.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";

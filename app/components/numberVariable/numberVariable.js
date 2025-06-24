@@ -1,5 +1,5 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import element from "./element.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import element from "../element/element.js";
 
 export default function numberVariable({
   metadataPool,

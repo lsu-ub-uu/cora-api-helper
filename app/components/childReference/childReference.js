@@ -1,9 +1,9 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import group from "./group.js";
-import textVariable from "./textVariable.js";
-import recordLink from "./recordLink.js";
-import collectionVariable from "./collectionVariable.js";
-import numberVariable from "./numberVariable.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import group from "../group/group.js";
+import textVariable from "../textVariable.js";
+import recordLink from "../recordLink.js";
+import collectionVariable from "../collectionVariable/collectionVariable.js";
+import numberVariable from "../numberVariable/numberVariable.js";
 
 export default function childReference({
   metadataPool,

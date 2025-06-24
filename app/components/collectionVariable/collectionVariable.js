@@ -1,6 +1,6 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import element from "./element.js";
-import itemCollection from "./itemCollection.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import element from "../element/element.js";
+import itemCollection from "../itemCollection/itemCollection.js";
 
 export default function collectionVariable({
   metadata,

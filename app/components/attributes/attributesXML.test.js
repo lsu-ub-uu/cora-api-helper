@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import getFirstChildWithName from "../utils/getFirstChildWithName";
+import getFirstChildWithName from "../../utils/getFirstChildWithName";
 import attributes from "./attributesXML";
 
-vi.mock("./itemCollection.js", () => ({
+vi.mock("../itemCollection/itemCollection.js", () => ({
   default: vi.fn(({ collectionReference }) =>
     getFirstChildWithName(collectionReference, "linkedRecordId").value ===
     "colorCollection"

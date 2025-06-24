@@ -7,8 +7,8 @@ describe("legend", () => {
     expect(result.tagName).toBe("DIV");
     expect(result.className).toBe("legend");
 
-    const expectedHTML = `
-            <h3>Legend</h3>
+    const expectedHTML = ` 
+            <h3>Legend</h3> 
             <dl>
               <dt class="multiplicity">(0 - 1)</dt>
               <dd title="States how many times this element can be repeated">Repeat (min - max)</dd>

@@ -1,4 +1,4 @@
-import navigation from "./components/navigation.js";
+import navigation from "./components/navigation/navigation.js";
 import validationType from "./components/validationType.js";
 import listRecordType from "./services/listRecordType.js";
 

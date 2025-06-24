@@ -1,6 +1,6 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import childReference from "./childReference.js";
-import element from "./element.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import childReference from "../childReference/childReference.js";
+import element from "../element/element.js";
 
 export default function group({
   metadataPool,

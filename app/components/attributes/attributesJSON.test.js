@@ -1,9 +1,9 @@
 import { screen } from "@testing-library/dom";
 import { describe, expect, it, vi } from "vitest";
 import attributesJSON from "./attributesJSON.js";
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 
-vi.mock("./itemCollection.js", () => ({
+vi.mock("../itemCollection/itemCollection.js", () => ({
   default: vi.fn(({ collectionReference }) =>
     getFirstChildWithName(collectionReference, "linkedRecordId").value ===
     "colorCollection"

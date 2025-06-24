@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
 import collectionVariable from "./collectionVariable.js";
-import itemCollection from "./itemCollection.js";
 
 describe("collectionVariable", () => {
   it("should render an XML collection variable", () => {

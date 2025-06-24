@@ -1,5 +1,5 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import dataName from "./dataName.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import dataName from "../dataName/dataName.js";
 
 const MAX = 12;
 
@@ -33,16 +33,17 @@ export default function itemCollection({ metadataPool, collectionReference }) {
   if (collectionItems.length > MAX) {
     const expandButton = document.createElement("button");
     expandButton.className = "collection-variable-expand";
-    expandButton.textContent = "...";
+    updateExpandButton({ expandButton, expanded: false });
+
     expandButton.addEventListener("click", () => {
       root.innerHTML = "";
       if (expanded) {
         expanded = false;
-        expandButton.textContent = "...";
+        updateExpandButton({ expandButton, expanded });
         root.appendChild(renderCollectionItems(collapsedCollectionItems));
       } else {
         expanded = true;
-        expandButton.textContent = "—";
+        updateExpandButton({ expandButton, expanded });
         root.appendChild(renderCollectionItems(collectionItems));
       }
       root.appendChild(expandButton);
@@ -51,6 +52,18 @@ export default function itemCollection({ metadataPool, collectionReference }) {
   }
 
   return root;
+}
+
+function updateExpandButton({ expandButton, expanded }) {
+  if (!expanded) {
+    expandButton.textContent = "...";
+    expandButton.setAttribute("aria-expanded", "false");
+    expandButton.setAttribute("aria-label", "Expand collection items");
+  } else {
+    expandButton.textContent = "—";
+    expandButton.setAttribute("aria-expanded", "true");
+    expandButton.setAttribute("aria-label", "Collapse collection items");
+  }
 }
 
 function renderCollectionItems(collectionItems) {

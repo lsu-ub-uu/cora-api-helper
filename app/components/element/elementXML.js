@@ -1,8 +1,8 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import attributes from "./attributesXML.js";
-import dataName from "./dataName.js";
-import expandButton from "./expandButton.js";
-import multiplicity from "./multiplicity.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import attributes from "../attributes/attributesXML.js";
+import dataName from "../dataName/dataName.js";
+import expandButton from "../expandButton/expandButton.js";
+import multiplicity from "../multiplicity/multiplicity.js";
 
 export default function elementXML({
   metadataPool,

@@ -1,6 +1,6 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import { getFormat } from "../utils/searchParams.js";
-import element from "./element.js";
+import element from "./element/element.js";
 
 export default function recordLink({
   metadataPool,

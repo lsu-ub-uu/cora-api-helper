@@ -1,10 +1,10 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
-import attributesJSON from "../attributesJSON.js";
-import dataName from "../dataName.js";
-import expandButton from "./expandButton.js";
-import multiplicity from "./multiplicity.js";
+import attributesJSON from "../attributes/attributesJSON.js";
+import dataName from "../dataName/dataName.js";
+import expandButton from "../expandButton/expandButton.js";
+import multiplicity from "../multiplicity/multiplicity.js";
 
-export default function jsonElement({
+export default function elementJSON({
   metadataPool,
   metadata,
   repeatMin,
@@ -17,7 +17,6 @@ export default function jsonElement({
   const root = document.createElement("div");
   root.className = "json-element";
 
-  const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
   root.appendChild(
     expandButton({ onClick: () => root.classList.toggle("collapsed") })
   );
@@ -50,7 +49,7 @@ export default function jsonElement({
 
   root.appendChild(attributesJSON({ metadataPool, metadata }));
 
-  if (metadata.attributes.type === "recordLink") {
+  if (metadata.attributes?.type === "recordLink") {
     root.appendChild(children);
   } else if (Array.isArray(children)) {
     const childrenProperty = document.createElement("div");

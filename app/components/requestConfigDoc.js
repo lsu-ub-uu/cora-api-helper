@@ -20,11 +20,11 @@ export default function requestConfigDoc({ validationType }) {
     method === "update" ? "/{id}" : ""
   }`;
 
-  const root = document.createElement("details");
+  const root = document.createElement("div");
   root.className = "code-block";
 
   root.innerHTML = `
-        <summary><strong>POST</strong> ${requestUrl}</summary>
+        <strong>POST</strong> ${requestUrl}
         <br />
         <br />
         <div><strong>Accept:</strong> application/vnd.cora.record+${format}</div>

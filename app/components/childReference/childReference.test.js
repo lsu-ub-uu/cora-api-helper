@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import childReference from "./childReference.js";
 
-vi.mock("./group.js", () => ({
+vi.mock("../group/group.js", () => ({
   default: vi.fn(
     ({ groupId: refRecordId, repeatMin, repeatMax, depth, lastChild }) => {
       const mockGroup = document.createElement("div");
@@ -12,7 +12,7 @@ vi.mock("./group.js", () => ({
   ),
 }));
 
-vi.mock("./textVariable.js", () => ({
+vi.mock("../textVariable.js", () => ({
   default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
     const mockTextVariable = document.createElement("div");
     mockTextVariable.textContent = `Text Variable: ${
@@ -22,7 +22,7 @@ vi.mock("./textVariable.js", () => ({
   }),
 }));
 
-vi.mock("./collectionVariable.js", () => ({
+vi.mock("../collectionVariable/collectionVariable.js", () => ({
   default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
     const mockCollectionVariable = document.createElement("div");
     mockCollectionVariable.textContent = `Collection Variable: ${
@@ -32,7 +32,7 @@ vi.mock("./collectionVariable.js", () => ({
   }),
 }));
 
-vi.mock("./numberVariable.js", () => ({
+vi.mock("../numberVariable/numberVariable.js", () => ({
   default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
     const mockNumberVariable = document.createElement("div");
     mockNumberVariable.textContent = `Number Variable: ${
@@ -42,7 +42,7 @@ vi.mock("./numberVariable.js", () => ({
   }),
 }));
 
-vi.mock("./recordLink.js", () => ({
+vi.mock("../recordLink.js", () => ({
   default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
     const mockRecordLink = document.createElement("div");
     mockRecordLink.textContent = `Record Link: ${
@@ -171,6 +171,7 @@ describe("childReference", () => {
       "Number Variable: numberVar1, Min: 1, Max: 5, Last Child: true"
     );
   });
+
   it('renders a record link component for "recordLink" type', () => {
     const metadataPool = {
       recordLink1: {
