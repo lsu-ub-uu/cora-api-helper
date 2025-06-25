@@ -1,5 +1,4 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import { getApiUrl, getFormat, getMethod } from "../utils/searchParams.js";
+import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 
 export default function requestConfigDoc({ recordTypeId, method }) {
   const format = getFormat();

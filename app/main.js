@@ -1,6 +1,5 @@
 import navigation from "./components/navigation/navigation.js";
 import recordType from "./components/recordType/recordType.js";
-import validationType from "./components/validationType.js";
 import listRecordType from "./services/listRecordType.js";
 
 const pools = await loadPools();

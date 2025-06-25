@@ -21,10 +21,6 @@ export default function navigation({
     return metadataPool[itemRefId];
   });
 
-  console.log("groupOfRecordTypeCollection", groupOfRecordTypeCollection);
-  console.log("collectionItemReferences", collectionItemReferences);
-  console.log("groups", groups);
-
   nav.className = "main-nav";
   nav.appendChild(heading());
   nav.appendChild(groupList({ recordTypePool, path, navigate, groups }));
@@ -46,7 +42,7 @@ function groupList({ recordTypePool, path, navigate, groups }) {
   groups.forEach((group) => {
     ul.appendChild(
       groupListItem({
-        group: group,
+        group,
         recordTypePool,
         path,
         navigate,
@@ -90,7 +86,6 @@ function groupListItem({ group, recordTypePool, path, navigate }) {
     )?.value;
 
     const groupName = getFirstChildWithName(group, "nameInData")?.value;
-    const groupRecordInfo = getFirstChildWithName(group, "recordInfo");
 
     return groupOfRecordType === groupName;
   });

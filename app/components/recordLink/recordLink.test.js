@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { getFormat } from "../../utils/searchParams.js";
 import recordLink from "./recordLink.js";
+import { normalize } from "../../utils/normalise.js";
 
 vi.mock("../../utils/searchParams.js");
 
@@ -30,14 +31,13 @@ describe("recordLink", () => {
       })
     );
 
-    expect(document.body.textContent).toEqual(
-      `-<animal>(0 - 1)
-    
-        <linkedRecordType>animal</linkedRecordType>
-        
-     
-        <linkedRecordId>{id}</linkedRecordId>
-    </animal>`
+    expect(normalize(document.body.textContent)).toEqual(
+      normalize(`
+        -<animal>(0 - 1)
+            <linkedRecordType>animal</linkedRecordType>
+            <linkedRecordId>{id}</linkedRecordId>
+        </animal>
+    `)
     );
   });
 
@@ -67,14 +67,13 @@ describe("recordLink", () => {
       })
     );
 
-    expect(document.body.textContent).toEqual(
-      `-<animal>(0 - 1)
-    
-        <linkedRecordType>animal</linkedRecordType>
-        
-     
-        <linkedRecordId>dog</linkedRecordId>
-    </animal>`
+    expect(normalize(document.body.textContent)).toEqual(
+      normalize(`
+        -<animal>(0 - 1)
+            <linkedRecordType>animal</linkedRecordType>
+            <linkedRecordId>dog</linkedRecordId>
+        </animal>
+        `)
     );
   });
 
@@ -85,6 +84,7 @@ describe("recordLink", () => {
 
     const metadata = {
       name: "animalLink",
+      attributes: { type: "recordLink" },
       children: [
         { name: "nameInData", value: "animal" },
         {
@@ -103,30 +103,21 @@ describe("recordLink", () => {
       })
     );
 
-    expect(document.body.textContent).toEqual(
-      `-{"name": "animal",(0 - 1)"value": "
-      
-      "children": [
-        
-        {
-          
-          "name": "linkedRecordType",
-          
-          
-          "value": "animal"
-          
-       },
-        {
-          
-          "name": "linkedRecordId",
-          
-          
-          "value": "{id}"
-          
+    expect(normalize(document.body.textContent)).toEqual(
+      normalize(`
+        -{"name": "animal",(0 - 1)
+            "children": [
+                {
+                    "name": "linkedRecordType",
+                    "value": "animal"
+                },
+                {
+                    "name": "linkedRecordId",
+                    "value": "{id}"
+                }
+            ]
         }
-        
-      ]
-      "}`
+        `)
     );
   });
 });

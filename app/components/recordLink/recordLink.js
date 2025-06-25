@@ -10,7 +10,6 @@ export default function recordLink({
   lastChild = true,
 }) {
   const format = getFormat();
-  console.log("recordLink", metadata);
   const linkedRecordType = getFirstChildWithName(metadata, "linkedRecordType");
   const linkedRecordTypeValue = getFirstChildWithName(
     linkedRecordType,

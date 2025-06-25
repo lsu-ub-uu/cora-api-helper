@@ -7,7 +7,6 @@ export default function dataFormat({
   rootGroupId,
   dataWrapper = false,
 }) {
-  console.log("dataFormat", { metadataPool, rootGroupId });
   const root = document.createElement("div");
   root.className = "code-block data-format";
 
@@ -19,7 +18,6 @@ export default function dataFormat({
   });
 
   if (dataWrapper) {
-    console.log("Rendering with data wrapper");
     root.appendChild(renderDataWrapper({ children: rootGroup }));
   } else {
     root.appendChild(rootGroup);

@@ -1,10 +1,10 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
-import { getMethod, getValidationType } from "../../utils/searchParams.js";
-import dataFormat from "../dataFormat/dataFormat.js";
+import { getMethod } from "../../utils/searchParams.js";
 import radio from "../radio/radio.js";
-import requestConfigDoc from "../requestConfigDoc.js";
-import validationTypeSelect from "../validationTypeSelect.js";
+import createOrUpdateRecordType from "./createOrUpdate.js";
+import recordTypeRead from "./read.js";
+import requestConfigDoc from "./requestConfigDoc.js";
 
 export default function recordType({
   recordTypeId,
@@ -31,77 +31,20 @@ export default function recordType({
     );
 
     if (method === "read") {
-      const recordType = recordTypePool[recordTypeId];
-      console.log("recordType", recordType);
-      const metadataLink = getFirstChildWithName(recordType, "metadataId");
-      const metadataId = getFirstChildWithName(
-        metadataLink,
-        "linkedRecordId"
-      ).value;
-
-      root.appendChild(requestConfigDoc({ recordTypeId, method }));
-
-      const heading = document.createElement("h3");
-      heading.textContent = "Response body format";
-      root.appendChild(heading);
-
       root.appendChild(
-        dataFormat({
+        recordTypeRead({
+          recordTypePool,
           metadataPool,
-          rootGroupId: metadataId,
-          dataWrapper: true,
+          recordTypeId,
         })
       );
     } else if (method === "create" || method === "update") {
-      const validationTypes = getValidationTypesForRecordType({
-        validationTypePool,
-        recordTypeId,
-      });
-
-      const selectedValidationType = getSelectedValidationType({
-        validationTypes,
-      });
-      console.log("selectedValidationType", selectedValidationType);
-      if (validationTypes.length > 1) {
-        root.appendChild(
-          validationTypeSelect({
-            validationTypes,
-            selectedValidationTypeId: getFirstChildWithName(
-              getFirstChildWithName(selectedValidationType, "recordInfo"),
-              "id"
-            ).value,
-            onChange: (selectedValidationTypeId) => {
-              const url = new URL(window.location);
-              url.searchParams.set(
-                "validationTypeId",
-                selectedValidationTypeId
-              );
-              window.history.replaceState({}, "", url);
-              render();
-            },
-          })
-        );
-      }
-
-      root.appendChild(requestConfigDoc({ recordTypeId, method }));
-
-      const metadataLink = getFirstChildWithName(
-        selectedValidationType,
-        method === "create" ? "newMetadataId" : "metadataId"
-      );
-      const metadataId = getFirstChildWithName(
-        metadataLink,
-        "linkedRecordId"
-      ).value;
-
-      const heading = document.createElement("h3");
-      heading.textContent = "Request body format";
-      root.appendChild(heading);
-
       root.appendChild(
-        dataFormat({
+        createOrUpdateRecordType({
+          validationTypePool,
           metadataPool,
-          rootGroupId: metadataId,
+          recordTypeId,
+          method,
         })
       );
     } else if (method === "delete") {
@@ -153,29 +96,4 @@ function requestMethods({ selectedMethod, onSelectMethod }) {
   });
 
   return root;
-}
-
-function getValidationTypesForRecordType({ validationTypePool, recordTypeId }) {
-  return Object.values(validationTypePool).filter((validationType) => {
-    const validatesRecordType = getFirstChildWithName(
-      validationType,
-      "validatesRecordType"
-    );
-    const validatesRecordTypeId = getFirstChildWithName(
-      validatesRecordType,
-      "linkedRecordId"
-    ).value;
-    return validatesRecordTypeId === recordTypeId;
-  });
-}
-
-function getSelectedValidationType({ validationTypes }) {
-  const searchParamValidationType = getValidationType();
-  return (
-    validationTypes.find((v) => {
-      const recordInfo = getFirstChildWithName(v, "recordInfo");
-      const id = getFirstChildWithName(recordInfo, "id").value;
-      return searchParamValidationType === id;
-    }) ?? validationTypes[0]
-  );
 }

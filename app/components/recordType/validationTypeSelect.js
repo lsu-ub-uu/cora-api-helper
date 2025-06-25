@@ -1,5 +1,5 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import getTextFromLink from "../utils/getTextFromLink.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import getTextFromLink from "../../utils/getTextFromLink.js";
 
 export default function validationTypeSelect({
   validationTypes,
