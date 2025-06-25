@@ -11,6 +11,7 @@ export default function createOrUpdateRecordType({
   method,
 }) {
   const root = document.createElement("div");
+  root.className = "record-type";
 
   function render() {
     root.innerHTML = "";
