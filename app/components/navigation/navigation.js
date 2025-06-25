@@ -37,8 +37,6 @@ function heading() {
 function groupList({ recordTypePool, path, navigate, groups }) {
   const ul = document.createElement("ul");
 
-  //const groups = groupRecordTypes(recordTypePool);
-
   groups.forEach((group) => {
     ul.appendChild(
       groupListItem({
@@ -50,31 +48,7 @@ function groupList({ recordTypePool, path, navigate, groups }) {
     );
   });
 
-  /*   Object.entries(groups).forEach(([groupName, recordTypeIds]) => {
-
-    ul.appendChild(
-      groupListItem({
-        groupName,
-        recordTypeIds,
-        recordTypePool,
-        path,
-        navigate,
-      })
-    );
-  }); */
-
   return ul;
-}
-
-function groupRecordTypes(recordTypePool) {
-  return Object.keys(recordTypePool).reduce((acc, recordTypeId) => {
-    const recordType = recordTypePool[recordTypeId];
-    const group =
-      getFirstChildWithName(recordType, "groupOfRecordType")?.value || "Other";
-    if (!acc[group]) acc[group] = [];
-    acc[group].push(recordTypeId);
-    return acc;
-  }, {});
 }
 
 function groupListItem({ group, recordTypePool, path, navigate }) {

@@ -1,4 +1,3 @@
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import attributesJSON from "../attributes/attributesJSON.js";
 import dataName from "../dataName/dataName.js";
 import expandButton from "../expandButton/expandButton.js";

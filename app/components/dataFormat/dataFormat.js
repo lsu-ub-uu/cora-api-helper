@@ -1,4 +1,3 @@
-import expandButton from "../expandButton/expandButton.js";
 import group from "../group/group.js";
 import legend from "../legend/legend.js";
 

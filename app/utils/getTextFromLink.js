@@ -5,12 +5,17 @@ const textCache = new Map();
 
 export default async function getTextFromLink(textLink) {
   const language = getLanguage();
-  const cacheKey = textLink.actionLinks.read.url;
-  if (textCache.has(cacheKey)) {
-    return textCache.get(cacheKey);
+  const readUrl = textLink?.actionLinks?.read?.url;
+
+  if (!readUrl) {
+    return "";
   }
 
-  const textData = await fetch(textLink.actionLinks.read.url, {
+  if (textCache.has(readUrl)) {
+    return textCache.get(readUrl);
+  }
+
+  const textData = await fetch(readUrl, {
     headers: { accept: textLink.actionLinks.read.accept },
   });
 
@@ -19,6 +24,6 @@ export default async function getTextFromLink(textLink) {
     (child) => child.name === "textPart" && child.attributes.lang === language
   );
   const value = getFirstChildWithName(textPart, "text")?.value;
-  textCache.set(cacheKey, value);
+  textCache.set(readUrl, value);
   return value;
 }

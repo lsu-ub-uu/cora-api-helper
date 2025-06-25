@@ -4,16 +4,20 @@
   "main": "main.js",
   "scripts": {
     "start": "web-dev-server --app-index index.html --open --watch",
-    "test": "vitest"
+    "test": "vitest",
+    "lint": "eslint . --ext .js --fix"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/user-event": "^14.6.1",
     "@web/dev-server": "^0.4.6",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0",
     "jsdom": "^26.1.0",
     "vitest": "^3.1.4"
   }

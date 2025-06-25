@@ -1,7 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
 import element from "./element";
-import elementJSON from "./elementJSON.js";
-import getFormat from "../../utils/searchParams.js";
 
 vi.mock("./elementJSON.js", () => ({
   default: vi.fn(() => "jsonElement"),

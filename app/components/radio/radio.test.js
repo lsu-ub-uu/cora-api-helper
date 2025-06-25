@@ -1,7 +1,7 @@
+import { screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import radio from "./radio.js";
-import { fireEvent, screen } from "@testing-library/dom";
-import userEvent from "@testing-library/user-event";
 
 describe("radio", () => {
   it("should render radio component", () => {

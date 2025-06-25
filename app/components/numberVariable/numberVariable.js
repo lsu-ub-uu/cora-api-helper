@@ -8,7 +8,6 @@ export default function numberVariable({
   repeatMax,
   lastChild,
 }) {
-  const regexText = getFirstChildWithName(metadata, "regEx")?.value;
   const min = getFirstChildWithName(metadata, "min")?.value;
   const max = getFirstChildWithName(metadata, "max")?.value;
   const numberOfDecimals =

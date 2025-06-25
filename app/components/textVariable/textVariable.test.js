@@ -1,6 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import textVariable from "./textVariable";
-import { screen } from "@testing-library/dom";
 
 describe("textVariable", () => {
   it("renders regex text", () => {

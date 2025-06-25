@@ -1,7 +1,6 @@
-import { screen } from "@testing-library/dom";
 import { describe, expect, it, vi } from "vitest";
-import attributesJSON from "./attributesJSON.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import attributesJSON from "./attributesJSON.js";
 
 vi.mock("../itemCollection/itemCollection.js", () => ({
   default: vi.fn(({ collectionReference }) =>

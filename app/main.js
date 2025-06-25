@@ -2,19 +2,19 @@ import navigation from "./components/navigation/navigation.js";
 import recordType from "./components/recordType/recordType.js";
 import listRecordType from "./services/listRecordType.js";
 
-const pools = await loadPools();
+const { recordTypePool, validationTypePool, metadataPool } = await initPools();
+
+const root = document.getElementById("app");
 
 window.addEventListener("popstate", () => {
-  render(pools);
+  render();
 });
 
-render(pools);
+render();
 
-async function loadPools() {
+async function initPools() {
   const loadingTextTimeout = setTimeout(() => {
-    document.getElementById(
-      "app"
-    ).innerHTML = `Loading metadata, please wait...`;
+    root.innerHTML = `Loading metadata, please wait...`;
   }, 200);
 
   console.log("Loading metadata pools...");
@@ -38,9 +38,8 @@ async function loadPools() {
   };
 }
 
-function render({ recordTypePool, validationTypePool, metadataPool }) {
+function render() {
   const path = window.location.pathname;
-  const root = document.getElementById("app");
   const recordTypeId = path.split("/").pop();
 
   root.innerHTML = "";
@@ -49,7 +48,7 @@ function render({ recordTypePool, validationTypePool, metadataPool }) {
       path,
       recordTypePool,
       metadataPool,
-      navigate: () => render(pools),
+      navigate: () => render(),
     })
   );
   root.appendChild(

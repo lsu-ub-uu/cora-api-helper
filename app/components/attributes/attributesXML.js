@@ -14,7 +14,7 @@ export default function attributes({ metadataPool, metadata, isRepeating }) {
   if (attributeReferences) {
     const refs = getAllChildrenWithName(attributeReferences, "ref");
 
-    refs.forEach((ref, index) => {
+    refs.forEach((ref) => {
       const attributeElement = createAttribute({
         metadataPool,
         ref,
@@ -39,10 +39,6 @@ function createAttribute({ metadataPool, ref }) {
     attributeMetadata,
     "refCollection"
   );
-  const nameInData = getFirstChildWithName(
-    attributeMetadata,
-    "nameInData"
-  )?.value;
 
   const finalValue = getFirstChildWithName(
     attributeMetadata,

@@ -45,10 +45,6 @@ function createAttribute({ metadataPool, ref, lastAttribute }) {
     attributeMetadata,
     "refCollection"
   );
-  const nameInData = getFirstChildWithName(
-    attributeMetadata,
-    "nameInData"
-  )?.value;
 
   const finalValue = getFirstChildWithName(
     attributeMetadata,
