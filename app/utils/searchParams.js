@@ -1,3 +1,10 @@
+export const API_URLS = [
+  "https://cora.epc.ub.uu.se/diva/rest",
+  "https://cora.epc.ub.uu.se/alvin/rest",
+  "https://cora.epc.ub.uu.se/systemone/rest",
+  "https://pre.diva-portal.org/rest",
+];
+
 export function getValidationType() {
   return getSearchParamValue("validationTypeId");
 }
@@ -7,7 +14,12 @@ export function getMethod() {
 }
 
 export function getApiUrl() {
-  return getSearchParamValue("api-url", "https://cora.epc.ub.uu.se/diva/rest");
+  const hostname = window.location.hostname;
+  const matchingUrl = API_URLS.find((url) => url.includes(hostname));
+  return getSearchParamValue(
+    "api-url",
+    matchingUrl ?? "https://cora.epc.ub.uu.se/diva/rest"
+  );
 }
 
 export function getFormat() {

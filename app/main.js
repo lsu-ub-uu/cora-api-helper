@@ -51,12 +51,25 @@ function render() {
       navigate: () => render(),
     })
   );
-  root.appendChild(
-    recordType({
-      recordTypeId,
-      recordTypePool,
-      validationTypePool,
-      metadataPool,
-    })
-  );
+
+  if (recordTypeId) {
+    root.appendChild(
+      recordType({
+        recordTypeId,
+        recordTypePool,
+        validationTypePool,
+        metadataPool,
+      })
+    );
+  } else {
+    const welcomeMessage = document.createElement("div");
+    welcomeMessage.innerHTML = `
+    <h2>Welcome to the Cora API helper!</h2>
+    <p>This tool helps you explore the Cora REST API.</p>
+    <p>Select a record type from the navigation to the left to begin. ⬅️</p>
+    <p>You can set your preferred data format, language and API URL in the settings at the top right. ↗️</p>
+    `;
+
+    root.appendChild(welcomeMessage);
+  }
 }
