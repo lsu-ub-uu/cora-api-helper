@@ -15,7 +15,8 @@ describe("textVariable", () => {
       textVariable({ metadata, repeatMin: "1", repeatMax: "1" })
     );
 
-    expect(screen.getByText("test")).toBeInTheDocument();
-    expect(screen.getByText("/^[a-zA-Z0-9]+$/")).toBeInTheDocument();
+    expect(document.body.textContent).toEqual(
+      "-<test>(1 - 1)/^[a-zA-Z0-9]+$/</test>"
+    );
   });
 });

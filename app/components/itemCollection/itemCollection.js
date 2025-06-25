@@ -39,32 +39,6 @@ export default function itemCollection({ metadataPool, collectionReference }) {
   return root;
 }
 
-function renderCollectionItems(collectionItems) {
-  const root = document.createDocumentFragment();
-  collectionItems.forEach((item, index) => {
-    const isLastItem = index === collectionItems.length - 1;
-    root.appendChild(dataName({ metadata: item }));
-    if (!isLastItem) {
-      root.appendChild(document.createTextNode(" | "));
-    }
-  });
-
-  return root;
-}
-
-function renderExpandButton({ expanded }) {
-  const expandButton = document.createElement("button");
-  expandButton.className = "collection-variable-expand";
-  expandButton.textContent = expanded ? "—" : "...";
-  expandButton.setAttribute("aria-expanded", expanded ? "true" : "false");
-  expandButton.setAttribute(
-    "aria-label",
-    expanded ? "Collapse collection items" : "Expand collection items"
-  );
-
-  return expandButton;
-}
-
 function extractCollectionItems({ metadataPool, collectionReference }) {
   const itemCollectionId = getFirstChildWithName(
     collectionReference,
@@ -86,4 +60,32 @@ function extractCollectionItems({ metadataPool, collectionReference }) {
     return metadataPool[itemRefId];
   });
   return collectionItems;
+}
+
+function renderCollectionItems(collectionItems) {
+  const root = document.createDocumentFragment();
+
+  collectionItems.forEach((item, index) => {
+    const isLastItem = index === collectionItems.length - 1;
+    root.appendChild(dataName({ metadata: item }));
+    if (!isLastItem) {
+      root.appendChild(document.createTextNode(" | "));
+    }
+  });
+
+  return root;
+}
+
+function renderExpandButton({ expanded }) {
+  const root = document.createElement("button");
+
+  root.className = "collection-variable-expand";
+  root.textContent = expanded ? "—" : "...";
+  root.setAttribute("aria-expanded", expanded ? "true" : "false");
+  root.setAttribute(
+    "aria-label",
+    expanded ? "Collapse collection items" : "Expand collection items"
+  );
+
+  return root;
 }

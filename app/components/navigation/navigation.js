@@ -13,7 +13,7 @@ export default function navigation({ recordTypePool, path, navigate }) {
 
 function heading() {
   const heading = document.createElement("h2");
-  heading.textContent = "Navigation";
+  heading.textContent = "Select Record Type";
   return heading;
 }
 

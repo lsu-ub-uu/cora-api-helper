@@ -10,14 +10,6 @@
     <header>
       <h1>Cora API Helper</h1>
       <form id="load-form">
-        <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
-        <datalist id="api-url-list">
-          <option value="https://cora.epc.ub.uu.se/diva/rest"></option>
-          <option value="https://cora.epc.ub.uu.se/alvin/rest"></option>
-          <option value="https://cora.epc.ub.uu.se/systemone/rest"></option>
-          <option value="https://pre.diva-portal.org/rest"></option>
-        </datalist>
-
         <label>
           Format
           <select id="format" name="format">
@@ -25,6 +17,22 @@
             <option value="json">JSON</option>
           </select>
         </label>
+
+        <label>
+          Language
+          <select id="lang" name="lang">
+            <option value="en">English</option>
+            <option value="sv">Swedish</option>
+          </select> 
+        </label>
+
+        <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
+        <datalist id="api-url-list">
+          <option value="https://cora.epc.ub.uu.se/diva/rest"></option>
+          <option value="https://cora.epc.ub.uu.se/alvin/rest"></option>
+          <option value="https://cora.epc.ub.uu.se/systemone/rest"></option>
+          <option value="https://pre.diva-portal.org/rest"></option>
+        </datalist>
       </form>
     </header>
 
@@ -37,13 +45,18 @@
 
       const apiUrl = params.get('api-url') ?? "https://cora.epc.ub.uu.se/diva/rest";
       const format = params.get('format') ?? "xml";
+      const lang = params.get('lang') ?? "en";
       console.log('API URL:', apiUrl);
-      console.log('Format:', format); 
+      console.log('Format:', format);
+      console.log('Language:', lang);
       if (apiUrl) {
         document.getElementById('api-url').value = apiUrl;
       }
       if (format) {
         document.getElementById('format').value = format;
+      }
+      if (lang) {
+        document.getElementById('lang').value = lang;
       }
 
       document.getElementById('load-form').addEventListener('change', event => {

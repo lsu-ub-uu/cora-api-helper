@@ -1,4 +1,5 @@
 import navigation from "./components/navigation/navigation.js";
+import recordType from "./components/recordType/recordType.js";
 import validationType from "./components/validationType.js";
 import listRecordType from "./services/listRecordType.js";
 
@@ -41,6 +42,8 @@ async function loadPools() {
 function render({ recordTypePool, validationTypePool, metadataPool }) {
   const path = window.location.pathname;
   const root = document.getElementById("app");
+  const recordTypeId = path.split("/").pop();
+
   root.innerHTML = "";
   root.appendChild(
     navigation({
@@ -50,6 +53,11 @@ function render({ recordTypePool, validationTypePool, metadataPool }) {
     })
   );
   root.appendChild(
-    validationType({ path, recordTypePool, validationTypePool, metadataPool })
+    recordType({
+      recordTypeId,
+      recordTypePool,
+      validationTypePool,
+      metadataPool,
+    })
   );
 }

@@ -1,35 +1,44 @@
 import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import { getApiUrl, getFormat, getMethod } from "../utils/searchParams.js";
 
-export default function requestConfigDoc({ validationType }) {
+export default function requestConfigDoc({ recordTypeId, method }) {
   const format = getFormat();
-  const method = getMethod();
-
-  const recordTypeLink = getFirstChildWithName(
-    validationType,
-    "validatesRecordType"
-  );
-  const recordTypeId = getFirstChildWithName(
-    recordTypeLink,
-    "linkedRecordId"
-  ).value;
 
   const apiUrl = getApiUrl();
 
   const requestUrl = `${apiUrl}/record/${recordTypeId}${
-    method === "update" ? "/{id}" : ""
+    method !== "create" ? "/{id}" : ""
   }`;
 
-  const root = document.createElement("div");
-  root.className = "code-block";
+  const root = document.createDocumentFragment();
+  const heading = document.createElement("h3");
+  heading.textContent = "Request config";
+  root.appendChild(heading);
 
-  root.innerHTML = `
-        <strong>POST</strong> ${requestUrl}
+  const codeBlock = document.createElement("div");
+  codeBlock.className = "code-block";
+
+  const httpMethod =
+    method === "read" ? "GET" : method === "delete" ? "DELETE" : "POST";
+
+  codeBlock.innerHTML = `
+        <strong>${httpMethod}</strong> ${requestUrl}
         <br />
         <br />
-        <div><strong>Accept:</strong> application/vnd.cora.record+${format}</div>
-        <div><strong>Content-Type:</strong> application/vnd.cora.recordGroup+${format}</div>
+       
+         ${
+           method !== "delete"
+             ? `<div><strong>Accept:</strong> application/vnd.cora.record+${format}</div>`
+             : ""
+         }
+        ${
+          (method === "create") | (method === "update")
+            ? `<div><strong>Content-Type:</strong> application/vnd.cora.recordGroup+${format}</div>`
+            : ""
+        }
         <div><strong>AuthToken:</strong> xxxx-xxxx-xxxx-xxxx</div>
   `;
+
+  root.appendChild(codeBlock);
   return root;
 }

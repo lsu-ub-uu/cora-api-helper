@@ -12,7 +12,7 @@ vi.mock("../group/group.js", () => ({
   ),
 }));
 
-vi.mock("../textVariable.js", () => ({
+vi.mock("../textVariable/textVariable.js", () => ({
   default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
     const mockTextVariable = document.createElement("div");
     mockTextVariable.textContent = `Text Variable: ${

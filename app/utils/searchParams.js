@@ -1,5 +1,5 @@
 export function getValidationType() {
-  return getSearchParamValue("validationType");
+  return getSearchParamValue("validationTypeId");
 }
 
 export function getMethod() {
@@ -12,6 +12,10 @@ export function getApiUrl() {
 
 export function getFormat() {
   return getSearchParamValue("format", "xml");
+}
+
+export function getLanguage() {
+  return getSearchParamValue("lang", "en");
 }
 
 function getSearchParamValue(paramName, defaultValue) {

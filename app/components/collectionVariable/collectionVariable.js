@@ -11,6 +11,20 @@ export default function collectionVariable({
 }) {
   const collectionItemsDiv = document.createElement("div");
   collectionItemsDiv.className = "collection-value";
+
+  const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
+  if (finalValue) {
+    collectionItemsDiv.innerHTML = `<span class="final-value">${finalValue}</span>`;
+    return element({
+      metadataPool,
+      metadata,
+      repeatMin,
+      repeatMax,
+      children: collectionItemsDiv,
+      lastChild,
+    });
+  }
+
   const collectionReference = getFirstChildWithName(metadata, "refCollection");
 
   collectionItemsDiv.appendChild(

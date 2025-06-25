@@ -2,15 +2,16 @@ import getFirstChildWithName from "../utils/getFirstChildWithName.js";
 import getTextFromLink from "../utils/getTextFromLink.js";
 
 export default function validationTypeSelect({
+  validationTypes,
   selectedValidationTypeId,
-  validationTypesForRecordType,
   onChange,
 }) {
   const root = document.createElement("label");
-  root.textContent = "Validation Type: ";
+  root.className = "validation-type-select";
+  root.textContent = "Select validation type: ";
 
   const validationTypeSelect = document.createElement("select");
-  validationTypesForRecordType.forEach((validationType) => {
+  validationTypes.forEach((validationType) => {
     const textId = getFirstChildWithName(validationType, "textId");
     const recordInfo = getFirstChildWithName(validationType, "recordInfo");
     const validationTypeId = getFirstChildWithName(recordInfo, "id").value;
@@ -19,7 +20,7 @@ export default function validationTypeSelect({
     option.value = validationTypeId;
     option.textContent = validationTypeId;
     getTextFromLink(textId).then((text) => {
-      option.textContent = text;
+      option.textContent = `${text} (${validationTypeId})`;
     });
     validationTypeSelect.appendChild(option);
   });
