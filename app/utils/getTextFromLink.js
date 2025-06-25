@@ -15,7 +15,6 @@ export default async function getTextFromLink(textLink) {
   });
 
   const json = await textData.json();
-  console.log("getTextFromLink", json);
   const textPart = json.record.data.children.find(
     (child) => child.name === "textPart" && child.attributes.lang === language
   );
