@@ -5,7 +5,7 @@
   --color-header-fg: #fefefe;
   --color-hr: #ccc;
   --color-link: darkblue;
-  --color-link-active: black;
+  --color-link-active: orangered;
   --color-final-value: darkorange;
   --color-collection-value: deepskyblue;
   --color-multiplicity: hotpink;
@@ -332,6 +332,7 @@ summary {
   }
   h3 {
     font-size: 1rem;
+    margin-top: 0.5rem;
   }
   ul {
     list-style: none;
@@ -341,8 +342,11 @@ summary {
   ul ul {
     padding-left: 1rem;
   }
+  li {
+    margin-top: 0.25rem;
+  }
   a {
-    font-size: 0.9rem;
+    font-size: 1rem;
     text-decoration: none;
     color: var(--color-link);
     padding: 0.2rem 0.5rem;
@@ -351,11 +355,6 @@ summary {
       color: var(--color-link-active);
       font-weight: bold;
       position: relative;
-      &:before {
-        content: ">";
-        position: absolute;
-        left: -0.25rem;
-      }
     }
   }
 }

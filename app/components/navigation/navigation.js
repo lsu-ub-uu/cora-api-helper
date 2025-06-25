@@ -1,28 +1,61 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
 
-export default function navigation({ recordTypePool, path, navigate }) {
+export default function navigation({
+  recordTypePool,
+  metadataPool,
+  path,
+  navigate,
+}) {
   const nav = document.createElement("nav");
+
+  const groupOfRecordTypeCollection =
+    metadataPool["groupOfRecordTypeCollection"];
+  const collectionItemReferences = getFirstChildWithName(
+    groupOfRecordTypeCollection,
+    "collectionItemReferences"
+  );
+
+  const groups = collectionItemReferences.children.map((itemRef) => {
+    const itemRefId = getFirstChildWithName(itemRef, "linkedRecordId")?.value;
+    return metadataPool[itemRefId];
+  });
+
+  console.log("groupOfRecordTypeCollection", groupOfRecordTypeCollection);
+  console.log("collectionItemReferences", collectionItemReferences);
+  console.log("groups", groups);
 
   nav.className = "main-nav";
   nav.appendChild(heading());
-  nav.appendChild(groupList({ recordTypePool, path, navigate }));
+  nav.appendChild(groupList({ recordTypePool, path, navigate, groups }));
 
   return nav;
 }
 
 function heading() {
   const heading = document.createElement("h2");
-  heading.textContent = "Select Record Type";
+  heading.textContent = "Record Types";
   return heading;
 }
 
-function groupList({ recordTypePool, path, navigate }) {
+function groupList({ recordTypePool, path, navigate, groups }) {
   const ul = document.createElement("ul");
 
-  const groups = groupRecordTypes(recordTypePool);
+  //const groups = groupRecordTypes(recordTypePool);
 
-  Object.entries(groups).forEach(([groupName, recordTypeIds]) => {
+  groups.forEach((group) => {
+    ul.appendChild(
+      groupListItem({
+        group: group,
+        recordTypePool,
+        path,
+        navigate,
+      })
+    );
+  });
+
+  /*   Object.entries(groups).forEach(([groupName, recordTypeIds]) => {
+
     ul.appendChild(
       groupListItem({
         groupName,
@@ -32,7 +65,7 @@ function groupList({ recordTypePool, path, navigate }) {
         navigate,
       })
     );
-  });
+  }); */
 
   return ul;
 }
@@ -48,16 +81,24 @@ function groupRecordTypes(recordTypePool) {
   }, {});
 }
 
-function groupListItem({
-  groupName,
-  recordTypeIds,
-  recordTypePool,
-  path,
-  navigate,
-}) {
-  const groupLi = document.createElement("li");
+function groupListItem({ group, recordTypePool, path, navigate }) {
+  const recordTypeIds = Object.keys(recordTypePool).filter((recordTypeId) => {
+    const recordType = recordTypePool[recordTypeId];
+    const groupOfRecordType = getFirstChildWithName(
+      recordType,
+      "groupOfRecordType"
+    )?.value;
 
-  groupLi.appendChild(groupHeading(groupName));
+    const groupName = getFirstChildWithName(group, "nameInData")?.value;
+    const groupRecordInfo = getFirstChildWithName(group, "recordInfo");
+
+    return groupOfRecordType === groupName;
+  });
+
+  if (recordTypeIds.length === 0) return document.createDocumentFragment();
+
+  const groupLi = document.createElement("li");
+  groupLi.appendChild(groupHeading(group));
 
   const recordTypeList = document.createElement("ul");
   recordTypeIds.forEach((recordTypeId) => {
@@ -70,12 +111,17 @@ function groupListItem({
   return groupLi;
 }
 
-function groupHeading(groupName) {
+function groupHeading(group) {
   const heading = document.createElement("h3");
-  const formattedGroupName = groupName
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .replace(/^./, (str) => str.toUpperCase());
-  heading.textContent = formattedGroupName;
+
+  const nameInData = getFirstChildWithName(group, "nameInData")?.value;
+  heading.textContent = nameInData;
+
+  const textId = getFirstChildWithName(group, "textId");
+  getTextFromLink(textId).then((text) => {
+    heading.textContent = text;
+  });
+
   return heading;
 }
 

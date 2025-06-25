@@ -49,6 +49,7 @@ function render({ recordTypePool, validationTypePool, metadataPool }) {
     navigation({
       path,
       recordTypePool,
+      metadataPool,
       navigate: () => render(pools),
     })
   );
