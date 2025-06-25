@@ -103,11 +103,14 @@ select {
   margin-bottom: 1rem;
 }
 
+.data-format {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+}
+
 .legend {
   font-size: 0.9rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+
   line-height: 1.5;
 
   dl {

@@ -32,7 +32,7 @@ describe("collectionVariable", () => {
       children: [
         { name: "nameInData", value: "collectionVar1" },
         { name: "repeatMin", value: "1" },
-        { name: "repeatMax", value: "5" },
+        { name: "repeatMax", value: "1" },
         {
           name: "refCollection",
           children: [{ name: "linkedRecordId", value: "itemCollection1" }],
@@ -43,13 +43,13 @@ describe("collectionVariable", () => {
     const result = collectionVariable({
       metadataPool,
       metadata,
-      repeatMin: 1,
-      repeatMax: 5,
+      repeatMin: "1",
+      repeatMax: "1",
       lastChild: true,
     });
 
-    expect(result.textContent).toBe(
-      "-<collectionVar1>(1 - 5)item1 | item2</collectionVar1>"
+    expect(result.textContent).toEqual(
+      "-<collectionVar1>(1 - 1)item1 | item2</collectionVar1>"
     );
   });
 

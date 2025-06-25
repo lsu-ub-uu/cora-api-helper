@@ -9,25 +9,23 @@ export default function attributes({ metadataPool, metadata, isRepeating }) {
     "attributeReferences"
   );
 
-  if (!attributeReferences) {
-    return document.createDocumentFragment();
-  }
-
-  const refs = getAllChildrenWithName(attributeReferences, "ref");
-
   const root = document.createElement("span");
 
-  refs.forEach((ref, index) => {
-    const attributeElement = createAttribute({
-      metadataPool,
-      ref,
+  if (attributeReferences) {
+    const refs = getAllChildrenWithName(attributeReferences, "ref");
+
+    refs.forEach((ref, index) => {
+      const attributeElement = createAttribute({
+        metadataPool,
+        ref,
+      });
+      root.appendChild(attributeElement);
     });
-    root.appendChild(attributeElement);
-  });
+  }
 
   if (isRepeating) {
     const repeatSpan = document.createElement("span");
-    repeatSpan.innerHTML = ' repeatId="<span class="regex">/.+/</span>"';
+    repeatSpan.innerHTML = ' repeatId=<span class="regex">"/.+/"</span>';
     root.appendChild(repeatSpan);
   }
 

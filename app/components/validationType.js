@@ -3,7 +3,7 @@ import getTextFromLink from "../utils/getTextFromLink.js";
 import { getMethod, getValidationType } from "../utils/searchParams.js";
 import group from "./group/group.js";
 import legend from "./legend/legend.js";
-import radio from "./radio.js";
+import radio from "./radio/radio.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";
 
@@ -132,7 +132,7 @@ function renderValidationTypeDoc({
   element.appendChild(requestConfigDoc({ validationType }));
 
   const dataFormat = document.createElement("div");
-  dataFormat.className = "code-block";
+  dataFormat.className = "code-block data-format";
 
   dataFormat.appendChild(
     group({ metadataPool, groupId: metadataId, repeatMin: "1", repeatMax: "1" })

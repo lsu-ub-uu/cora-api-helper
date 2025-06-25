@@ -12,7 +12,7 @@ export default function elementXML({
   children,
 }) {
   const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
-  const isRepeating = repeatMax !== "0" && repeatMax !== "1";
+  const isRepeating = repeatMax !== "1";
 
   const root = document.createElement("div");
   root.className = "element";

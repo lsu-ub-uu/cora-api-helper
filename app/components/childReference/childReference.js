@@ -1,7 +1,7 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import group from "../group/group.js";
 import textVariable from "../textVariable.js";
-import recordLink from "../recordLink.js";
+import recordLink from "../recordLink/recordLink.js";
 import collectionVariable from "../collectionVariable/collectionVariable.js";
 import numberVariable from "../numberVariable/numberVariable.js";
 

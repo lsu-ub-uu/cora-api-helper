@@ -42,7 +42,7 @@ vi.mock("../numberVariable/numberVariable.js", () => ({
   }),
 }));
 
-vi.mock("../recordLink.js", () => ({
+vi.mock("../recordLink/recordLink.js", () => ({
   default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
     const mockRecordLink = document.createElement("div");
     mockRecordLink.textContent = `Record Link: ${

@@ -1,6 +1,6 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
-import { getFormat } from "../utils/searchParams.js";
-import element from "./element/element.js";
+import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFormat } from "../../utils/searchParams.js";
+import element from "../element/element.js";
 
 export default function recordLink({
   metadataPool,
@@ -10,13 +10,12 @@ export default function recordLink({
   lastChild = true,
 }) {
   const format = getFormat();
-
+  console.log("recordLink", metadata);
   const linkedRecordType = getFirstChildWithName(metadata, "linkedRecordType");
   const linkedRecordTypeValue = getFirstChildWithName(
     linkedRecordType,
-    "linkedRecordType"
+    "linkedRecordId"
   )?.value;
-
   const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
 
   const recordLink = document.createElement("div");
