@@ -16,6 +16,7 @@
   <properties>
     <frontend-maven-plugin.version>1.15.10-atlassian-2</frontend-maven-plugin.version>
     <nodeVersion>v22.14.0</nodeVersion>
+    <dist.dir>dist</dist.dir>
   </properties>
 
 
@@ -30,20 +31,21 @@
     <resources>
       <resource>
         <directory>app</directory>
-        <targetPath>app</targetPath>
+        <targetPath>${dist.dir}/app</targetPath>
         <includes>
           <include>**/*</include>
         </includes>
       </resource>
       <resource>
         <directory>styles</directory>
-        <targetPath>styles</targetPath>
+        <targetPath>${dist.dir}/styles</targetPath>
         <includes>
           <include>**/*</include>
         </includes>
       </resource>
       <resource>
         <directory>${basedir}</directory>
+        <targetPath>${dist.dir}</targetPath>
         <includes>
           <include>index.html</include>
         </includes>
