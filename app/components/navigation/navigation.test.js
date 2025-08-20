@@ -61,7 +61,7 @@ describe("navigation", () => {
   it("renders navigation items for each record type, grouped by record type group", () => {
     document.body.appendChild(
       navigation({
-        path: "/record/person/1",
+        path: "/recordType/person/1",
         recordTypePool,
         metadataPool,
       })
@@ -72,24 +72,56 @@ describe("navigation", () => {
     expect(screen.getByRole("heading", { name: "group1" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /person/i })).toHaveAttribute(
       "href",
-      "/record/person"
+      "/recordType/person"
     );
     expect(screen.getByRole("link", { name: /organisation/i })).toHaveAttribute(
       "href",
-      "/record/organisation"
+      "/recordType/organisation"
     );
 
     expect(screen.getByRole("heading", { name: "group2" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /output/i })).toHaveAttribute(
       "href",
-      "/record/output"
+      "/recordType/output"
+    );
+  });
+
+  it("renders navigation items with base path", () => {
+    vi.stubGlobal("location", {
+      pathname: "/api-helper/",
+    });
+
+    document.body.appendChild(
+      navigation({
+        path: "/recordType/person/1",
+        recordTypePool,
+        metadataPool,
+      })
+    );
+
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+
+    expect(screen.getByRole("heading", { name: "group1" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /person/i })).toHaveAttribute(
+      "href",
+      "/api-helper/recordType/person"
+    );
+    expect(screen.getByRole("link", { name: /organisation/i })).toHaveAttribute(
+      "href",
+      "/api-helper/recordType/organisation"
+    );
+
+    expect(screen.getByRole("heading", { name: "group2" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /output/i })).toHaveAttribute(
+      "href",
+      "/api-helper/recordType/output"
     );
   });
 
   it("marks current page", () => {
     document.body.appendChild(
       navigation({
-        path: "/record/output/1",
+        path: "/recordType/output/1",
         recordTypePool,
         metadataPool,
       })
@@ -102,10 +134,21 @@ describe("navigation", () => {
   });
 
   it("navigates to the correct page on click", async () => {
+    vi.stubGlobal("location", {
+      href: "https://example.com/recordType/output/1",
+      pathname: "/recordType/output/1",
+      search: "?param=value",
+    });
+
+    const pushStateMock = vi.fn();
+    vi.stubGlobal("history", {
+      pushState: pushStateMock,
+    });
+
     const navigateMock = vi.fn();
     document.body.appendChild(
       navigation({
-        path: "/record/output/1",
+        path: "/recordType/output/1",
         navigate: navigateMock,
         recordTypePool,
         metadataPool,
@@ -114,6 +157,10 @@ describe("navigation", () => {
 
     await userEvent.click(screen.getByRole("link", { name: /person/i }));
     expect(navigateMock).toHaveBeenCalled();
-    expect(window.location.pathname).toBe("/record/person");
+    expect(pushStateMock).toHaveBeenCalledWith(
+      {},
+      "",
+      "/recordType/person?param=value"
+    );
   });
 });

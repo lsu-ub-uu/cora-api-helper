@@ -1,6 +1,7 @@
 import navigation from "./components/navigation/navigation.js";
 import recordType from "./components/recordType/recordType.js";
 import listRecordType from "./services/listRecordType.js";
+import { getRecordTypeId } from "./utils/routing.js";
 
 const { recordTypePool, validationTypePool, metadataPool } = await initPools();
 
@@ -40,7 +41,7 @@ async function initPools() {
 
 function render() {
   const path = window.location.pathname;
-  const recordTypeId = path.split("/").pop();
+  const recordTypeId = getRecordTypeId();
 
   root.innerHTML = "";
   root.appendChild(

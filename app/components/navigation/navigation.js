@@ -1,5 +1,6 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
+import { getBasePath } from "../../utils/routing.js";
 
 export default function navigation({
   recordTypePool,
@@ -95,9 +96,10 @@ function groupHeading(group) {
 }
 
 function recordTypeLi({ recordTypeId, recordTypePool, path, navigate }) {
+  const basePath = getBasePath();
   const li = document.createElement("li");
   const a = document.createElement("a");
-  const href = `/record/${recordTypeId}`;
+  const href = `${basePath}/recordType/${recordTypeId}`;
 
   a.href = href;
   a.textContent = recordTypeId;
