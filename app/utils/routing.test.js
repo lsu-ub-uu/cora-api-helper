@@ -28,7 +28,7 @@ describe("routing", () => {
     });
   });
 
-  describe.only("getBasePath", () => {
+  describe("getBasePath", () => {
     it("no base path and not record type", () => {
       vi.stubGlobal("location", {
         pathname: "/",
