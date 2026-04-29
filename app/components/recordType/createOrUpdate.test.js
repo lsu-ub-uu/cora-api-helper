@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import createOrUpdateRecordType from "./createOrUpdate";
-import { screen } from "@testing-library/dom";
+import { screen, waitFor } from "@testing-library/dom";
 import dataFormat from "../dataFormat/dataFormat";
 import userEvent from "@testing-library/user-event";
 
@@ -128,6 +128,9 @@ describe("createOrUpdate", () => {
       })
     );
 
+    await waitFor(() =>
+      expect(screen.getAllByRole("option")).toHaveLength(2)
+    );
     await userEvent.selectOptions(
       screen.getByRole("combobox"),
       "anotherValidationType"

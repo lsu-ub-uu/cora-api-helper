@@ -11,7 +11,7 @@ export default function validationTypeSelect({
   root.textContent = "Select validation type: ";
 
   const validationTypeSelect = document.createElement("select");
-  validationTypes.forEach((validationType) => {
+  const optionPromises = validationTypes.map((validationType) => {
     const textId = getFirstChildWithName(validationType, "textId");
     const recordInfo = getFirstChildWithName(validationType, "recordInfo");
     const validationTypeId = getFirstChildWithName(recordInfo, "id").value;
@@ -19,15 +19,20 @@ export default function validationTypeSelect({
     const option = document.createElement("option");
     option.value = validationTypeId;
     option.textContent = validationTypeId;
-    getTextFromLink(textId).then((text) => {
+    return getTextFromLink(textId).then((text) => {
       option.textContent = `${text} (${validationTypeId})`;
+      return option;
     });
-    validationTypeSelect.appendChild(option);
   });
 
-  if (selectedValidationTypeId) {
-    validationTypeSelect.value = selectedValidationTypeId;
-  }
+  Promise.all(optionPromises).then((options) => {
+    options
+      .sort((a, b) => a.textContent.localeCompare(b.textContent))
+      .forEach((option) => validationTypeSelect.appendChild(option));
+    if (selectedValidationTypeId) {
+      validationTypeSelect.value = selectedValidationTypeId;
+    }
+  });
 
   validationTypeSelect.addEventListener("change", (e) =>
     onChange(e.target.value)
