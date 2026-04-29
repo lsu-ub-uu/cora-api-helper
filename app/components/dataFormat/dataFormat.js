@@ -1,3 +1,5 @@
+import { getFormat } from "../../utils/searchParams.js";
+import expandButton from "../expandButton/expandButton.js";
 import group from "../group/group.js";
 import legend from "../legend/legend.js";
 
@@ -28,6 +30,55 @@ export default function dataFormat({
 }
 
 function renderDataWrapper({ children }) {
+  if (getFormat() === "json") {
+    return renderDataWrapperJSON({ children });
+  }
+  return renderDataWrapperXML({ children });
+}
+
+function renderDataWrapperJSON({ children }) {
+  const root = document.createElement("div");
+  root.className = "json-element";
+
+  root.appendChild(
+    expandButton({ onClick: () => root.classList.toggle("collapsed") }),
+  );
+
+  const openingBracket = document.createElement("div");
+  openingBracket.textContent = "{";
+  root.appendChild(openingBracket);
+
+  const recordWrapper = document.createElement("div");
+  recordWrapper.className = "indent";
+  recordWrapper.textContent = `"record": {`;
+  root.appendChild(recordWrapper);
+
+  const dataWrapper = document.createElement("div");
+  dataWrapper.className = "indent";
+  dataWrapper.textContent = `"data": {`;
+  recordWrapper.appendChild(dataWrapper);
+
+  const groupWrapper = document.createElement("div");
+  groupWrapper.className = "indent";
+  groupWrapper.appendChild(children);
+  dataWrapper.appendChild(groupWrapper);
+
+  const dataClosingBracket = document.createElement("div");
+  dataClosingBracket.textContent = "}";
+  dataWrapper.appendChild(dataClosingBracket);
+
+  const recordClosingBracket = document.createElement("div");
+  recordClosingBracket.textContent = "}";
+  recordWrapper.appendChild(recordClosingBracket);
+
+  const closingBracket = document.createElement("div");
+  closingBracket.textContent = "}";
+  root.appendChild(closingBracket);
+
+  return root;
+}
+
+function renderDataWrapperXML({ children }) {
   const root = document.createElement("div");
   root.className = "element";
 
