@@ -17,11 +17,12 @@ export default async function getTextFromLink(textLink) {
 
   const textData = await fetch(readUrl, {
     headers: { accept: textLink.actionLinks.read.accept },
+    cache: "force-cache",
   });
 
   const json = await textData.json();
   const textPart = json.record.data.children.find(
-    (child) => child.name === "textPart" && child.attributes.lang === language
+    (child) => child.name === "textPart" && child.attributes.lang === language,
   );
   const value = getFirstChildWithName(textPart, "text")?.value;
   textCache.set(readUrl, value);
