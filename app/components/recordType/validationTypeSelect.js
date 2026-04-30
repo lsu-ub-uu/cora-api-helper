@@ -11,11 +11,6 @@ export default function validationTypeSelect({
   root.className = "validation-type-select";
   root.textContent = "Select validation type: ";
 
-  const select = filterableSelect({
-    selectedValue: selectedValidationTypeId,
-    onChange,
-  });
-
   const filteredValidationTypes = validationTypes.filter((validationType) => {
     const recordInfo = getFirstChildWithName(validationType, "recordInfo");
     const id = getFirstChildWithName(recordInfo, "id").value;
@@ -35,9 +30,13 @@ export default function validationTypeSelect({
 
   Promise.all(optionPromises).then((options) => {
     options.sort((a, b) => a.label.localeCompare(b.label));
-    select.setOptions(options);
+    const select = filterableSelect({
+      options,
+      selectedValue: selectedValidationTypeId,
+      onChange,
+    });
+    root.appendChild(select);
   });
 
-  root.appendChild(select);
   return root;
 }

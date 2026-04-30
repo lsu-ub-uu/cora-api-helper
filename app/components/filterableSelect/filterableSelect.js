@@ -17,8 +17,12 @@ export default function filterableSelect({ options, selectedValue, onChange }) {
   listbox.id = listboxId;
   input.setAttribute("aria-controls", listboxId);
 
-  let allOptions = [];
+  let allOptions = options || [];
   let activeIndex = -1;
+
+  if (selectedValue) {
+    setSelected(selectedValue);
+  }
 
   function setSelected(value) {
     const match = allOptions.find((o) => o.value === value);
