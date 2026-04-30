@@ -33,16 +33,13 @@ describe("validationTypeSelect", () => {
         validationTypes,
         selectedValidationTypeId: "type1",
         onChange: vi.fn(),
-      })
+      }),
     );
 
     expect(screen.getByRole("combobox")).toBeInTheDocument();
     await waitFor(() => {
-      const options = screen.getAllByRole("option");
-      expect(options).toHaveLength(3);
-      expect(options[0]).toHaveValue("type1");
-      expect(options[1]).toHaveValue("type2");
-      expect(options[2]).toHaveValue("type3");
+      const input = screen.getByRole("combobox");
+      expect(input).toHaveValue("translated text (type1)");
     });
   });
 
@@ -65,11 +62,16 @@ describe("validationTypeSelect", () => {
         validationTypes,
         selectedValidationTypeId: "type1",
         onChange: onChangeMock,
-      })
+      }),
     );
-    const select = screen.getByRole("combobox");
+    await waitFor(() =>
+      expect(screen.getByRole("combobox")).toHaveValue(
+        "translated text (type1)",
+      ),
+    );
+    await userEvent.click(screen.getByRole("combobox"));
     await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(2));
-    await userEvent.selectOptions(select, "type2");
+    await userEvent.click(screen.getByText("translated text (type2)"));
     expect(onChangeMock).toHaveBeenCalledWith("type2");
   });
 
@@ -87,13 +89,13 @@ describe("validationTypeSelect", () => {
         validationTypes,
         selectedValidationTypeId: "type1",
         onChange: vi.fn(),
-      })
+      }),
     );
 
     await waitFor(() => {
-      expect(
-        screen.getByRole("option", { name: "translated text (type1)" })
-      ).toBeInTheDocument();
+      expect(screen.getByRole("combobox")).toHaveValue(
+        "translated text (type1)",
+      );
     });
   });
 
@@ -129,15 +131,49 @@ describe("validationTypeSelect", () => {
         validationTypes,
         selectedValidationTypeId: undefined,
         onChange: vi.fn(),
-      })
+      }),
     );
 
-    await waitFor(() => {
+    await waitFor(async () => {
+      await userEvent.click(screen.getByRole("combobox"));
       const options = screen.getAllByRole("option");
       expect(options).toHaveLength(3);
       expect(options[0]).toHaveTextContent("Apple (a-type)");
       expect(options[1]).toHaveTextContent("Mango (m-type)");
       expect(options[2]).toHaveTextContent("Zebra (z-type)");
+    });
+  });
+
+  it("filters out validation types starting with classic_", async () => {
+    const validationTypes = [
+      {
+        children: [
+          { name: "recordInfo", children: [{ name: "id", value: "type1" }] },
+        ],
+      },
+      {
+        children: [
+          {
+            name: "recordInfo",
+            children: [{ name: "id", value: "classic_type2" }],
+          },
+        ],
+      },
+    ];
+
+    document.body.appendChild(
+      validationTypeSelect({
+        validationTypes,
+        selectedValidationTypeId: "type1",
+        onChange: vi.fn(),
+      }),
+    );
+
+    await waitFor(async () => {
+      await userEvent.click(screen.getByRole("combobox"));
+      const options = screen.getAllByRole("option");
+      expect(options).toHaveLength(1);
+      expect(options[0]).toHaveTextContent("type1");
     });
   });
 });

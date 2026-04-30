@@ -1,7 +1,7 @@
 export const API_URLS = [
-  "https://cora.epc.ub.uu.se/diva/rest",
-  "https://cora.epc.ub.uu.se/alvin/rest",
-  "https://cora.epc.ub.uu.se/systemone/rest",
+  "https://preview.diva.cora.epc.ub.uu.se/rest",
+  "https://preview.alvin.cora.epc.ub.uu.se/rest",
+  "https://preview.systemone.cora.epc.ub.uu.se/rest",
   "https://pre.diva-portal.org/rest",
 ];
 
@@ -18,7 +18,7 @@ export function getApiUrl() {
   const matchingUrl = API_URLS.find((url) => url.includes(hostname));
   return getSearchParamValue(
     "api-url",
-    matchingUrl ?? "https://cora.epc.ub.uu.se/diva/rest"
+    matchingUrl ?? "https://preview.diva.cora.epc.ub.uu.se/rest",
   );
 }
 

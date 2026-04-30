@@ -1,5 +1,6 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
+import filterableSelect from "../filterableSelect/filterableSelect.js";
 
 export default function validationTypeSelect({
   validationTypes,
@@ -10,34 +11,33 @@ export default function validationTypeSelect({
   root.className = "validation-type-select";
   root.textContent = "Select validation type: ";
 
-  const validationTypeSelect = document.createElement("select");
-  const optionPromises = validationTypes.map((validationType) => {
+  const select = filterableSelect({
+    selectedValue: selectedValidationTypeId,
+    onChange,
+  });
+
+  const filteredValidationTypes = validationTypes.filter((validationType) => {
+    const recordInfo = getFirstChildWithName(validationType, "recordInfo");
+    const id = getFirstChildWithName(recordInfo, "id").value;
+    return !id.startsWith("classic_");
+  });
+
+  const optionPromises = filteredValidationTypes.map((validationType) => {
     const textId = getFirstChildWithName(validationType, "textId");
     const recordInfo = getFirstChildWithName(validationType, "recordInfo");
     const validationTypeId = getFirstChildWithName(recordInfo, "id").value;
 
-    const option = document.createElement("option");
-    option.value = validationTypeId;
-    option.textContent = validationTypeId;
-    return getTextFromLink(textId).then((text) => {
-      option.textContent = `${text} (${validationTypeId})`;
-      return option;
-    });
+    return getTextFromLink(textId).then((text) => ({
+      value: validationTypeId,
+      label: `${text} (${validationTypeId})`,
+    }));
   });
 
   Promise.all(optionPromises).then((options) => {
-    options
-      .sort((a, b) => a.textContent.localeCompare(b.textContent))
-      .forEach((option) => validationTypeSelect.appendChild(option));
-    if (selectedValidationTypeId) {
-      validationTypeSelect.value = selectedValidationTypeId;
-    }
+    options.sort((a, b) => a.label.localeCompare(b.label));
+    select.setOptions(options);
   });
 
-  validationTypeSelect.addEventListener("change", (e) =>
-    onChange(e.target.value)
-  );
-
-  root.appendChild(validationTypeSelect);
+  root.appendChild(select);
   return root;
 }

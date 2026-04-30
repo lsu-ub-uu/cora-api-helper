@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Docs</title>
+    <title>Cora API Helper</title>
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
@@ -28,9 +28,9 @@
 
         <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
         <datalist id="api-url-list">
-          <option value="https://cora.epc.ub.uu.se/diva/rest"></option>
-          <option value="https://cora.epc.ub.uu.se/alvin/rest"></option>
-          <option value="https://cora.epc.ub.uu.se/systemone/rest"></option>
+          <option value="https://preview.diva.cora.epc.ub.uu.se/rest"></option>
+          <option value="https://preview.alvin.cora.epc.ub.uu.se/rest"></option>
+          <option value="https://preview.systemone.cora.epc.ub.uu.se/rest"></option>
           <option value="https://pre.diva-portal.org/rest"></option>
         </datalist>
       </form>
@@ -43,7 +43,7 @@
     <script>
       const params = new URLSearchParams(window.location.search);
 
-      const apiUrl = params.get('api-url') ?? "https://cora.epc.ub.uu.se/diva/rest";
+      const apiUrl = params.get('api-url') ?? "https://preview.diva.cora.epc.ub.uu.se/rest";
       const format = params.get('format') ?? "xml";
       const lang = params.get('lang') ?? "en";
       console.log('API URL:', apiUrl);

@@ -4,6 +4,10 @@ import { screen, waitFor } from "@testing-library/dom";
 import dataFormat from "../dataFormat/dataFormat";
 import userEvent from "@testing-library/user-event";
 
+vi.mock("../../utils/getTextFromLink.js", () => ({
+  default: vi.fn((textId) => Promise.resolve(textId?.value ?? "text")),
+}));
+
 vi.mock("../dataFormat/dataFormat.js", () => ({
   default: vi.fn(() => {
     const root = document.createElement("div");
@@ -74,7 +78,7 @@ describe("createOrUpdate", () => {
         metadataPool,
         recordTypeId: "person",
         method: "create",
-      })
+      }),
     );
 
     expect(screen.getByText("Request config")).toBeInTheDocument();
@@ -97,7 +101,7 @@ describe("createOrUpdate", () => {
         metadataPool,
         recordTypeId: "person",
         method: "update",
-      })
+      }),
     );
 
     expect(dataFormat).toHaveBeenCalledWith({
@@ -118,28 +122,24 @@ describe("createOrUpdate", () => {
         metadataPool: {},
         recordTypeId: "person",
         method: "create",
-      })
+      }),
     );
 
     expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(dataFormat).toHaveBeenCalledWith(
       expect.objectContaining({
         rootGroupId: "personNewGroup",
-      })
+      }),
     );
 
-    await waitFor(() =>
-      expect(screen.getAllByRole("option")).toHaveLength(2)
-    );
-    await userEvent.selectOptions(
-      screen.getByRole("combobox"),
-      "anotherValidationType"
-    );
+    await userEvent.click(screen.getByRole("combobox"));
+    await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(2));
+    await userEvent.click(screen.getByText(/anotherValidationType/));
 
     expect(dataFormat).toHaveBeenCalledWith(
       expect.objectContaining({
         rootGroupId: "anotherNewGroup",
-      })
+      }),
     );
   });
 });
