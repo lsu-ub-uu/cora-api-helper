@@ -125,7 +125,9 @@ describe("createOrUpdate", () => {
       }),
     );
 
-    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByRole("combobox")).toBeInTheDocument(),
+    );
     expect(dataFormat).toHaveBeenCalledWith(
       expect.objectContaining({
         rootGroupId: "personNewGroup",

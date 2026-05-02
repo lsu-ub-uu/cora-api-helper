@@ -36,10 +36,11 @@ describe("validationTypeSelect", () => {
       }),
     );
 
-    expect(screen.getByRole("combobox")).toBeInTheDocument();
     await waitFor(() => {
-      const input = screen.getByRole("combobox");
-      expect(input).toHaveValue("translated text (type1)");
+      expect(screen.getByRole("combobox")).toBeInTheDocument();
+      expect(screen.getByRole("combobox")).toHaveValue(
+        "translated text (type1)",
+      );
     });
   });
 

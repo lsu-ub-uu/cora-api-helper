@@ -13,7 +13,7 @@ export default function expandButton({ onClick }) {
     root.textContent = expanded ? "-" : "+";
     root.setAttribute(
       "aria-label",
-      expanded ? "Collapse element" : "Expand element"
+      expanded ? "Collapse element" : "Expand element",
     );
   }
 

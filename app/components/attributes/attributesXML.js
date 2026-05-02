@@ -1,3 +1,4 @@
+import { el } from "../../utils/el.js";
 import getAllChildrenWithName from "../../utils/getAllChildrenWithName.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import dataName from "../dataName/dataName.js";
@@ -6,30 +7,25 @@ import itemCollection from "../itemCollection/itemCollection.js";
 export default function attributes({ metadataPool, metadata, isRepeating }) {
   const attributeReferences = getFirstChildWithName(
     metadata,
-    "attributeReferences"
+    "attributeReferences",
   );
 
-  const root = document.createElement("span");
+  const refs = attributeReferences
+    ? getAllChildrenWithName(attributeReferences, "ref")
+    : [];
 
-  if (attributeReferences) {
-    const refs = getAllChildrenWithName(attributeReferences, "ref");
-
-    refs.forEach((ref) => {
-      const attributeElement = createAttribute({
-        metadataPool,
-        ref,
-      });
-      root.appendChild(attributeElement);
-    });
-  }
-
-  if (isRepeating) {
-    const repeatSpan = document.createElement("span");
-    repeatSpan.innerHTML = ' repeatId=<span class="regex">"/.+/"</span>';
-    root.appendChild(repeatSpan);
-  }
-
-  return root;
+  return el("span", {
+    children: [
+      ...refs.map((ref) => createAttribute({ metadataPool, ref })),
+      isRepeating &&
+        el("span", {
+          children: [
+            " repeatId=",
+            el("span", { className: "regex", textContent: '"/.+/"' }),
+          ],
+        }),
+    ],
+  });
 }
 
 function createAttribute({ metadataPool, ref }) {
@@ -37,39 +33,33 @@ function createAttribute({ metadataPool, ref }) {
   const attributeMetadata = metadataPool[linkedRecordId];
   const collectionReference = getFirstChildWithName(
     attributeMetadata,
-    "refCollection"
+    "refCollection",
   );
 
   const finalValue = getFirstChildWithName(
     attributeMetadata,
-    "finalValue"
+    "finalValue",
   )?.value;
 
-  const root = document.createElement("span");
-  root.className = "attributes";
-
-  const attributeKey = document.createElement("span");
-  attributeKey.appendChild(document.createTextNode(" "));
-  attributeKey.appendChild(dataName({ metadata: attributeMetadata }));
-  attributeKey.appendChild(document.createTextNode("="));
-  root.appendChild(attributeKey);
-
-  if (finalValue) {
-    const finalValueSpan = document.createElement("span");
-    finalValueSpan.className = "final-value";
-    finalValueSpan.innerHTML = `"${finalValue}"`;
-    root.appendChild(finalValueSpan);
-  } else {
-    const collectionItemsSpan = document.createElement("span");
-    collectionItemsSpan.className = "collection-value";
-    collectionItemsSpan.appendChild(document.createTextNode('"'));
-    collectionItemsSpan.appendChild(
-      itemCollection({ metadataPool, collectionReference })
-    );
-    collectionItemsSpan.appendChild(document.createTextNode('"'));
-
-    root.appendChild(collectionItemsSpan);
-  }
-
-  return root;
+  return el("span", {
+    className: "attributes",
+    children: [
+      el("span", {
+        children: [" ", dataName({ metadata: attributeMetadata }), "="],
+      }),
+      finalValue
+        ? el("span", {
+            className: "final-value",
+            textContent: `"${finalValue}"`,
+          })
+        : el("span", {
+            className: "collection-value",
+            children: [
+              '"',
+              itemCollection({ metadataPool, collectionReference }),
+              '"',
+            ],
+          }),
+    ],
+  });
 }
