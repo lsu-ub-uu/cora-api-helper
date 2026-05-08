@@ -4,6 +4,7 @@ import textVariable from "../textVariable/textVariable.js";
 import recordLink from "../recordLink/recordLink.js";
 import collectionVariable from "../collectionVariable/collectionVariable.js";
 import numberVariable from "../numberVariable/numberVariable.js";
+import { el } from "../../utils/el.js";
 
 export default function childReference({
   metadataPool,
@@ -71,7 +72,5 @@ export default function childReference({
     });
   }
 
-  const root = document.createElement("div");
-  root.innerHTML = nameInData;
-  return root;
+  return el("div", { textContent: nameInData });
 }

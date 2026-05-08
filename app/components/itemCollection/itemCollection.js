@@ -1,16 +1,36 @@
+import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import dataName from "../dataName/dataName.js";
 
 const MAX = 12;
 
-export default function itemCollection({ metadataPool, collectionReference }) {
+export default function itemCollection({
+  metadata,
+  metadataPool,
+  collectionReference,
+}) {
   const collectionItems = extractCollectionItems({
     metadataPool,
     collectionReference,
   });
 
-  const root = document.createElement("span");
-  root.className = "item-collection";
+  const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
+  if (finalValue) {
+    const finalValueMetadata = collectionItems.find(
+      (item) => getFirstChildWithName(item, "nameInData").value === finalValue,
+    );
+
+    if (finalValueMetadata) {
+      return el("span", {
+        className: "final-value",
+        children: dataName({ metadata: finalValueMetadata }),
+      });
+    } else {
+      return el("span", { className: "final-value", textContent: finalValue });
+    }
+  }
+
+  const root = el("span", { className: "collection-value" });
 
   let expanded = false;
 
@@ -19,8 +39,8 @@ export default function itemCollection({ metadataPool, collectionReference }) {
 
     root.appendChild(
       renderCollectionItems(
-        expanded ? collectionItems : collectionItems.slice(0, MAX)
-      )
+        expanded ? collectionItems : collectionItems.slice(0, MAX),
+      ),
     );
 
     if (collectionItems.length > MAX) {
@@ -39,15 +59,15 @@ export default function itemCollection({ metadataPool, collectionReference }) {
   return root;
 }
 
-function extractCollectionItems({ metadataPool, collectionReference }) {
+export function extractCollectionItems({ metadataPool, collectionReference }) {
   const itemCollectionId = getFirstChildWithName(
     collectionReference,
-    "linkedRecordId"
+    "linkedRecordId",
   )?.value;
   const itemCollectionMetadata = metadataPool[itemCollectionId];
   const collectionItemReferences = getFirstChildWithName(
     itemCollectionMetadata,
-    "collectionItemReferences"
+    "collectionItemReferences",
   )?.children;
 
   if (!collectionItemReferences) {
@@ -84,7 +104,7 @@ function renderExpandButton({ expanded }) {
   root.setAttribute("aria-expanded", expanded ? "true" : "false");
   root.setAttribute(
     "aria-label",
-    expanded ? "Collapse collection items" : "Expand collection items"
+    expanded ? "Collapse collection items" : "Expand collection items",
   );
 
   return root;

@@ -22,7 +22,7 @@ export default function elementXML({
     "<",
     dataName({ metadata }),
     attributes({ metadataPool, metadata, isRepeating }),
-    ">",
+    el("span", { textContent: ">", className: "closing-bracket" }),
     multiplicity({ repeatMin, repeatMax }),
     el("div", { className: "indent", children }),
     el("span", {

@@ -1,11 +1,12 @@
 import navigation from "./components/navigation/navigation.js";
 import recordType from "./components/recordType/recordType.js";
 import listRecordType from "./services/listRecordType.js";
+import { el } from "./utils/el.js";
 import { getRecordTypeId } from "./utils/routing.js";
 
-const { recordTypePool, validationTypePool, metadataPool } = await initPools();
-
 const root = document.getElementById("app");
+
+const { recordTypePool, validationTypePool, metadataPool } = await initPools();
 
 window.addEventListener("popstate", () => {
   render();
@@ -50,7 +51,7 @@ function render() {
       recordTypePool,
       metadataPool,
       navigate: () => render(),
-    })
+    }),
   );
 
   if (recordTypeId) {
@@ -60,16 +61,25 @@ function render() {
         recordTypePool,
         validationTypePool,
         metadataPool,
-      })
+      }),
     );
   } else {
-    const welcomeMessage = document.createElement("div");
-    welcomeMessage.innerHTML = `
-    <h2>Welcome to the Cora API helper!</h2>
-    <p>This tool helps you explore the Cora REST API.</p>
-    <p>Select a record type from the navigation to the left to begin. ⬅️</p>
-    <p>You can set your preferred data format, language and API URL in the settings at the top right. ↗️</p>
-    `;
+    const welcomeMessage = el("div", {
+      children: [
+        el("h2", { textContent: "Welcome to the Cora API helper!" }),
+        el("p", {
+          textContent: "This tool helps you explore the Cora REST API.",
+        }),
+        el("p", {
+          textContent:
+            "Select a record type from the navigation to the left to begin. ⬅️",
+        }),
+        el("p", {
+          textContent:
+            "You can set your preferred data format, language and API URL in the settings at the top right. ↗️",
+        }),
+      ],
+    });
 
     root.appendChild(welcomeMessage);
   }

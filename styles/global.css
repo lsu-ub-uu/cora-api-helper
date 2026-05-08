@@ -270,20 +270,13 @@ select {
 }
 
 .element.collapsed {
-  .data-name::after {
+  .closing-bracket::before {
     content: " ...";
   }
 
-  .multiplicity {
-    display: none;
-  }
-  .attributes {
-    display: none;
-  }
-
-  .indent {
-    display: none;
-  }
+  .repead-id-attribute,
+  .multiplicity,
+  .indent,
   .closing-tag {
     display: none;
   }

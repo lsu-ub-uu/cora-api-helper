@@ -45,11 +45,6 @@ function createAttribute({ metadataPool, ref, lastAttribute }) {
     "refCollection",
   );
 
-  const finalValue = getFirstChildWithName(
-    attributeMetadata,
-    "finalValue",
-  )?.value;
-
   return el("div", {
     className: "attributes indent",
     children: [
@@ -57,19 +52,17 @@ function createAttribute({ metadataPool, ref, lastAttribute }) {
         className: "json-key",
         children: ['"', dataName({ metadata: attributeMetadata }), '": '],
       }),
-      finalValue
-        ? el("span", {
-            className: "final-value",
-            textContent: `"${finalValue}"`,
-          })
-        : el("span", {
-            className: "collection-value",
-            children: [
-              '"',
-              itemCollection({ metadataPool, collectionReference }),
-              '"',
-            ],
+      el("span", {
+        children: [
+          '"',
+          itemCollection({
+            metadata: attributeMetadata,
+            metadataPool,
+            collectionReference,
           }),
+          '"',
+        ],
+      }),
       !lastAttribute && ",",
     ],
   });

@@ -3,12 +3,21 @@ import getFirstChildWithName from "../../utils/getFirstChildWithName";
 import attributes from "./attributesXML";
 
 vi.mock("../itemCollection/itemCollection.js", () => ({
-  default: vi.fn(({ collectionReference }) =>
-    getFirstChildWithName(collectionReference, "linkedRecordId").value ===
-    "colorCollection"
+  default: vi.fn(({ metadata, collectionReference }) => {
+    const finalValue = metadata?.children?.find(
+      (c) => c.name === "finalValue",
+    )?.value;
+    if (finalValue) {
+      const span = document.createElement("span");
+      span.className = "final-value";
+      span.textContent = finalValue;
+      return span;
+    }
+    return getFirstChildWithName(collectionReference, "linkedRecordId")
+      .value === "colorCollection"
       ? document.createTextNode("red | blue")
-      : document.createTextNode("small | large")
-  ),
+      : document.createTextNode("small | large");
+  }),
 }));
 
 describe("attributes XML", () => {
@@ -56,7 +65,7 @@ describe("attributes XML", () => {
     document.body.appendChild(attributes({ metadataPool, metadata }));
 
     expect(document.body.textContent).toEqual(
-      ' color="red | blue" size="small | large"'
+      ' color="red | blue" size="small | large"',
     );
   });
 
@@ -121,11 +130,11 @@ describe("attributes XML", () => {
     };
 
     document.body.appendChild(
-      attributes({ metadataPool, metadata, isRepeating: true })
+      attributes({ metadataPool, metadata, isRepeating: true }),
     );
 
     expect(document.body.textContent).toEqual(
-      ' color="red | blue" repeatId="/.+/"'
+      ' color="red | blue" repeatId="/.+/"',
     );
   });
 });

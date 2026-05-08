@@ -19,6 +19,7 @@ export default function attributes({ metadataPool, metadata, isRepeating }) {
       ...refs.map((ref) => createAttribute({ metadataPool, ref })),
       isRepeating &&
         el("span", {
+          className: "repead-id-attribute",
           children: [
             " repeatId=",
             el("span", { className: "regex", textContent: '"/.+/"' }),
@@ -36,30 +37,23 @@ function createAttribute({ metadataPool, ref }) {
     "refCollection",
   );
 
-  const finalValue = getFirstChildWithName(
-    attributeMetadata,
-    "finalValue",
-  )?.value;
-
   return el("span", {
     className: "attributes",
     children: [
       el("span", {
         children: [" ", dataName({ metadata: attributeMetadata }), "="],
       }),
-      finalValue
-        ? el("span", {
-            className: "final-value",
-            textContent: `"${finalValue}"`,
-          })
-        : el("span", {
-            className: "collection-value",
-            children: [
-              '"',
-              itemCollection({ metadataPool, collectionReference }),
-              '"',
-            ],
+      el("span", {
+        children: [
+          '"',
+          itemCollection({
+            metadata: attributeMetadata,
+            metadataPool,
+            collectionReference,
           }),
+          '"',
+        ],
+      }),
     ],
   });
 }

@@ -3,12 +3,21 @@ import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import attributesJSON from "./attributesJSON.js";
 
 vi.mock("../itemCollection/itemCollection.js", () => ({
-  default: vi.fn(({ collectionReference }) =>
-    getFirstChildWithName(collectionReference, "linkedRecordId").value ===
-    "colorCollection"
+  default: vi.fn(({ metadata, collectionReference }) => {
+    const finalValue = metadata?.children?.find(
+      (c) => c.name === "finalValue",
+    )?.value;
+    if (finalValue) {
+      const span = document.createElement("span");
+      span.className = "final-value";
+      span.textContent = finalValue;
+      return span;
+    }
+    return getFirstChildWithName(collectionReference, "linkedRecordId")
+      .value === "colorCollection"
       ? document.createTextNode("red | blue")
-      : document.createTextNode("small | large")
-  ),
+      : document.createTextNode("small | large");
+  }),
 }));
 
 describe("attributesJSON", () => {
@@ -55,7 +64,7 @@ describe("attributesJSON", () => {
 
     document.body.appendChild(attributesJSON({ metadataPool, metadata }));
     expect(document.body.textContent).toEqual(
-      '"attributes": {"color": "red | blue","size": "small | large"},'
+      '"attributes": {"color": "red | blue","size": "small | large"},',
     );
   });
 
@@ -90,7 +99,7 @@ describe("attributesJSON", () => {
     document.body.appendChild(attributesJSON({ metadataPool, metadata }));
 
     expect(document.body.textContent).toEqual(
-      '"attributes": {"color": "red"},'
+      '"attributes": {"color": "red"},',
     );
   });
 });

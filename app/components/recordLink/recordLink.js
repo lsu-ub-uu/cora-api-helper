@@ -13,7 +13,7 @@ export default function recordLink({
   const linkedRecordType = getFirstChildWithName(metadata, "linkedRecordType");
   const linkedRecordTypeValue = getFirstChildWithName(
     linkedRecordType,
-    "linkedRecordId"
+    "linkedRecordId",
   )?.value;
   const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
 

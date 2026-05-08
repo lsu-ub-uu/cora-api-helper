@@ -36,7 +36,7 @@ describe("itemCollection", () => {
     };
 
     document.body.appendChild(
-      itemCollection({ metadataPool, collectionReference })
+      itemCollection({ metadata: {}, metadataPool, collectionReference }),
     );
 
     expect(document.body.textContent).toEqual("blue | red | green");
@@ -68,11 +68,11 @@ describe("itemCollection", () => {
     };
 
     document.body.appendChild(
-      itemCollection({ metadataPool, collectionReference })
+      itemCollection({ metadata: {}, metadataPool, collectionReference }),
     );
 
     expect(document.body.textContent).toEqual(
-      "Item 0 | Item 1 | Item 2 | Item 3 | Item 4 | Item 5 | Item 6 | Item 7 | Item 8 | Item 9 | Item 10 | Item 11..."
+      "Item 0 | Item 1 | Item 2 | Item 3 | Item 4 | Item 5 | Item 6 | Item 7 | Item 8 | Item 9 | Item 10 | Item 11...",
     );
 
     screen
@@ -82,7 +82,7 @@ describe("itemCollection", () => {
       .click();
 
     expect(document.body.textContent).toEqual(
-      "Item 0 | Item 1 | Item 2 | Item 3 | Item 4 | Item 5 | Item 6 | Item 7 | Item 8 | Item 9 | Item 10 | Item 11 | Item 12 | Item 13 | Item 14—"
+      "Item 0 | Item 1 | Item 2 | Item 3 | Item 4 | Item 5 | Item 6 | Item 7 | Item 8 | Item 9 | Item 10 | Item 11 | Item 12 | Item 13 | Item 14—",
     );
 
     screen
@@ -92,7 +92,7 @@ describe("itemCollection", () => {
       .click();
 
     expect(document.body.textContent).toEqual(
-      "Item 0 | Item 1 | Item 2 | Item 3 | Item 4 | Item 5 | Item 6 | Item 7 | Item 8 | Item 9 | Item 10 | Item 11..."
+      "Item 0 | Item 1 | Item 2 | Item 3 | Item 4 | Item 5 | Item 6 | Item 7 | Item 8 | Item 9 | Item 10 | Item 11...",
     );
   });
 });
