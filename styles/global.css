@@ -86,6 +86,11 @@ button {
   font-family: inherit;
 }
 
+p {
+  max-width: 100ch;
+  line-height: 1.5;
+}
+
 select {
   margin-bottom: 1rem;
 }
@@ -172,6 +177,13 @@ select {
   background-color: var(--color-background);
   border-radius: 0.5rem;
   margin-bottom: 1rem;
+  white-space: pre-wrap;
+}
+
+.highlight {
+  background-color: rgba(255, 255, 0, 0.3);
+  border-radius: 2px;
+  padding: 0 2px;
 }
 
 .data-format {
@@ -374,29 +386,27 @@ summary {
 }
 
 .main-nav {
+  .main-nav-item {
+    margin-bottom: 1.5rem;
+  }
   h2 {
     font-size: 1.2rem;
   }
+
   h3 {
     font-size: 1rem;
     margin-top: 0.5rem;
   }
   ul {
     list-style: none;
-    padding: 0;
-  }
-
-  ul ul {
     padding-left: 1rem;
   }
   li {
     margin-top: 0.25rem;
   }
   a {
-    font-size: 1rem;
     text-decoration: none;
     color: var(--color-link);
-    padding: 0.2rem 0.5rem;
     border-radius: 4px;
     &[aria-current="page"] {
       color: var(--color-link-active);

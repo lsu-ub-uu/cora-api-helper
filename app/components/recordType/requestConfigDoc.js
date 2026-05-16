@@ -1,3 +1,4 @@
+import { el } from "../../utils/el.js";
 import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 
 export default function requestConfigDoc({ recordTypeId, method }) {
@@ -9,35 +10,32 @@ export default function requestConfigDoc({ recordTypeId, method }) {
     method !== "create" ? "/{id}" : ""
   }`;
 
-  const root = document.createDocumentFragment();
-  const heading = document.createElement("h3");
-  heading.textContent = "Request config";
-  root.appendChild(heading);
-
-  const codeBlock = document.createElement("div");
-  codeBlock.className = "code-block";
-
   const httpMethod =
     method === "read" ? "GET" : method === "delete" ? "DELETE" : "POST";
+  const root = document.createDocumentFragment();
+  root.appendChild(el("h3", { textContent: "Request config" }));
+  root.appendChild(
+    el("div", {
+      className: "code-block",
+      children: [
+        el("strong", { textContent: httpMethod }),
+        ` ${requestUrl}`,
+        el("br"),
+        el("br"),
+        method !== "delete" &&
+          el("div", {
+            textContent: `Accept: application/vnd.cora.record+${format}`,
+          }),
+        (method === "create" || method === "update") &&
+          el("div", {
+            textContent: `Content-Type: application/vnd.cora.recordGroup+${format}`,
+          }),
+        el("div", {
+          textContent: "AuthToken: xxxx-xxxx-xxxx-xxxx",
+        }),
+      ],
+    }),
+  );
 
-  codeBlock.innerHTML = `
-        <strong>${httpMethod}</strong> ${requestUrl}
-        <br />
-        <br />
-       
-         ${
-           method !== "delete"
-             ? `<div><strong>Accept:</strong> application/vnd.cora.record+${format}</div>`
-             : ""
-         }
-        ${
-          (method === "create") | (method === "update")
-            ? `<div><strong>Content-Type:</strong> application/vnd.cora.recordGroup+${format}</div>`
-            : ""
-        }
-        <div><strong>AuthToken:</strong> xxxx-xxxx-xxxx-xxxx</div>
-  `;
-
-  root.appendChild(codeBlock);
   return root;
 }

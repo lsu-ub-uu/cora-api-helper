@@ -2,16 +2,16 @@ import { describe, expect, it } from "vitest";
 import { normalize } from "./normalise";
 
 describe("normalize", () => {
-  it("trims whitespace from each line", () => {
-    expect(normalize("  hello  \n  world  ")).toBe("hello\nworld");
+  it("collapses all whitespace into single spaces", () => {
+    expect(normalize("  hello  \n  world  ")).toBe("hello world");
   });
 
-  it("removes empty lines", () => {
-    expect(normalize("hello\n\n\nworld")).toBe("hello\nworld");
+  it("collapses multiple newlines", () => {
+    expect(normalize("hello\n\n\nworld")).toBe("hello world");
   });
 
-  it("removes lines that are only whitespace", () => {
-    expect(normalize("hello\n   \nworld")).toBe("hello\nworld");
+  it("collapses lines that are only whitespace", () => {
+    expect(normalize("hello\n   \nworld")).toBe("hello world");
   });
 
   it("handles a single line", () => {

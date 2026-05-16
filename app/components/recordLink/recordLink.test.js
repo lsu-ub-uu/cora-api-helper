@@ -28,16 +28,13 @@ describe("recordLink", () => {
         metadata,
         repeatMin: "0",
         repeatMax: "1",
-      })
+      }),
     );
 
     expect(normalize(document.body.textContent)).toEqual(
       normalize(`
-        -<animal>(0 - 1)
-            <linkedRecordType>animal</linkedRecordType>
-            <linkedRecordId>{id}</linkedRecordId>
-        </animal>
-    `)
+        -<animal>(0 - 1)<linkedRecordType>animal</linkedRecordType><linkedRecordId>{id}</linkedRecordId></animal>
+    `),
     );
   });
 
@@ -64,16 +61,13 @@ describe("recordLink", () => {
         metadata,
         repeatMin: "0",
         repeatMax: "1",
-      })
+      }),
     );
 
     expect(normalize(document.body.textContent)).toEqual(
       normalize(`
-        -<animal>(0 - 1)
-            <linkedRecordType>animal</linkedRecordType>
-            <linkedRecordId>dog</linkedRecordId>
-        </animal>
-        `)
+        -<animal>(0 - 1)<linkedRecordType>animal</linkedRecordType><linkedRecordId>dog</linkedRecordId></animal>
+        `),
     );
   });
 
@@ -100,24 +94,12 @@ describe("recordLink", () => {
         metadata,
         repeatMin: "0",
         repeatMax: "1",
-      })
+      }),
     );
 
     expect(normalize(document.body.textContent)).toEqual(
       normalize(`
-        -{"name": "animal",(0 - 1)
-            "children": [
-                {
-                    "name": "linkedRecordType",
-                    "value": "animal"
-                },
-                {
-                    "name": "linkedRecordId",
-                    "value": "{id}"
-                }
-            ]
-        }
-        `)
+        -{"name": "animal",(0 - 1)"children": [{"name": "linkedRecordType","value": "animal"}, {"name": "linkedRecordId","value": "{id}"}]}`),
     );
   });
 });

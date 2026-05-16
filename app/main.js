@@ -1,8 +1,9 @@
+import authentication from "./components/authentication/authentication.js";
 import navigation from "./components/navigation/navigation.js";
 import recordType from "./components/recordType/recordType.js";
 import listRecordType from "./services/listRecordType.js";
 import { el } from "./utils/el.js";
-import { getRecordTypeId } from "./utils/routing.js";
+import { getCurrentRoute, getRecordTypeId } from "./utils/routing.js";
 
 const root = document.getElementById("app");
 
@@ -54,7 +55,9 @@ function render() {
     }),
   );
 
-  if (recordTypeId) {
+  const currentRoute = getCurrentRoute();
+
+  if (currentRoute === "recordType" && recordTypeId) {
     root.appendChild(
       recordType({
         recordTypeId,
@@ -63,6 +66,8 @@ function render() {
         metadataPool,
       }),
     );
+  } else if (currentRoute === "authentication") {
+    root.appendChild(authentication());
   } else {
     const welcomeMessage = el("div", {
       children: [

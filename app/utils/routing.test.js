@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { getRecordTypeId, getBasePath } from "./routing";
+import { getRecordTypeId, getBasePath, getCurrentRoute } from "./routing";
 
 describe("routing", () => {
   describe("getRecordTypeId", () => {
@@ -67,6 +67,59 @@ describe("routing", () => {
       });
       const basePath = getBasePath();
       expect(basePath).toBe("/api-helper");
+    });
+
+    it("authentication in path and no base path", () => {
+      vi.stubGlobal("location", {
+        pathname: "/authentication/someAuthId",
+      });
+      const basePath = getBasePath();
+      expect(basePath).toBe("");
+    });
+
+    it("authentication path with base path", () => {
+      vi.stubGlobal("location", {
+        pathname: "/api-helper/authentication/someAuthId",
+      });
+      const basePath = getBasePath();
+      expect(basePath).toBe("/api-helper");
+    });
+  });
+
+  describe("getCurrentRoute", () => {
+    it("returns undefined when no route matches", () => {
+      vi.stubGlobal("location", {
+        pathname: "/",
+      });
+      expect(getCurrentRoute()).toBeUndefined();
+    });
+
+    it("returns recordType when path contains recordType", () => {
+      vi.stubGlobal("location", {
+        pathname: "/recordType/someRecordTypeId",
+      });
+      expect(getCurrentRoute()).toBe("recordType");
+    });
+
+    it("returns authentication when path contains authentication", () => {
+      vi.stubGlobal("location", {
+        pathname: "/authentication/someAuthId",
+      });
+      expect(getCurrentRoute()).toBe("authentication");
+    });
+
+    it("returns recordType with base path", () => {
+      vi.stubGlobal("location", {
+        pathname: "/api-helper/recordType/someRecordTypeId",
+      });
+      expect(getCurrentRoute()).toBe("recordType");
+    });
+
+    it("returns authentication with base path", () => {
+      vi.stubGlobal("location", {
+        pathname: "/api-helper/authentication/someAuthId",
+      });
+      expect(getCurrentRoute()).toBe("authentication");
     });
   });
 });

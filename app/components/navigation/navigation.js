@@ -1,3 +1,4 @@
+import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
 import { getBasePath } from "../../utils/routing.js";
@@ -8,13 +9,11 @@ export default function navigation({
   path,
   navigate,
 }) {
-  const nav = document.createElement("nav");
-
   const groupOfRecordTypeCollection =
     metadataPool["groupOfRecordTypeCollection"];
   const collectionItemReferences = getFirstChildWithName(
     groupOfRecordTypeCollection,
-    "collectionItemReferences"
+    "collectionItemReferences",
   );
 
   const groups = collectionItemReferences.children.map((itemRef) => {
@@ -22,17 +21,44 @@ export default function navigation({
     return metadataPool[itemRefId];
   });
 
-  nav.className = "main-nav";
-  nav.appendChild(heading());
-  nav.appendChild(groupList({ recordTypePool, path, navigate, groups }));
-
-  return nav;
+  return el("nav", {
+    className: "main-nav",
+    children: [
+      authenticationLink({ path, navigate }),
+      recordTypesNav({ recordTypePool, path, navigate, groups }),
+    ],
+  });
 }
 
-function heading() {
-  const heading = document.createElement("h2");
-  heading.textContent = "Record Types";
-  return heading;
+function authenticationLink({ path, navigate }) {
+  const basePath = getBasePath();
+  const href = `${basePath}/authentication`;
+
+  return el("h2", {
+    className: "main-nav-item",
+    children: el("a", {
+      href,
+      textContent: "Authentication",
+      "aria-current":
+        path.startsWith(href + "/") || path === href ? "page" : null,
+      onClick: (e) => {
+        e.preventDefault();
+        const url = href + window.location.search;
+        history.pushState({}, "", url);
+        navigate();
+      },
+    }),
+  });
+}
+
+function recordTypesNav({ recordTypePool, path, navigate, groups }) {
+  return el("div", {
+    className: "main-nav-item",
+    children: [
+      el("h2", { textContent: "Record Types" }),
+      groupList({ recordTypePool, path, navigate, groups }),
+    ],
+  });
 }
 
 function groupList({ recordTypePool, path, navigate, groups }) {
@@ -45,7 +71,7 @@ function groupList({ recordTypePool, path, navigate, groups }) {
         recordTypePool,
         path,
         navigate,
-      })
+      }),
     );
   });
 
@@ -57,7 +83,7 @@ function groupListItem({ group, recordTypePool, path, navigate }) {
     const recordType = recordTypePool[recordTypeId];
     const groupOfRecordType = getFirstChildWithName(
       recordType,
-      "groupOfRecordType"
+      "groupOfRecordType",
     )?.value;
 
     const groupName = getFirstChildWithName(group, "nameInData")?.value;
@@ -73,7 +99,7 @@ function groupListItem({ group, recordTypePool, path, navigate }) {
   const recordTypeList = document.createElement("ul");
   recordTypeIds.forEach((recordTypeId) => {
     recordTypeList.appendChild(
-      recordTypeLi({ recordTypeId, recordTypePool, path, navigate })
+      recordTypeLi({ recordTypeId, recordTypePool, path, navigate }),
     );
   });
   groupLi.appendChild(recordTypeList);

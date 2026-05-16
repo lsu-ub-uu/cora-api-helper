@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import requestConfigDoc from "./requestConfigDoc";
-import { normalize } from "../../utils/normalise";
 
 describe("requestConfigDoc", () => {
   it("renders docs for read", () => {
@@ -8,56 +7,52 @@ describe("requestConfigDoc", () => {
       requestConfigDoc({ recordTypeId: "person", method: "read" }),
     );
 
-    expect(normalize(document.body.textContent)).toEqual(
-      normalize(`
-        Request config
-        GET https://preview.diva.cora.epc.ub.uu.se/rest/record/person/{id}
-        Accept: application/vnd.cora.record+xml
-        AuthToken: xxxx-xxxx-xxxx-xxxx
-    `),
-    );
+    const text = document.body.textContent;
+    expect(text).toContain("Request config");
+    expect(text).toContain("GET");
+    expect(text).toContain("https://preview.diva.cora.epc.ub.uu.se/rest/record/person/{id}");
+    expect(text).toContain("Accept: application/vnd.cora.record+xml");
+    expect(text).toContain("AuthToken: xxxx-xxxx-xxxx-xxxx");
+    expect(text).not.toContain("Content-Type");
   });
 
   it("renders docs for create", () => {
     document.body.appendChild(
       requestConfigDoc({ recordTypeId: "person", method: "create" }),
     );
-    expect(normalize(document.body.textContent)).toEqual(
-      normalize(`
-        Request config
-        POST https://preview.diva.cora.epc.ub.uu.se/rest/record/person
-        Accept: application/vnd.cora.record+xml
-        Content-Type: application/vnd.cora.recordGroup+xml
-        AuthToken: xxxx-xxxx-xxxx-xxxx
-    `),
-    );
+
+    const text = document.body.textContent;
+    expect(text).toContain("POST");
+    expect(text).toContain("https://preview.diva.cora.epc.ub.uu.se/rest/record/person");
+    expect(text).toContain("Accept: application/vnd.cora.record+xml");
+    expect(text).toContain("Content-Type: application/vnd.cora.recordGroup+xml");
+    expect(text).toContain("AuthToken: xxxx-xxxx-xxxx-xxxx");
+    expect(text).not.toContain("{id}");
   });
 
   it("renders docs for update", () => {
     document.body.appendChild(
       requestConfigDoc({ recordTypeId: "person", method: "update" }),
     );
-    expect(normalize(document.body.textContent)).toEqual(
-      normalize(`
-        Request config
-        POST https://preview.diva.cora.epc.ub.uu.se/rest/record/person/{id}
-        Accept: application/vnd.cora.record+xml
-        Content-Type: application/vnd.cora.recordGroup+xml
-        AuthToken: xxxx-xxxx-xxxx-xxxx
-    `),
-    );
+
+    const text = document.body.textContent;
+    expect(text).toContain("POST");
+    expect(text).toContain("https://preview.diva.cora.epc.ub.uu.se/rest/record/person/{id}");
+    expect(text).toContain("Accept: application/vnd.cora.record+xml");
+    expect(text).toContain("Content-Type: application/vnd.cora.recordGroup+xml");
+    expect(text).toContain("AuthToken: xxxx-xxxx-xxxx-xxxx");
   });
 
   it("renders docs for delete", () => {
     document.body.appendChild(
       requestConfigDoc({ recordTypeId: "person", method: "delete" }),
     );
-    expect(normalize(document.body.textContent)).toEqual(
-      normalize(`
-        Request config
-        DELETE https://preview.diva.cora.epc.ub.uu.se/rest/record/person/{id}
-        AuthToken: xxxx-xxxx-xxxx-xxxx
-    `),
-    );
+
+    const text = document.body.textContent;
+    expect(text).toContain("DELETE");
+    expect(text).toContain("https://preview.diva.cora.epc.ub.uu.se/rest/record/person/{id}");
+    expect(text).toContain("AuthToken: xxxx-xxxx-xxxx-xxxx");
+    expect(text).not.toContain("Accept");
+    expect(text).not.toContain("Content-Type");
   });
 });

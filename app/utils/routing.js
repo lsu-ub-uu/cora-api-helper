@@ -1,3 +1,5 @@
+const ROUTES = ["recordType", "authentication"];
+
 export function getRecordTypeId() {
   const pathParts = window.location.pathname.split("/");
   const recordTypeIndex = pathParts.indexOf("recordType");
@@ -8,14 +10,14 @@ export function getRecordTypeId() {
 
 export function getBasePath() {
   const pathParts = window.location.pathname.split("/").filter(Boolean);
-  const recordTypeIndex = pathParts.indexOf("recordType");
+  const routeIndex = findRouteIndex(pathParts);
 
-  if (recordTypeIndex === 0) {
+  if (routeIndex === 0) {
     return "";
   }
 
-  if (recordTypeIndex > 0) {
-    return `/${pathParts[recordTypeIndex - 1]}`;
+  if (routeIndex > 0) {
+    return `/${pathParts[routeIndex - 1]}`;
   }
 
   if (pathParts.length > 0) {
@@ -23,4 +25,17 @@ export function getBasePath() {
   }
 
   return "";
+}
+
+export function getCurrentRoute() {
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  return ROUTES.find((route) => pathParts.includes(route));
+}
+
+function findRouteIndex(pathParts) {
+  for (const route of ROUTES) {
+    const index = pathParts.indexOf(route);
+    if (index !== -1) return index;
+  }
+  return -1;
 }

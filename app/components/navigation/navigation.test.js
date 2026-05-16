@@ -58,31 +58,88 @@ const metadataPool = {
 };
 
 describe("navigation", () => {
+  it("renders authentication link", () => {
+    document.body.appendChild(
+      navigation({
+        path: "/",
+        recordTypePool,
+        metadataPool,
+      }),
+    );
+
+    expect(
+      screen.getByRole("link", { name: /authentication/i }),
+    ).toHaveAttribute("href", "/authentication");
+  });
+
+  it("marks authentication link as current page", () => {
+    document.body.appendChild(
+      navigation({
+        path: "/authentication",
+        recordTypePool,
+        metadataPool,
+      }),
+    );
+
+    expect(
+      screen.getByRole("link", { name: /authentication/i }),
+    ).toHaveAttribute("aria-current", "page");
+  });
+
+  it("navigates to authentication on click", async () => {
+    vi.stubGlobal("location", {
+      href: "https://example.com/",
+      pathname: "/",
+      search: "",
+    });
+
+    const pushStateMock = vi.fn();
+    vi.stubGlobal("history", {
+      pushState: pushStateMock,
+    });
+
+    const navigateMock = vi.fn();
+    document.body.appendChild(
+      navigation({
+        path: "/",
+        navigate: navigateMock,
+        recordTypePool,
+        metadataPool,
+      }),
+    );
+
+    await userEvent.click(
+      screen.getByRole("link", { name: /authentication/i }),
+    );
+    expect(navigateMock).toHaveBeenCalled();
+    expect(pushStateMock).toHaveBeenCalledWith({}, "", "/authentication");
+  });
+
   it("renders navigation items for each record type, grouped by record type group", () => {
     document.body.appendChild(
       navigation({
         path: "/recordType/person/1",
         recordTypePool,
         metadataPool,
-      })
+      }),
     );
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
 
-    expect(screen.getByRole("heading", { name: "group1" })).toBeInTheDocument();
+    expect(screen.getByText("group1")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /person/i })).toHaveAttribute(
       "href",
-      "/recordType/person"
+      "/recordType/person",
     );
     expect(screen.getByRole("link", { name: /organisation/i })).toHaveAttribute(
       "href",
-      "/recordType/organisation"
+      "/recordType/organisation",
     );
 
-    expect(screen.getByRole("heading", { name: "group2" })).toBeInTheDocument();
+    expect(screen.getByText("group2")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /output/i })).toHaveAttribute(
       "href",
-      "/recordType/output"
+      "/recordType/output",
     );
   });
 
@@ -96,25 +153,25 @@ describe("navigation", () => {
         path: "/recordType/person/1",
         recordTypePool,
         metadataPool,
-      })
+      }),
     );
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
 
-    expect(screen.getByRole("heading", { name: "group1" })).toBeInTheDocument();
+    expect(screen.getByText("group1")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /person/i })).toHaveAttribute(
       "href",
-      "/api-helper/recordType/person"
+      "/api-helper/recordType/person",
     );
     expect(screen.getByRole("link", { name: /organisation/i })).toHaveAttribute(
       "href",
-      "/api-helper/recordType/organisation"
+      "/api-helper/recordType/organisation",
     );
 
-    expect(screen.getByRole("heading", { name: "group2" })).toBeInTheDocument();
+    expect(screen.getByText("group2")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /output/i })).toHaveAttribute(
       "href",
-      "/api-helper/recordType/output"
+      "/api-helper/recordType/output",
     );
   });
 
@@ -124,12 +181,12 @@ describe("navigation", () => {
         path: "/recordType/output/1",
         recordTypePool,
         metadataPool,
-      })
+      }),
     );
 
     expect(screen.getByRole("link", { name: /output/i })).toHaveAttribute(
       "aria-current",
-      "page"
+      "page",
     );
   });
 
@@ -152,7 +209,7 @@ describe("navigation", () => {
         navigate: navigateMock,
         recordTypePool,
         metadataPool,
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole("link", { name: /person/i }));
@@ -160,7 +217,7 @@ describe("navigation", () => {
     expect(pushStateMock).toHaveBeenCalledWith(
       {},
       "",
-      "/recordType/person?param=value"
+      "/recordType/person?param=value",
     );
   });
 });
