@@ -1,7 +1,7 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
-import { getMethod } from "../../utils/searchParams.js";
+import { getMethod, updateSearchParam } from "../../utils/searchParams.js";
 import radio from "../radio/radio.js";
 import createOrUpdateRecordType from "./createOrUpdate.js";
 import recordTypeRead from "./read.js";
@@ -65,12 +65,10 @@ function requestMethods({ selectedMethod, onSelectMethod }) {
         radio({
           name: "method",
           value: method,
-          label: method.charAt(0).toUpperCase() + method.slice(1),
+          label: capitalize(method),
           checked: selectedMethod === method,
           onChange: (value) => {
-            const url = new URL(window.location);
-            url.searchParams.set("method", value);
-            window.history.replaceState({}, "", url);
+            updateSearchParam("method", value);
             onSelectMethod(value);
           },
         }),
@@ -102,4 +100,8 @@ function requestDoc({
   } else if (method === "delete") {
     return requestConfigDoc({ recordTypeId, method });
   }
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

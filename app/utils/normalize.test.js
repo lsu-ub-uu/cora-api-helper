@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalize } from "./normalise";
+import { normalize } from "./normalize";
 
 describe("normalize", () => {
   it("collapses all whitespace into single spaces", () => {

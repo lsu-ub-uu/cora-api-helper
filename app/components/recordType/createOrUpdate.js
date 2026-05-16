@@ -1,6 +1,9 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
-import { getValidationType } from "../../utils/searchParams.js";
+import {
+  getValidationType,
+  updateSearchParam,
+} from "../../utils/searchParams.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";
@@ -60,16 +63,16 @@ function validationTypeSection({
     return document.createDocumentFragment();
   }
 
+  const selectedValidationTypeId = getFirstChildWithName(
+    getFirstChildWithName(selectedValidationType, "recordInfo"),
+    "id",
+  ).value;
+
   return validationTypeSelect({
     validationTypes,
-    selectedValidationTypeId: getFirstChildWithName(
-      getFirstChildWithName(selectedValidationType, "recordInfo"),
-      "id",
-    ).value,
+    selectedValidationTypeId,
     onChange: (selectedValidationTypeId) => {
-      const url = new URL(window.location);
-      url.searchParams.set("validationTypeId", selectedValidationTypeId);
-      window.history.replaceState({}, "", url);
+      updateSearchParam("validationTypeId", selectedValidationTypeId);
       onChangeValidationType();
     },
   });

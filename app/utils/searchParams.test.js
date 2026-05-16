@@ -5,6 +5,7 @@ import {
   getApiUrl,
   getFormat,
   getLanguage,
+  updateSearchParam,
 } from "./searchParams";
 
 describe("searchParams", () => {
@@ -64,6 +65,21 @@ describe("searchParams", () => {
     it("returns the lang param", () => {
       window.history.replaceState({}, "", "/?lang=sv");
       expect(getLanguage()).toBe("sv");
+    });
+  });
+
+  describe("updateSearchParam", () => {
+    it("updates the specified search param in the URL", () => {
+      updateSearchParam("testParam", "testValue");
+      expect(window.location.search).toBe("?testParam=testValue");
+    });
+
+    it("preserves existing search params when updating", () => {
+      window.history.replaceState({}, "", "/?existingParam=existingValue");
+      updateSearchParam("newParam", "newValue");
+      expect(window.location.search).toBe(
+        "?existingParam=existingValue&newParam=newValue",
+      );
     });
   });
 });

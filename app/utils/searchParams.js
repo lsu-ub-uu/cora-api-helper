@@ -34,3 +34,9 @@ function getSearchParamValue(paramName, defaultValue) {
   const searchParams = new URLSearchParams(window.location.search);
   return searchParams.get(paramName) || defaultValue;
 }
+
+export function updateSearchParam(paramName, value) {
+  const url = new URL(window.location);
+  url.searchParams.set(paramName, value);
+  window.history.replaceState({}, "", url);
+}

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { getFormat } from "../../utils/searchParams.js";
 import recordLink from "./recordLink.js";
-import { normalize } from "../../utils/normalise.js";
+import { normalize } from "../../utils/normalize.js";
 
 vi.mock("../../utils/searchParams.js");
 
