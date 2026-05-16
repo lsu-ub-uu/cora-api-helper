@@ -49,9 +49,11 @@ header {
     flex-direction: column;
   }
 
-  h1 {
+  .logo-link {
     margin: 0;
     margin-right: auto;
+    color: var(--color-header-fg);
+    text-decoration: none;
   }
 }
 

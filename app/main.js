@@ -43,49 +43,51 @@ async function initPools() {
 
 function render() {
   const path = window.location.pathname;
-  const recordTypeId = getRecordTypeId();
 
-  root.innerHTML = "";
-  root.appendChild(
+  root.replaceChildren(
     navigation({
       path,
       recordTypePool,
       metadataPool,
       navigate: () => render(),
     }),
+    currentPage(),
   );
+}
 
+function currentPage() {
+  const recordTypeId = getRecordTypeId();
   const currentRoute = getCurrentRoute();
 
   if (currentRoute === "recordType" && recordTypeId) {
-    root.appendChild(
-      recordType({
-        recordTypeId,
-        recordTypePool,
-        validationTypePool,
-        metadataPool,
-      }),
-    );
-  } else if (currentRoute === "authentication") {
-    root.appendChild(authentication());
-  } else {
-    const welcomeMessage = el("div", {
-      children: [
-        el("h2", { textContent: "Welcome to the Cora API helper!" }),
-        el("p", {
-          textContent: "This tool helps you explore the Cora REST API.",
-        }),
-        el("p", {
-          textContent:
-            "Select a record type from the navigation to the left to begin. ⬅️",
-        }),
-        el("p", {
-          textContent:
-            "You can set your preferred data format, language and API URL in the settings at the top right. ↗️",
-        }),
-      ],
+    return recordType({
+      recordTypeId,
+      recordTypePool,
+      validationTypePool,
+      metadataPool,
     });
-
-    root.appendChild(welcomeMessage);
+  } else if (currentRoute === "authentication") {
+    return authentication();
+  } else {
+    return welcomeMessage();
   }
+}
+
+function welcomeMessage() {
+  return el("div", {
+    children: [
+      el("h2", { textContent: "Welcome to the Cora API helper!" }),
+      el("p", {
+        textContent: "This tool helps you explore the Cora REST API.",
+      }),
+      el("p", {
+        textContent:
+          "Select a record type from the navigation to the left to begin. ⬅️",
+      }),
+      el("p", {
+        textContent:
+          "You can set your preferred data format, language and API URL in the settings at the top right. ↗️",
+      }),
+    ],
+  });
 }

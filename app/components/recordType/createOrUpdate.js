@@ -1,3 +1,4 @@
+import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import { getValidationType } from "../../utils/searchParams.js";
 import dataFormat from "../dataFormat/dataFormat.js";
@@ -10,12 +11,9 @@ export default function createOrUpdateRecordType({
   recordTypeId,
   method,
 }) {
-  const root = document.createElement("div");
-  root.className = "record-type";
+  const root = el("div", { className: "record-type" });
 
   function render() {
-    root.innerHTML = "";
-
     const validationTypes = getValidationTypesForRecordType({
       validationTypePool,
       recordTypeId,
@@ -25,44 +23,27 @@ export default function createOrUpdateRecordType({
       validationTypes,
     });
 
-    if (validationTypes.length > 1) {
-      root.appendChild(
-        validationTypeSelect({
-          validationTypes,
-          selectedValidationTypeId: getFirstChildWithName(
-            getFirstChildWithName(selectedValidationType, "recordInfo"),
-            "id"
-          ).value,
-          onChange: (selectedValidationTypeId) => {
-            const url = new URL(window.location);
-            url.searchParams.set("validationTypeId", selectedValidationTypeId);
-            window.history.replaceState({}, "", url);
-            render();
-          },
-        })
-      );
-    }
-
-    root.appendChild(requestConfigDoc({ recordTypeId, method }));
-
     const metadataLink = getFirstChildWithName(
       selectedValidationType,
-      method === "create" ? "newMetadataId" : "metadataId"
+      method === "create" ? "newMetadataId" : "metadataId",
     );
     const metadataId = getFirstChildWithName(
       metadataLink,
-      "linkedRecordId"
+      "linkedRecordId",
     ).value;
 
-    const heading = document.createElement("h3");
-    heading.textContent = "Request body format";
-    root.appendChild(heading);
-
-    root.appendChild(
+    root.replaceChildren(
+      validationTypeSection({
+        validationTypes,
+        selectedValidationType,
+        onChangeValidationType: render,
+      }),
+      requestConfigDoc({ recordTypeId, method }),
+      el("h3", { textContent: "Request body format" }),
       dataFormat({
         metadataPool,
         rootGroupId: metadataId,
-      })
+      }),
     );
   }
 
@@ -70,15 +51,39 @@ export default function createOrUpdateRecordType({
   return root;
 }
 
+function validationTypeSection({
+  validationTypes,
+  selectedValidationType,
+  onChangeValidationType,
+}) {
+  if (validationTypes.length <= 1) {
+    return document.createDocumentFragment();
+  }
+
+  return validationTypeSelect({
+    validationTypes,
+    selectedValidationTypeId: getFirstChildWithName(
+      getFirstChildWithName(selectedValidationType, "recordInfo"),
+      "id",
+    ).value,
+    onChange: (selectedValidationTypeId) => {
+      const url = new URL(window.location);
+      url.searchParams.set("validationTypeId", selectedValidationTypeId);
+      window.history.replaceState({}, "", url);
+      onChangeValidationType();
+    },
+  });
+}
+
 function getValidationTypesForRecordType({ validationTypePool, recordTypeId }) {
   return Object.values(validationTypePool).filter((validationType) => {
     const validatesRecordType = getFirstChildWithName(
       validationType,
-      "validatesRecordType"
+      "validatesRecordType",
     );
     const validatesRecordTypeId = getFirstChildWithName(
       validatesRecordType,
-      "linkedRecordId"
+      "linkedRecordId",
     ).value;
     return validatesRecordTypeId === recordTypeId;
   });

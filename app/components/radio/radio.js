@@ -1,20 +1,22 @@
+import { el } from "../../utils/el.js";
+
 export default function radio({ name, value, label, checked, onChange }) {
-  const root = document.createElement("label");
-  root.className = "radio-button";
-
-  const radio = document.createElement("input");
-  radio.id = value;
-  radio.type = "radio";
-  radio.name = name;
-  radio.value = value;
-  radio.checked = checked;
-  radio.addEventListener("change", (e) => {
-    if (onChange) {
-      onChange(e.target.value);
-    }
+  return el("label", {
+    className: "radio-button",
+    children: [
+      el("input", {
+        id: value,
+        type: "radio",
+        name,
+        value,
+        checked,
+        onChange: (e) => {
+          if (onChange) {
+            onChange(e.target.value);
+          }
+        },
+      }),
+      document.createTextNode(label),
+    ],
   });
-
-  root.appendChild(radio);
-  root.appendChild(document.createTextNode(label));
-  return root;
 }
