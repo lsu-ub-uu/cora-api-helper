@@ -83,6 +83,7 @@ export default function filterableSelect({ options, selectedValue, onChange }) {
     items.forEach((item) => item.classList.remove("active"));
     if (index >= 0 && index < items.length) {
       items[index].classList.add("active");
+      items[index].id = `option-${index}`;
       items[index].scrollIntoView({ block: "nearest" });
       input.setAttribute("aria-activedescendant", items[index].id || "");
     }
