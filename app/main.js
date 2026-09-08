@@ -7,7 +7,8 @@ import { getCurrentRoute, getRecordTypeId } from "./utils/routing.js";
 
 const root = document.getElementById("app");
 
-const { recordTypePool, validationTypePool, metadataPool } = await initPools();
+const { recordTypePool, validationTypePool, metadataPool, searchPool } =
+  await initPools();
 
 window.addEventListener("popstate", () => {
   render();
@@ -21,23 +22,27 @@ async function initPools() {
   }, 200);
 
   console.log("Loading metadata pools...");
-  const [recordTypePool, validationTypePool, metadataPool] = await Promise.all([
-    listRecordType("recordType"),
-    listRecordType("validationType"),
-    listRecordType("metadata"),
-  ]);
+  const [recordTypePool, validationTypePool, metadataPool, searchPool] =
+    await Promise.all([
+      listRecordType("recordType"),
+      listRecordType("validationType"),
+      listRecordType("metadata"),
+      listRecordType("search"),
+    ]);
   clearTimeout(loadingTextTimeout);
 
   console.log("Pools loaded!", {
     recordTypePool,
     validationTypePool,
     metadataPool,
+    searchPool,
   });
 
   return {
     recordTypePool,
     validationTypePool,
     metadataPool,
+    searchPool,
   };
 }
 
@@ -65,6 +70,7 @@ function currentPage() {
       recordTypePool,
       validationTypePool,
       metadataPool,
+      searchPool,
     });
   } else if (currentRoute === "authentication") {
     return authentication();

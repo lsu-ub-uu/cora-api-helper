@@ -248,10 +248,12 @@ select {
     }
   }
 }
+
 .popover {
-  position: absolute;
-  overlay: unset;
+  margin: 0;
   inset: unset;
+  position-area: bottom span-right;
+  position-try-fallbacks: flip-block;
   font-family: sans-serif;
   margin-top: 0.5rem;
   min-width: max-content;
