@@ -1,3 +1,4 @@
+import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import childReference from "../childReference/childReference.js";
 import element from "../element/element.js";
@@ -16,19 +17,18 @@ export default function group({
   }
 
   const groupMetadata = metadataPool[groupId];
-  const root = document.createElement("div");
 
   const childReferences = getFirstChildWithName(
     groupMetadata,
-    "childReferences"
+    "childReferences",
   )?.children;
 
   if (!childReferences) {
     return document.createDocumentFragment();
   }
 
-  root.appendChild(
-    element({
+  return el("div", {
+    children: element({
       metadataPool,
       metadata: groupMetadata,
       repeatMin,
@@ -39,10 +39,9 @@ export default function group({
           childReference: childRef,
           depth: depth + 1,
           lastChild: index === childReferences.length - 1,
-        })
+        }),
       ),
       lastChild,
-    })
-  );
-  return root;
+    }),
+  });
 }

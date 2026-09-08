@@ -62,20 +62,16 @@ function recordTypesNav({ recordTypePool, path, navigate, groups }) {
 }
 
 function groupList({ recordTypePool, path, navigate, groups }) {
-  const ul = document.createElement("ul");
-
-  groups.forEach((group) => {
-    ul.appendChild(
+  return el("ul", {
+    children: groups.map((group) =>
       groupListItem({
         group,
         recordTypePool,
         path,
         navigate,
       }),
-    );
+    ),
   });
-
-  return ul;
 }
 
 function groupListItem({ group, recordTypePool, path, navigate }) {
@@ -91,27 +87,20 @@ function groupListItem({ group, recordTypePool, path, navigate }) {
     return groupOfRecordType === groupName;
   });
 
-  if (recordTypeIds.length === 0) return document.createDocumentFragment();
+  if (recordTypeIds.length === 0) return el("fragment");
 
-  const groupLi = document.createElement("li");
-  groupLi.appendChild(groupHeading(group));
-
-  const recordTypeList = document.createElement("ul");
-  recordTypeIds.forEach((recordTypeId) => {
-    recordTypeList.appendChild(
-      recordTypeLi({ recordTypeId, recordTypePool, path, navigate }),
-    );
+  return el("li", {
+    children: [
+      groupHeading(group),
+      ...recordTypeIds.map((recordTypeId) =>
+        recordTypeLi({ recordTypeId, recordTypePool, path, navigate }),
+      ),
+    ],
   });
-  groupLi.appendChild(recordTypeList);
-
-  return groupLi;
 }
-
 function groupHeading(group) {
-  const heading = document.createElement("h3");
-
   const nameInData = getFirstChildWithName(group, "nameInData")?.value;
-  heading.textContent = nameInData;
+  const heading = el("h3", { textContent: nameInData });
 
   const textId = getFirstChildWithName(group, "textId");
   getTextFromLink(textId).then((text) => {
@@ -123,32 +112,29 @@ function groupHeading(group) {
 
 function recordTypeLi({ recordTypeId, recordTypePool, path, navigate }) {
   const basePath = getBasePath();
-  const li = document.createElement("li");
-  const a = document.createElement("a");
   const href = `${basePath}/recordType/${recordTypeId}`;
-
-  a.href = href;
-  a.textContent = recordTypeId;
-
+  const isCurrentPage = path.startsWith(href + "/") || path === href;
   const textId = getFirstChildWithName(recordTypePool[recordTypeId], "textId");
+
+  const a = el("a", {
+    href,
+    textContent: recordTypeId,
+    ...(isCurrentPage ? { "aria-current": "page" } : {}),
+    onClick: (e) => {
+      e.preventDefault();
+      const url = href + window.location.search;
+      history.pushState({}, "", url);
+      navigate();
+    },
+  });
+
   getTextFromLink(textId)
     .then((text) => {
       a.textContent = text;
     })
     .catch(() => {});
 
-  if (path.startsWith(href + "/") || path === href) {
-    a.setAttribute("aria-current", "page");
-  }
-
-  a.addEventListener("click", (e) => {
-    e.preventDefault();
-    const href = e.target.getAttribute("href");
-    const url = href + window.location.search;
-    history.pushState({}, "", url);
-    navigate();
+  return el("li", {
+    children: a,
   });
-
-  li.appendChild(a);
-  return li;
 }
