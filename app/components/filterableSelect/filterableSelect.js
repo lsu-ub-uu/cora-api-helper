@@ -1,3 +1,5 @@
+let nextListboxId = 0;
+
 export default function filterableSelect({ options, selectedValue, onChange }) {
   const root = document.createElement("div");
   root.className = "filterable-select";
@@ -13,7 +15,7 @@ export default function filterableSelect({ options, selectedValue, onChange }) {
   listbox.setAttribute("role", "listbox");
   listbox.className = "filterable-select-listbox";
 
-  const listboxId = `listbox-${crypto.randomUUID()}`;
+  const listboxId = `listbox-${nextListboxId++}`;
   listbox.id = listboxId;
   input.setAttribute("aria-controls", listboxId);
 
