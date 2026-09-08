@@ -59,7 +59,7 @@ function pageTitle({ recordTypePool, recordTypeId }) {
 }
 
 function requestMethods({ selectedMethod, onSelectMethod }) {
-  const methods = ["read", "create", "update", "delete", "search"];
+  const methods = ["read", "create", "update", "delete" /*, "search"*/];
 
   return el("fieldset", {
     children: [
