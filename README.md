@@ -11,3 +11,5 @@
 ## Run dev server
 
 `npm start`
+
+Use search param api-url to override Cora API URL during local development

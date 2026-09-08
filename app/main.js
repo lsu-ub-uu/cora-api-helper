@@ -1,6 +1,7 @@
 import authentication from "./components/authentication/authentication.js";
 import navigation from "./components/navigation/navigation.js";
 import recordType from "./components/recordType/recordType.js";
+import getDeploymentInfo from "./services/getDeploymentInfo.js";
 import listRecordType from "./services/listRecordType.js";
 import { el } from "./utils/el.js";
 import { getCurrentRoute, getRecordTypeId } from "./utils/routing.js";
@@ -22,13 +23,14 @@ async function initPools() {
   }, 200);
 
   console.log("Loading metadata pools...");
-  const [recordTypePool, validationTypePool, metadataPool, searchPool] =
-    await Promise.all([
-      listRecordType("recordType"),
-      listRecordType("validationType"),
-      listRecordType("metadata"),
-      listRecordType("search"),
-    ]);
+  const [recordTypePool, validationTypePool, metadataPool] = await Promise.all([
+    listRecordType("recordType"),
+    listRecordType("validationType"),
+    listRecordType("metadata"),
+  ]);
+
+  renderDeploymentInfo();
+
   clearTimeout(loadingTextTimeout);
 
   console.log("Pools loaded!", {
@@ -82,7 +84,7 @@ function currentPage() {
 function welcomeMessage() {
   return el("div", {
     children: [
-      el("h2", { textContent: "Welcome to the Cora API helper!" }),
+      el("h2", { textContent: "Welcome to the API helper!" }),
       el("p", {
         textContent: "This tool helps you explore the Cora REST API.",
       }),
@@ -96,4 +98,18 @@ function welcomeMessage() {
       }),
     ],
   });
+}
+
+async function renderDeploymentInfo() {
+  try {
+    const deploymentInfo = await getDeploymentInfo();
+    console.log({ deploymentInfo });
+    document.getElementById("deployment-info").textContent =
+      `${deploymentInfo.deploymentName} (${deploymentInfo.applicationVersion})`;
+    document.getElementById("system-name").textContent =
+      deploymentInfo.applicationName.slice(0, 1).toUpperCase() +
+      deploymentInfo.applicationName.slice(1);
+  } catch (error) {
+    console.error("Failed to render deployment info:", error);
+  }
 }

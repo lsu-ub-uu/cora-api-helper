@@ -1,20 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>se.uu.ub.cora</groupId>
     <artifactId>cora-parent</artifactId>
-    <version>2.7.0</version>
+    <version>3.2.0</version>
   </parent>
 
   <artifactId>cora-api-helper</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <name>Cora API Helper</name>
 
   <properties>
-    <frontend-maven-plugin.version>1.15.10-atlassian-2</frontend-maven-plugin.version>
+    <frontend-maven-plugin.version>2.0.2</frontend-maven-plugin.version>
     <nodeVersion>v22.14.0</nodeVersion>
     <dist.dir>dist</dist.dir>
   </properties>
@@ -35,6 +33,9 @@
         <includes>
           <include>**/*</include>
         </includes>
+        <excludes>
+          <exclude>**/*.test.js</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>styles</directory>

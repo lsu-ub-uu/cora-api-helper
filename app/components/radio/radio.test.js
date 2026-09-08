@@ -12,7 +12,7 @@ describe("radio", () => {
         label: "Option 1",
         checked: true,
         onChange: vi.fn(),
-      })
+      }),
     );
 
     const radioElement = screen.getByRole("radio", { name: "Option 1" });
@@ -30,13 +30,31 @@ describe("radio", () => {
         label: "Option 1",
         checked: false,
         onChange: onChangeSpy,
-      })
+      }),
     );
 
     const radioElement = screen.getByRole("radio", { name: "Option 1" });
     await userEvent.click(radioElement);
 
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
+    expect(radioElement).toBeChecked();
+  });
+
+  it("should handle onChange not being defined", async () => {
+    const onChangeSpy = vi.fn();
+    document.body.appendChild(
+      radio({
+        name: "testRadio",
+        value: "option1",
+        label: "Option 1",
+        checked: false,
+      }),
+    );
+
+    const radioElement = screen.getByRole("radio", { name: "Option 1" });
+    await userEvent.click(radioElement);
+
+    expect(onChangeSpy).toHaveBeenCalledTimes(0);
     expect(radioElement).toBeChecked();
   });
 });
