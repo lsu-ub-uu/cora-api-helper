@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cora API Helper</title>
-    <link rel="stylesheet" href="/apihelper/styles/global.css" />
+    <link rel="stylesheet" href="/api-helper/styles/global.css" />
   </head>
   <body>
     <header>
-      <a href="/apihelper" class="logo-link"><h1>Cora API Helper</h1></a>
+      <a href="/api-helper" class="logo-link"><h1>Cora API Helper</h1></a>
       <form id="load-form">
         <label>
           Format
@@ -29,7 +29,7 @@
     </header>
 
     <div id="app"></div>
-    <script type="module" src="/apihelper/app/main.js"></script>
+    <script type="module" src="/api-helper/app/main.js"></script>
     <script>
       const params = new URLSearchParams(window.location.search);
       const apiUrlFromParams = params.get("api-url");

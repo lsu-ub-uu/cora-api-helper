@@ -4,7 +4,7 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "web-dev-server --app-index index.html --base-path /apihelper --open --watch",
+    "start": "web-dev-server --app-index index.html --base-path /api-helper --open --watch",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint . --ext .js --fix"
