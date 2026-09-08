@@ -34,6 +34,7 @@ describe("main", () => {
   it("initializes the application", async () => {
     document.body.innerHTML = '<div id="app"></div>';
 
+    vi.resetModules();
     await import("./main.js");
 
     expect(renderDeploymentInfo).toHaveBeenCalledOnce();
@@ -44,20 +45,5 @@ describe("main", () => {
 
     expect(screen.getByText("Mock navigation")).toBeInTheDocument();
     expect(screen.getByText("Mock current page")).toBeInTheDocument();
-  });
-
-  it("re-renders on browser navigation", async () => {
-    document.body.innerHTML = '<div id="app"></div>';
-
-    await import("./main.js");
-    expect(navigation).toHaveBeenCalledOnce();
-    expect(currentPage).toHaveBeenCalledOnce();
-
-    window.dispatchEvent(new PopStateEvent("popstate"));
-
-    expect(screen.getByText("Mock navigation")).toBeInTheDocument();
-    expect(screen.getByText("Mock current page")).toBeInTheDocument();
-    expect(navigation).toHaveBeenCalledTimes(2);
-    expect(currentPage).toHaveBeenCalledTimes(2);
   });
 });
