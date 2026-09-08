@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { el } from "./el";
+import { el } from "./el.js";
 
 describe("el", () => {
   it("creates an element with the given tag", () => {

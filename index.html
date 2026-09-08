@@ -8,7 +8,9 @@
   </head>
   <body>
     <header>
-      <a href="/api-helper" class="logo-link"><h1><span id="system-name">Cora</span> API Helper</h1></a>
+      <a href="/api-helper" class="logo-link"
+        ><h1><span id="system-name">Cora</span> API Helper</h1></a
+      >
       <div id="deployment-info"></div>
       <form id="load-form">
         <label>
@@ -30,36 +32,5 @@
 
     <div id="app"></div>
     <script type="module" src="/api-helper/app/main.js"></script>
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const apiUrlFromParams = params.get("api-url");
-      if (window.location.hostname === "localhost" && !params.get("api-url")) {
-        params.set("api-url", `https://preview.diva.cora.epc.ub.uu.se/rest`);
-        window.history.replaceState(
-          {},
-          "",
-          `${window.location.pathname}?${params.toString()}`,
-        );
-      }
-      const apiUrl = params.get("api-url") ?? `${window.location.origin}/rest`;
-      const format = params.get("format") ?? "xml";
-      const lang = params.get("lang") ?? "en";
-      console.log("API URL:", apiUrl);
-      console.log("Format:", format);
-      console.log("Language:", lang);
-
-      if (format) {
-        document.getElementById("format").value = format;
-      }
-      if (lang) {
-        document.getElementById("lang").value = lang;
-      }
-
-      document
-        .getElementById("load-form")
-        .addEventListener("change", (event) => {
-          event.currentTarget.submit();
-        });
-    </script>
   </body>
 </html>

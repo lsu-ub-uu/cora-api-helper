@@ -1,5 +1,5 @@
-import { el } from "../../utils/el.js";
-import { getApiUrl } from "../../utils/searchParams.js";
+import { el } from "../utils/el.js";
+import { getApiUrl } from "../utils/searchParams.js";
 
 export default function authentication() {
   const apiUrl = getApiUrl();
