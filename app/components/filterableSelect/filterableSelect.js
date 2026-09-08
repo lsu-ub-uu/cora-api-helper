@@ -1,23 +1,26 @@
+import { el } from "../../utils/el.js";
+
 let nextListboxId = 0;
 
 export default function filterableSelect({ options, selectedValue, onChange }) {
-  const root = document.createElement("div");
-  root.className = "filterable-select";
-
-  const input = document.createElement("input");
-  input.type = "text";
-  input.setAttribute("role", "combobox");
-  input.setAttribute("aria-expanded", "false");
-  input.setAttribute("aria-autocomplete", "list");
-  input.setAttribute("autocomplete", "off");
-
-  const listbox = document.createElement("ul");
-  listbox.setAttribute("role", "listbox");
-  listbox.className = "filterable-select-listbox";
+  const root = el("div", { className: "filterable-select" });
 
   const listboxId = `listbox-${nextListboxId++}`;
-  listbox.id = listboxId;
-  input.setAttribute("aria-controls", listboxId);
+
+  const input = el("input", {
+    type: "text",
+    role: "combobox",
+    "aria-expanded": "false",
+    "aria-autocomplete": "list",
+    "aria-controls": listboxId,
+    autocomplete: "off",
+  });
+
+  const listbox = el("ul", {
+    id: listboxId,
+    role: "listbox",
+    className: "filterable-select-listbox",
+  });
 
   let allOptions = options || [];
   let activeIndex = -1;
@@ -45,15 +48,16 @@ export default function filterableSelect({ options, selectedValue, onChange }) {
       : allOptions;
 
     filtered.forEach((o) => {
-      const li = document.createElement("li");
-      li.setAttribute("role", "option");
-      li.textContent = o.label;
-      li.dataset.value = o.value;
-      li.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-        selectOption(o);
-        closeListbox();
+      const li = el("li", {
+        role: "option",
+        textContent: o.label,
+        onMousedown: (e) => {
+          e.preventDefault();
+          selectOption(o);
+          closeListbox();
+        },
       });
+      li.dataset.value = o.value;
       listbox.appendChild(li);
     });
 
