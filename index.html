@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,7 +8,7 @@
   </head>
   <body>
     <header>
-      <a href="/" class="logo-link"><h1>Cora API Helper</h1></a >
+      <a href="/" class="logo-link"><h1>Cora API Helper</h1></a>
       <form id="load-form">
         <label>
           Format
@@ -23,46 +23,43 @@
           <select id="lang" name="lang">
             <option value="en">English</option>
             <option value="sv">Swedish</option>
-          </select> 
+          </select>
         </label>
-
-        <label>API URL: <input id="api-url" name="api-url" list="api-url-list" /></label>
-        <datalist id="api-url-list">
-          <option value="https://preview.diva.cora.epc.ub.uu.se/rest"></option>
-          <option value="https://preview.alvin.cora.epc.ub.uu.se/rest"></option>
-          <option value="https://preview.systemone.cora.epc.ub.uu.se/rest"></option>
-          <option value="https://pre.diva-portal.org/rest"></option>
-        </datalist>
       </form>
     </header>
 
-
     <div id="app"></div>
-    </body>
     <script type="module" src="/app/main.js"></script>
     <script>
       const params = new URLSearchParams(window.location.search);
-
-      const apiUrl = params.get('api-url') ?? "https://preview.diva.cora.epc.ub.uu.se/rest";
-      const format = params.get('format') ?? "xml";
-      const lang = params.get('lang') ?? "en";
-      console.log('API URL:', apiUrl);
-      console.log('Format:', format);
-      console.log('Language:', lang);
-      if (apiUrl) {
-        document.getElementById('api-url').value = apiUrl;
+      const apiUrlFromParams = params.get("api-url");
+      if (window.location.hostname === "localhost" && !params.get("api-url")) {
+        params.set("api-url", `https://preview.diva.cora.epc.ub.uu.se/rest`);
+        window.history.replaceState(
+          {},
+          "",
+          `${window.location.pathname}?${params.toString()}`,
+        );
       }
+      const apiUrl = params.get("api-url") ?? `${window.location.origin}/rest`;
+      const format = params.get("format") ?? "xml";
+      const lang = params.get("lang") ?? "en";
+      console.log("API URL:", apiUrl);
+      console.log("Format:", format);
+      console.log("Language:", lang);
+
       if (format) {
-        document.getElementById('format').value = format;
+        document.getElementById("format").value = format;
       }
       if (lang) {
-        document.getElementById('lang').value = lang;
+        document.getElementById("lang").value = lang;
       }
 
-      document.getElementById('load-form').addEventListener('change', event => {
-        event.currentTarget.submit();
-      });
-  </script>
-
+      document
+        .getElementById("load-form")
+        .addEventListener("change", (event) => {
+          event.currentTarget.submit();
+        });
+    </script>
   </body>
 </html>

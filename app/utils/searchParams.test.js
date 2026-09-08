@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach } from "vitest";
+import { vi, describe, expect, it, beforeEach } from "vitest";
 import {
   getValidationType,
   getMethod,
@@ -36,8 +36,9 @@ describe("searchParams", () => {
   });
 
   describe("getApiUrl", () => {
-    it("defaults to preview diva url", () => {
-      expect(getApiUrl()).toBe("https://preview.diva.cora.epc.ub.uu.se/rest");
+    it("defaults to same origin with /rest", () => {
+      vi.stubGlobal("window", { location: { origin: "https://some-url.com" } });
+      expect(getApiUrl()).toBe("https://some-url.com/rest");
     });
 
     it("returns the api-url param when set", () => {

@@ -42,6 +42,94 @@ describe("itemCollection", () => {
     expect(document.body.textContent).toEqual("blue | red | green");
   });
 
+  it("renders item collection with finalValue", () => {
+    const metadataPool = {
+      colorCollection: {
+        name: "colorCollection",
+        children: [
+          {
+            name: "collectionItemReferences",
+            children: [
+              { children: [{ name: "linkedRecordId", value: "blueItem" }] },
+              { children: [{ name: "linkedRecordId", value: "redItem" }] },
+              { children: [{ name: "linkedRecordId", value: "greenItem" }] },
+            ],
+          },
+        ],
+      },
+      blueItem: {
+        name: "blueItem",
+        children: [{ name: "nameInData", value: "blue" }],
+      },
+      redItem: {
+        name: "redItem",
+        children: [{ name: "nameInData", value: "red" }],
+      },
+      greenItem: {
+        name: "greenItem",
+        children: [{ name: "nameInData", value: "green" }],
+      },
+    };
+
+    const collectionReference = {
+      children: [{ name: "linkedRecordId", value: "colorCollection" }],
+    };
+
+    document.body.appendChild(
+      itemCollection({
+        metadata: { children: [{ name: "finalValue", value: "green" }] },
+        metadataPool,
+        collectionReference,
+      }),
+    );
+
+    expect(document.body.textContent).toEqual("green");
+  });
+
+  it("renders item collection with finalValue without metadata", () => {
+    const metadataPool = {
+      colorCollection: {
+        name: "colorCollection",
+        children: [
+          {
+            name: "collectionItemReferences",
+            children: [
+              { children: [{ name: "linkedRecordId", value: "blueItem" }] },
+              { children: [{ name: "linkedRecordId", value: "redItem" }] },
+              { children: [{ name: "linkedRecordId", value: "greenItem" }] },
+            ],
+          },
+        ],
+      },
+      blueItem: {
+        name: "blueItem",
+        children: [{ name: "nameInData", value: "blue" }],
+      },
+      redItem: {
+        name: "redItem",
+        children: [{ name: "nameInData", value: "red" }],
+      },
+      greenItem: {
+        name: "greenItem",
+        children: [{ name: "nameInData", value: "green" }],
+      },
+    };
+
+    const collectionReference = {
+      children: [{ name: "linkedRecordId", value: "colorCollection" }],
+    };
+
+    document.body.appendChild(
+      itemCollection({
+        metadata: { children: [{ name: "finalValue", value: "pink" }] },
+        metadataPool,
+        collectionReference,
+      }),
+    );
+
+    expect(document.body.textContent).toEqual("pink");
+  });
+
   it("renders an expandable collection if more than 12 items", () => {
     const metadataPool = {
       largeCollection: {
