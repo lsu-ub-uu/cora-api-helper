@@ -1,7 +1,7 @@
 import { getFormat } from "../../utils/searchParams.js";
 import { el } from "../../utils/el.js";
 import expandButton from "../expandButton/expandButton.js";
-import multiplicity from "../multiplicity/multiplicity.js";
+import elementXML from "../element/elementXML.js";
 
 export default function dataWrapper({ children, repeating }) {
   if (getFormat() === "json") {
@@ -41,29 +41,17 @@ function dataWrapperJSON({ children }) {
 }
 
 function dataWrapperXML({ children }) {
-  return el("div", {
-    className: "element",
+  return elementXML({
+    name: "record",
+    repeatMin: "1",
+    repeatMax: "1",
     children: [
-      el("div", {
-        children: [
-          el("span", { textContent: "<record>" }),
-          multiplicity({ repeatMin: 0, repeatMax: "X" }),
-        ],
+      elementXML({
+        name: "data",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: children,
       }),
-      el("div", {
-        className: "indent",
-        children: [
-          el("div", {
-            className: "element",
-            children: [
-              el("div", { textContent: "<data>" }),
-              el("div", { className: "indent", children: [children] }),
-              el("div", { textContent: "</data>" }),
-            ],
-          }),
-        ],
-      }),
-      el("div", { textContent: "</record>" }),
     ],
   });
 }

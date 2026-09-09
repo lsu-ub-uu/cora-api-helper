@@ -1,35 +1,30 @@
 import { el } from "../../utils/el.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
-import attributes from "../attributes/attributesXML.js";
-import dataName from "../dataName/dataName.js";
 import expandButton from "../expandButton/expandButton.js";
 import multiplicity from "../multiplicity/multiplicity.js";
 
 export default function elementXML({
-  metadataPool,
-  metadata,
+  name,
+  attributes,
   repeatMin,
   repeatMax,
   children,
 }) {
-  const nameInData = getFirstChildWithName(metadata, "nameInData")?.value;
-  const isRepeating = repeatMax !== "1";
-
-  const root = el("div", { className: "element" });
-
-  root.append(
-    expandButton({ onClick: () => root.classList.toggle("collapsed") }),
-    "<",
-    dataName({ metadata }),
-    attributes({ metadataPool, metadata, isRepeating }),
-    el("span", { textContent: ">", className: "closing-bracket" }),
-    multiplicity({ repeatMin, repeatMax }),
-    el("div", { className: "indent", children }),
-    el("span", {
-      className: "closing-tag",
-      textContent: `</${nameInData}>`,
-    }),
-  );
+  const root = el("div", {
+    className: "element",
+    children: [
+      expandButton({ onClick: () => root.classList.toggle("collapsed") }),
+      "<",
+      name,
+      attributes,
+      el("span", { textContent: ">", className: "closing-bracket" }),
+      multiplicity({ repeatMin, repeatMax }),
+      el("div", { className: "indent", children }),
+      el("span", {
+        className: "closing-tag",
+        textContent: `</${name.textContent ?? name}>`,
+      }),
+    ],
+  });
 
   return root;
 }

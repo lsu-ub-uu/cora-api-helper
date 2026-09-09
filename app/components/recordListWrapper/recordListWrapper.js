@@ -1,5 +1,6 @@
 import { el } from "../../utils/el.js";
 import { getFormat } from "../../utils/searchParams.js";
+import elementXML from "../element/elementXML.js";
 
 export default function recordListWrapper({ children }) {
   const format = getFormat();
@@ -10,64 +11,44 @@ export default function recordListWrapper({ children }) {
 }
 
 function recordListWrapperXML({ children }) {
-  return el("div", {
-    className: "element",
+  return elementXML({
+    name: "dataList",
+    repeatMin: "1",
+    repeatMax: "1",
     children: [
-      el("div", { textContent: "<dataList>" }),
-      el("div", {
-        className: "indent",
-        children: [
-          el("div", {
-            children: [
-              "<fromNo>",
-              el("span", {
-                className: "number-variable",
-                textContent: "0-99999",
-              }),
-              "</fromNo>",
-            ],
-          }),
-          el("div", {
-            children: [
-              "<toNo>",
-              el("span", {
-                className: "number-variable",
-                textContent: "0-99999",
-              }),
-              "</toNo>",
-            ],
-          }),
-          el("div", {
-            children: [
-              "<totalNo>",
-              el("span", {
-                className: "number-variable",
-                textContent: "0-99999",
-              }),
-              "</totalNo>",
-            ],
-          }),
-          el("div", {
-            children: [
-              "<containsDataOfType>",
-              el("span", {
-                className: "final-value",
-                textContent: "mix",
-              }),
-              "</containsDataOfType>",
-            ],
-          }),
-          el("div", {
-            className: "element",
-            children: [
-              el("div", { textContent: "<data>" }),
-              el("div", { className: "indent", children: [children] }),
-              el("div", { textContent: "</data>" }),
-            ],
-          }),
-        ],
+      elementXML({
+        name: "fromNo",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: el("span", {
+          className: "number-variable",
+          textContent: "0 - 999999",
+        }),
       }),
-      el("div", { textContent: "</dataList>" }),
+      elementXML({
+        name: "toNo",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: el("span", {
+          className: "number-variable",
+          textContent: "0 - 999999",
+        }),
+      }),
+      elementXML({
+        name: "totalNo",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: el("span", {
+          className: "number-variable",
+          textContent: "0 - 999999",
+        }),
+      }),
+      elementXML({
+        name: "data",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: children,
+      }),
     ],
   });
 }

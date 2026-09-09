@@ -1,16 +1,15 @@
 import { el } from "../../utils/el.js";
-import attributesJSON from "../attributes/attributesJSON.js";
-import dataName from "../dataName/dataName.js";
 import expandButton from "../expandButton/expandButton.js";
 import multiplicity from "../multiplicity/multiplicity.js";
 
 export default function elementJSON({
-  metadataPool,
-  metadata,
+  name,
+  attributes,
   repeatMin,
   repeatMax,
   children,
   lastChild = true,
+  isRecordLink,
 }) {
   const isRepeating = repeatMax !== "0" && repeatMax !== "1";
 
@@ -28,7 +27,7 @@ export default function elementJSON({
             ': "',
           ],
         }),
-        dataName({ metadata }),
+        name,
         el("span", { textContent: `",` }),
         multiplicity({ repeatMin, repeatMax }),
       ],
@@ -43,8 +42,8 @@ export default function elementJSON({
           '",',
         ],
       }),
-    attributesJSON({ metadataPool, metadata }),
-    renderChildren({ metadata, children }),
+    attributes,
+    renderChildren({ isRecordLink, children }),
     el("div", { textContent: `}${lastChild ? "" : ","}` }),
   ]
     .flat()
@@ -55,8 +54,8 @@ export default function elementJSON({
   return root;
 }
 
-function renderChildren({ metadata, children }) {
-  if (metadata.attributes?.type === "recordLink") {
+function renderChildren({ isRecordLink, children }) {
+  if (isRecordLink) {
     return children;
   }
 
