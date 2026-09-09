@@ -2,66 +2,63 @@ import { el } from "../../utils/el.js";
 
 let nextListboxId = 0;
 
-export default function filterableSelect({ options, selectedValue, onChange }) {
-  const root = el("div", { className: "filterable-select" });
+export default function filterableSelect({
+  options = [],
+  selectedValue,
+  onChange,
+}) {
+  let activeIndex = -1;
 
   const listboxId = `listbox-${nextListboxId++}`;
 
-  const input = el("input", {
-    type: "text",
-    role: "combobox",
-    "aria-expanded": "false",
-    "aria-autocomplete": "list",
-    "aria-controls": listboxId,
-    autocomplete: "off",
-  });
+  const listbox = filterListbox({ id: listboxId });
 
-  const listbox = el("ul", {
-    id: listboxId,
-    role: "listbox",
-    className: "filterable-select-listbox",
+  const input = filterInput({
+    getActiveIndex: () => activeIndex,
+    setActiveIndex: (index) => (activeIndex = index),
+    listboxId,
+    renderOptions,
+    listbox,
+    openListbox,
+    closeListbox,
+    options,
+    setActiveDescendant,
+    clearActiveDescendant,
+    selectOption,
   });
-
-  let allOptions = options || [];
-  let activeIndex = -1;
 
   if (selectedValue) {
-    setSelected(selectedValue);
-  }
-
-  function setSelected(value) {
-    const match = allOptions.find((o) => o.value === value);
-    if (match) {
-      input.value = match.label;
-      input.dataset.selectedValue = match.value;
+    const matchingOption = options.find((o) => o.value === selectedValue);
+    if (matchingOption) {
+      input.value = matchingOption.label;
+      input.dataset.selectedValue = matchingOption.value;
     }
   }
 
   function renderOptions(filter) {
-    listbox.replaceChildren();
     activeIndex = -1;
 
-    const filtered = filter
-      ? allOptions.filter((o) =>
+    const filteredOptions = filter
+      ? options.filter((o) =>
           o.label.toLowerCase().includes(filter.toLowerCase()),
         )
-      : allOptions;
+      : options;
 
-    filtered.forEach((o) => {
-      const li = el("li", {
-        role: "option",
-        textContent: o.label,
-        onMousedown: (e) => {
-          e.preventDefault();
-          selectOption(o);
-          closeListbox();
-        },
-      });
-      li.dataset.value = o.value;
-      listbox.appendChild(li);
-    });
-
-    return filtered;
+    listbox.replaceChildren(
+      ...filteredOptions.map((o) => {
+        const li = el("li", {
+          role: "option",
+          textContent: o.label,
+          onMousedown: (e) => {
+            e.preventDefault();
+            selectOption(o);
+            closeListbox();
+          },
+        });
+        li.dataset.value = o.value;
+        return li;
+      }),
+    );
   }
 
   function selectOption(option) {
@@ -100,70 +97,103 @@ export default function filterableSelect({ options, selectedValue, onChange }) {
       .forEach((item) => item.classList.remove("active"));
   }
 
-  input.addEventListener("focus", () => {
-    input.select();
-    renderOptions("");
-    openListbox();
+  return el("div", {
+    className: "filterable-select",
+    children: [input, listbox],
   });
+}
 
-  input.addEventListener("input", () => {
-    renderOptions(input.value);
-    openListbox();
+function filterListbox({ id }) {
+  return el("ul", {
+    id: id,
+    role: "listbox",
+    className: "filterable-select-listbox",
+    hidden: true,
   });
+}
 
-  input.addEventListener("blur", () => {
-    closeListbox();
-    const match = allOptions.find(
-      (o) => o.label.toLowerCase() === input.value.toLowerCase(),
-    );
-    if (match) {
-      selectOption(match);
-    } else if (input.dataset.selectedValue) {
-      const prev = allOptions.find(
-        (o) => o.value === input.dataset.selectedValue,
-      );
-      if (prev) input.value = prev.label;
-    }
-  });
-
-  input.addEventListener("keydown", (e) => {
-    const items = listbox.querySelectorAll('[role="option"]');
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (listbox.hidden) {
-        renderOptions(input.value);
-        openListbox();
-      }
-      activeIndex = Math.min(activeIndex + 1, items.length - 1);
-      setActiveDescendant(activeIndex);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      activeIndex = Math.max(activeIndex - 1, 0);
-      setActiveDescendant(activeIndex);
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      const targetIndex = activeIndex >= 0 ? activeIndex : 0;
-      if (targetIndex < items.length) {
-        const value = items[targetIndex].dataset.value;
-        const option = allOptions.find((o) => o.value === value);
-        if (option) selectOption(option);
-      }
+function filterInput({
+  listboxId,
+  renderOptions,
+  listbox,
+  openListbox,
+  closeListbox,
+  options,
+  getActiveIndex,
+  setActiveIndex,
+  setActiveDescendant,
+  selectOption,
+}) {
+  return el("input", {
+    type: "text",
+    role: "combobox",
+    "aria-expanded": "false",
+    "aria-autocomplete": "list",
+    "aria-controls": listboxId,
+    autocomplete: "off",
+    onFocus: (e) => {
+      e.target.select();
+      renderOptions("");
+      openListbox();
+    },
+    onInput: (e) => {
+      renderOptions(e.target.value);
+      openListbox();
+    },
+    onBlur: (e) => {
       closeListbox();
-    } else if (e.key === "Escape") {
-      closeListbox();
-    }
+      if (e.target.dataset.selectedValue) {
+        const selectedOption = options.find(
+          (o) => o.value === e.target.dataset.selectedValue,
+        );
+        if (selectedOption) {
+          e.target.value = selectedOption.label;
+        }
+      }
+    },
+    onKeydown: (e) => {
+      const items = listbox.querySelectorAll('[role="option"]');
+
+      switch (e.key) {
+        case "ArrowDown": {
+          e.preventDefault();
+          if (listbox.hidden) {
+            renderOptions(e.target.value);
+            openListbox();
+          }
+          const nextIndex = Math.min(getActiveIndex() + 1, items.length - 1);
+          setActiveIndex(nextIndex);
+          setActiveDescendant(nextIndex);
+          break;
+        }
+        case "ArrowUp": {
+          e.preventDefault();
+          if (listbox.hidden) {
+            renderOptions(e.target.value);
+            openListbox();
+          }
+          const nextIndex = Math.max(getActiveIndex() - 1, 0);
+          setActiveIndex(nextIndex);
+          setActiveDescendant(nextIndex);
+          break;
+        }
+        case "Enter": {
+          e.preventDefault();
+          const currentIndex = getActiveIndex();
+          const targetIndex = currentIndex >= 0 ? currentIndex : 0;
+          if (targetIndex < items.length) {
+            const value = items[targetIndex].dataset.value;
+            const option = options.find((o) => o.value === value);
+            if (option) selectOption(option);
+          }
+          closeListbox();
+          break;
+        }
+        case "Escape": {
+          closeListbox();
+          break;
+        }
+      }
+    },
   });
-
-  listbox.hidden = true;
-  root.appendChild(input);
-  root.appendChild(listbox);
-
-  root.setOptions = (opts) => {
-    allOptions = opts;
-    if (selectedValue) {
-      setSelected(selectedValue);
-    }
-  };
-
-  return root;
 }

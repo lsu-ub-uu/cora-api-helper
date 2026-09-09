@@ -26,8 +26,7 @@ describe("filterableSelect", () => {
   });
 
   it("shows all options when input is focused", async () => {
-    const component = filterableSelect({ onChange: vi.fn() });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: vi.fn() });
     document.body.appendChild(component);
 
     await userEvent.click(screen.getByRole("combobox"));
@@ -37,8 +36,7 @@ describe("filterableSelect", () => {
   });
 
   it("filters options by input text", async () => {
-    const component = filterableSelect({ onChange: vi.fn() });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: vi.fn() });
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
@@ -51,8 +49,7 @@ describe("filterableSelect", () => {
   });
 
   it("is case-insensitive when filtering", async () => {
-    const component = filterableSelect({ onChange: vi.fn() });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: vi.fn() });
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
@@ -66,8 +63,7 @@ describe("filterableSelect", () => {
 
   it("calls onChange when an option is clicked", async () => {
     const onChangeMock = vi.fn();
-    const component = filterableSelect({ onChange: onChangeMock });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: onChangeMock });
     document.body.appendChild(component);
 
     await userEvent.click(screen.getByRole("combobox"));
@@ -77,8 +73,7 @@ describe("filterableSelect", () => {
   });
 
   it("sets input text to selected option label on click", async () => {
-    const component = filterableSelect({ onChange: vi.fn() });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: vi.fn() });
     document.body.appendChild(component);
 
     await userEvent.click(screen.getByRole("combobox"));
@@ -89,10 +84,10 @@ describe("filterableSelect", () => {
 
   it("pre-selects option matching selectedValue", () => {
     const component = filterableSelect({
+      options,
       selectedValue: "banana",
       onChange: vi.fn(),
     });
-    component.setOptions(options);
     document.body.appendChild(component);
 
     expect(screen.getByRole("combobox")).toHaveValue("Banana");
@@ -100,8 +95,7 @@ describe("filterableSelect", () => {
 
   it("navigates options with arrow keys and selects with Enter", async () => {
     const onChangeMock = vi.fn();
-    const component = filterableSelect({ onChange: onChangeMock });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: onChangeMock });
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
@@ -114,8 +108,7 @@ describe("filterableSelect", () => {
 
   it("selects topmost option on Enter without arrow navigation", async () => {
     const onChangeMock = vi.fn();
-    const component = filterableSelect({ onChange: onChangeMock });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: onChangeMock });
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
@@ -128,8 +121,7 @@ describe("filterableSelect", () => {
 
   it("selects topmost filtered option on Enter", async () => {
     const onChangeMock = vi.fn();
-    const component = filterableSelect({ onChange: onChangeMock });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: onChangeMock });
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
@@ -143,8 +135,7 @@ describe("filterableSelect", () => {
   });
 
   it("closes listbox on Escape", async () => {
-    const component = filterableSelect({ onChange: vi.fn() });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: vi.fn() });
     document.body.appendChild(component);
 
     await userEvent.click(screen.getByRole("combobox"));
@@ -156,10 +147,10 @@ describe("filterableSelect", () => {
 
   it("restores previous selection on blur with invalid text", async () => {
     const component = filterableSelect({
+      options,
       selectedValue: "apple",
       onChange: vi.fn(),
     });
-    component.setOptions(options);
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
@@ -170,17 +161,16 @@ describe("filterableSelect", () => {
     expect(input).toHaveValue("Apple");
   });
 
-  it("accepts value on blur when text matches an option", async () => {
+  it("does not select value on blur when text matches an option", async () => {
     const onChangeMock = vi.fn();
-    const component = filterableSelect({ onChange: onChangeMock });
-    component.setOptions(options);
+    const component = filterableSelect({ options, onChange: onChangeMock });
     document.body.appendChild(component);
 
     const input = screen.getByRole("combobox");
     await userEvent.type(input, "cherry");
     await userEvent.tab();
 
-    expect(onChangeMock).toHaveBeenCalledWith("cherry");
-    expect(input).toHaveValue("Cherry");
+    expect(onChangeMock).not.toHaveBeenCalled();
+    expect(input).toHaveValue("cherry");
   });
 });
