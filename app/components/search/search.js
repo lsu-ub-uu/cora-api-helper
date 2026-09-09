@@ -1,5 +1,6 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import dataFormat from "../dataFormat/dataFormat.js";
+import group from "../group/group.js";
 
 export default function search({ search, metadataPool }) {
   const searchMetadataLink = getFirstChildWithName(search, "metadataId");
@@ -9,7 +10,9 @@ export default function search({ search, metadataPool }) {
   ).value;
 
   return dataFormat({
-    metadataPool,
-    rootGroupId: searchMetadataId,
+    children: group({
+      metadataPool,
+      groupId: searchMetadataId,
+    }),
   });
 }

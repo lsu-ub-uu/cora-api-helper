@@ -3,6 +3,9 @@ import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
 import { getSearchId, updateSearchParam } from "../../utils/searchParams.js";
 import dataFormat from "../dataFormat/dataFormat.js";
+import dataWrapper from "../dataWrapper/dataWrapper.js";
+import group from "../group/group.js";
+import recordListWrapper from "../recordListWrapper/recordListWrapper.js";
 import search from "../search/search.js";
 
 export function recordTypeSearch({
@@ -103,9 +106,14 @@ function searchResponseBody({ recordTypePool, recordTypeId, metadataPool }) {
   ).value;
 
   return dataFormat({
-    metadataPool,
-    rootGroupId: metadataId,
-    recordList: true,
-    dataWrapper: true,
+    children: recordListWrapper({
+      children: dataWrapper({
+        children: group({
+          metadataPool,
+          groupId: metadataId,
+        }),
+        repeating: true,
+      }),
+    }),
   });
 }

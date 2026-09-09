@@ -1,6 +1,8 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import dataFormat from "../dataFormat/dataFormat.js";
+import dataWrapper from "../dataWrapper/dataWrapper.js";
+import group from "../group/group.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 
 export default function recordTypeRead({
@@ -20,9 +22,12 @@ export default function recordTypeRead({
       requestConfigDoc({ recordTypeId, method: "read" }),
       el("h3", { textContent: "Response body format" }),
       dataFormat({
-        metadataPool,
-        rootGroupId: metadataId,
-        dataWrapper: true,
+        children: dataWrapper({
+          children: group({
+            metadataPool,
+            groupId: metadataId,
+          }),
+        }),
       }),
     ],
   });

@@ -5,6 +5,7 @@ import {
   updateSearchParam,
 } from "../../utils/searchParams.js";
 import dataFormat from "../dataFormat/dataFormat.js";
+import group from "../group/group.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";
 
@@ -44,8 +45,10 @@ export default function createOrUpdateRecordType({
       requestConfigDoc({ recordTypeId, method }),
       el("h3", { textContent: "Request body format" }),
       dataFormat({
-        metadataPool,
-        rootGroupId: metadataId,
+        children: group({
+          metadataPool,
+          groupId: metadataId,
+        }),
       }),
     );
   }

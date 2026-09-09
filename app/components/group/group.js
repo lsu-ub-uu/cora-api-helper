@@ -6,8 +6,8 @@ import element from "../element/element.js";
 export default function group({
   metadataPool,
   groupId,
-  repeatMin,
-  repeatMax,
+  repeatMin = "1",
+  repeatMax = "1",
   depth = 0,
   lastChild = true,
 }) {
