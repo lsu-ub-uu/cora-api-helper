@@ -8,6 +8,7 @@ export default function dataFormat({
   metadataPool,
   rootGroupId,
   dataWrapper = false,
+  recordList = false,
 }) {
   const rootGroup = group({
     metadataPool,
@@ -16,10 +17,14 @@ export default function dataFormat({
     repeatMax: "1",
   });
 
+  const wrapper = dataWrapper
+    ? renderDataWrapper({ children: rootGroup })
+    : rootGroup;
+
   return el("div", {
     className: "code-block data-format",
     children: [
-      dataWrapper ? renderDataWrapper({ children: rootGroup }) : rootGroup,
+      recordList ? renderRecordList({ children: wrapper }) : wrapper,
       legend(),
     ],
   });
@@ -75,12 +80,75 @@ function renderDataWrapperXML({ children }) {
             children: [
               el("div", { textContent: "<data>" }),
               el("div", { className: "indent", children: [children] }),
-              el("div", { textContent: "</data>", className: "indent" }),
+              el("div", { textContent: "</data>" }),
             ],
           }),
         ],
       }),
       el("div", { textContent: "</record>" }),
+    ],
+  });
+}
+
+function renderRecordList({ children }) {
+  return el("div", {
+    className: "element",
+    children: [
+      el("div", { textContent: "<dataList>" }),
+      el("div", {
+        className: "indent",
+        children: [
+          el("div", {
+            children: [
+              "<fromNo>",
+              el("span", {
+                className: "number-variable",
+                textContent: "0-99999",
+              }),
+              "</fromNo>",
+            ],
+          }),
+          el("div", {
+            children: [
+              "<toNo>",
+              el("span", {
+                className: "number-variable",
+                textContent: "0-99999",
+              }),
+              "</toNo>",
+            ],
+          }),
+          el("div", {
+            children: [
+              "<totalNo>",
+              el("span", {
+                className: "number-variable",
+                textContent: "0-99999",
+              }),
+              "</totalNo>",
+            ],
+          }),
+          el("div", {
+            children: [
+              "<containsDataOfType>",
+              el("span", {
+                className: "final-value",
+                textContent: "mix",
+              }),
+              "</containsDataOfType>",
+            ],
+          }),
+          el("div", {
+            className: "element",
+            children: [
+              el("div", { textContent: "<data>" }),
+              el("div", { className: "indent", children: [children] }),
+              el("div", { textContent: "</data>" }),
+            ],
+          }),
+        ],
+      }),
+      el("div", { textContent: "</dataList>" }),
     ],
   });
 }

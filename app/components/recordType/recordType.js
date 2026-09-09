@@ -6,7 +6,7 @@ import radio from "../radio/radio.js";
 import createOrUpdateRecordType from "./createOrUpdate.js";
 import recordTypeRead from "./read.js";
 import requestConfigDoc from "./requestConfigDoc.js";
-import { recordTypeSearch } from "./search.js";
+import { recordTypeSearch } from "./recordTypeSearch.js";
 
 export default function recordType({
   recordTypeId,
@@ -59,7 +59,7 @@ function pageTitle({ recordTypePool, recordTypeId }) {
 }
 
 function requestMethods({ selectedMethod, onSelectMethod }) {
-  const methods = ["read", "create", "update", "delete" /*, "search"*/];
+  const methods = ["read", "create", "update", "delete", "search"];
 
   return el("fieldset", {
     children: [
@@ -104,7 +104,12 @@ function requestDoc({
   } else if (method === "delete") {
     return requestConfigDoc({ recordTypeId, method });
   } else if (method === "search") {
-    return recordTypeSearch({ searchPool, recordTypeId });
+    return recordTypeSearch({
+      recordTypeId,
+      recordTypePool,
+      searchPool,
+      metadataPool,
+    });
   }
 }
 

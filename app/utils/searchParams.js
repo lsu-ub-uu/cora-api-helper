@@ -2,6 +2,10 @@ export function getValidationType() {
   return getSearchParamValue("validationTypeId");
 }
 
+export function getSearchId() {
+  return getSearchParamValue("searchId");
+}
+
 export function getMethod() {
   return getSearchParamValue("method", "create");
 }
