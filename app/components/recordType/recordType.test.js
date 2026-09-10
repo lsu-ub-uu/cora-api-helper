@@ -104,7 +104,7 @@ describe("recordType", () => {
     });
 
     expect(result.querySelector("fieldset")).toBeTruthy();
-    expect(result.textContent).toContain("Select request method");
+    expect(result.textContent).toContain("Select operation");
   });
 
   it("renders createOrUpdate for create method", () => {
