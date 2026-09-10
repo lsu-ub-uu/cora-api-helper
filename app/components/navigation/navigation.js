@@ -93,9 +93,11 @@ function groupListItem({ group, recordTypePool, path, navigate }) {
   return el("li", {
     children: [
       groupHeading(group),
-      ...recordTypeIds.map((recordTypeId) =>
-        recordTypeLi({ recordTypeId, recordTypePool, path, navigate }),
-      ),
+      el("ul", {
+        children: recordTypeIds.map((recordTypeId) =>
+          recordTypeLi({ recordTypeId, recordTypePool, path, navigate }),
+        ),
+      }),
     ],
   });
 }
