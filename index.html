@@ -9,22 +9,25 @@
   <body>
     <header>
       <a href="/api-helper" class="logo-link"
-        ><h1><span id="system-name">Cora</span> API Helper</h1></a
+        ><h1>
+          <span id="system-name">Cora</span>
+          <span id="app-name">API Helper</span>
+        </h1></a
       >
       <div id="deployment-info"></div>
       <form id="load-form">
         <label>
-          Format
+          <span id="format-label">Format</span>
           <select id="format" name="format">
-            <option value="xml">XML</option>
-            <option value="json">JSON</option>
+            <option value="xml" id="xml-option">XML</option>
+            <option value="json" id="json-option">JSON</option>
           </select>
         </label>
         <label>
-          Language
+          <span id="lang-label">Language</span>
           <select id="lang" name="lang">
-            <option value="en">English</option>
-            <option value="sv">Swedish</option>
+            <option value="en" id="en-option">English</option>
+            <option value="sv" id="sv-option">Swedish</option>
           </select>
         </label>
       </form>

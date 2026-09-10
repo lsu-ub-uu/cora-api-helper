@@ -1,5 +1,6 @@
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
+import t from "../../utils/t.js";
 import filterableSelect from "../filterableSelect/filterableSelect.js";
 
 export default function validationTypeSelect({
@@ -9,7 +10,7 @@ export default function validationTypeSelect({
 }) {
   const root = document.createElement("label");
   root.className = "validation-type-select";
-  root.textContent = "Select validation type: ";
+  root.textContent = t("apiHelper_selectValidationTypeText");
 
   const filteredValidationTypes = validationTypes.filter((validationType) => {
     const recordInfo = getFirstChildWithName(validationType, "recordInfo");

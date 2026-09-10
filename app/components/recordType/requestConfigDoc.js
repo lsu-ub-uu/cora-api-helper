@@ -1,5 +1,6 @@
 import { el } from "../../utils/el.js";
 import { getApiUrl, getFormat } from "../../utils/searchParams.js";
+import t from "../../utils/t.js";
 
 export default function requestConfigDoc({ recordTypeId, method }) {
   const format = getFormat();
@@ -11,9 +12,13 @@ export default function requestConfigDoc({ recordTypeId, method }) {
   }`;
 
   const httpMethod =
-    method === "read" ? "GET" : method === "delete" ? "DELETE" : "POST";
+    method === "read"
+      ? t("apiHelper_getText")
+      : method === "delete"
+        ? "DELETE"
+        : t("apiHelper_postText");
   const root = document.createDocumentFragment();
-  root.appendChild(el("h3", { textContent: "Request config" }));
+  root.appendChild(el("h3", { textContent: t("apiHelper_requestConfigText") }));
   root.appendChild(
     el("div", {
       className: "code-block",
@@ -31,7 +36,7 @@ export default function requestConfigDoc({ recordTypeId, method }) {
             textContent: `Content-Type: application/vnd.cora.recordGroup+${format}`,
           }),
         el("div", {
-          textContent: "AuthToken: xxxx-xxxx-xxxx-xxxx",
+          textContent: t("apiHelper_authTokenText"),
         }),
       ],
     }),

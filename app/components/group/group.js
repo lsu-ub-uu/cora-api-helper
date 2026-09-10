@@ -1,5 +1,6 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import t from "../../utils/t.js";
 import childReference from "../childReference/childReference.js";
 import element from "../element/element.js";
 
@@ -13,7 +14,7 @@ export default function group({
 }) {
   if (depth > 10) {
     console.warn("Maximum depth exceeded in group rendering");
-    return document.createTextNode("<<MAX DEPTH EXCEEDED>>");
+    return document.createTextNode(t("apiHelper_maxDepthExceededText"));
   }
 
   const groupMetadata = metadataPool[groupId];

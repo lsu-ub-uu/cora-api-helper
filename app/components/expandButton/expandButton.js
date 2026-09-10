@@ -1,4 +1,5 @@
 import { el } from "../../utils/el.js";
+import t from "../../utils/t.js";
 
 export default function expandButton({ onClick }) {
   let expanded = true;
@@ -6,7 +7,7 @@ export default function expandButton({ onClick }) {
   const root = el("button", {
     type: "button",
     className: "element-expand-button",
-    "aria-label": "Collapse element",
+    "aria-label": t("apiHelper_collapseElementText"),
     textContent: "-",
     onClick: () => {
       onClick();
@@ -14,7 +15,9 @@ export default function expandButton({ onClick }) {
       root.textContent = expanded ? "-" : "+";
       root.setAttribute(
         "aria-label",
-        expanded ? "Collapse element" : "Expand element",
+        expanded
+          ? t("apiHelper_collapseElementText")
+          : t("apiHelper_expandElementText"),
       );
     },
   });

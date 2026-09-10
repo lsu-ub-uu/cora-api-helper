@@ -1,5 +1,6 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import t from "../../utils/t.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import dataWrapper from "../dataWrapper/dataWrapper.js";
 import group from "../group/group.js";
@@ -20,7 +21,7 @@ export default function recordTypeRead({
   return el("fragment", {
     children: [
       requestConfigDoc({ recordTypeId, method: "read" }),
-      el("h3", { textContent: "Response body format" }),
+      el("h3", { textContent: t("apiHelper_responseBodyFormatText") }),
       dataFormat({
         children: dataWrapper({
           children: group({

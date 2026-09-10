@@ -2,6 +2,7 @@ import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
 import { getMethod, updateSearchParam } from "../../utils/searchParams.js";
+import t from "../../utils/t.js";
 import radio from "../radio/radio.js";
 import createOrUpdateRecordType from "./createOrUpdate.js";
 import recordTypeRead from "./read.js";
@@ -60,15 +61,22 @@ function pageTitle({ recordTypePool, recordTypeId }) {
 
 function requestMethods({ selectedMethod, onSelectMethod }) {
   const methods = ["read", "create", "update", "delete", "search"];
+  const methodLabels = {
+    read: t("apiHelper_readText"),
+    create: t("apiHelper_createText"),
+    update: t("apiHelper_updateText"),
+    delete: t("apiHelper_deleteText"),
+    search: t("apiHelper_searchText"),
+  };
 
   return el("fieldset", {
     children: [
-      el("legend", { textContent: "Select request method" }),
+      el("legend", { textContent: t("apiHelper_selectRequestMethodText") }),
       ...methods.map((method) =>
         radio({
           name: "method",
           value: method,
-          label: capitalize(method),
+          label: methodLabels[method],
           checked: selectedMethod === method,
           onChange: (value) => {
             updateSearchParam("method", value);
@@ -111,8 +119,4 @@ function requestDoc({
       metadataPool,
     });
   }
-}
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }

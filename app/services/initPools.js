@@ -1,9 +1,11 @@
 import listRecordType from "./listRecordType.js";
+import t from "../utils/t.js";
 
 export default async function initPools() {
   const loadingTextTimeout = setTimeout(() => {
-    document.getElementById("app").innerHTML =
-      `Loading metadata, please wait...`;
+    document.getElementById("app").innerHTML = t(
+      "apiHelper_loadingMetadataText",
+    );
   }, 200);
 
   const [recordTypePool, validationTypePool, metadataPool, searchPool] =

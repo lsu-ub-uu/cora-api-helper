@@ -2,6 +2,7 @@ import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
 import { getBasePath } from "../../utils/routing.js";
+import t from "../../utils/t.js";
 
 export default function navigation({
   recordTypePool,
@@ -38,7 +39,7 @@ function authenticationLink({ path, navigate }) {
     className: "main-nav-item",
     children: el("a", {
       href,
-      textContent: "Authentication",
+      textContent: t("apiHelper_authenticationText"),
       "aria-current":
         path.startsWith(href + "/") || path === href ? "page" : null,
       onClick: (e) => {
@@ -55,7 +56,7 @@ function recordTypesNav({ recordTypePool, path, navigate, groups }) {
   return el("div", {
     className: "main-nav-item",
     children: [
-      el("h2", { textContent: "Record Types" }),
+      el("h2", { textContent: t("apiHelper_recordTypesText") }),
       groupList({ recordTypePool, path, navigate, groups }),
     ],
   });

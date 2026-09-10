@@ -4,6 +4,7 @@ import {
   getValidationType,
   updateSearchParam,
 } from "../../utils/searchParams.js";
+import t from "../../utils/t.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import group from "../group/group.js";
 import requestConfigDoc from "./requestConfigDoc.js";
@@ -43,7 +44,7 @@ export default function createOrUpdateRecordType({
         onChangeValidationType: render,
       }),
       requestConfigDoc({ recordTypeId, method }),
-      el("h3", { textContent: "Request body format" }),
+      el("h3", { textContent: t("apiHelper_requestBodyFormatText") }),
       dataFormat({
         children: group({
           metadataPool,

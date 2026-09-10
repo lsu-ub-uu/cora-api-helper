@@ -1,4 +1,19 @@
+import t from "./t.js";
+
 export default function initSettings() {
+  // Set header labels using translations
+  document.getElementById("app-name").textContent = t("apiHelper_appNameText");
+  document.getElementById("format-label").textContent = t(
+    "apiHelper_formatText",
+  );
+  document.getElementById("lang-label").textContent = t(
+    "apiHelper_languageText",
+  );
+  document.getElementById("xml-option").textContent = t("apiHelper_xmlText");
+  document.getElementById("json-option").textContent = t("apiHelper_jsonText");
+  document.getElementById("en-option").textContent = t("apiHelper_englishText");
+  document.getElementById("sv-option").textContent = t("apiHelper_swedishText");
+
   const params = new URLSearchParams(window.location.search);
   if (window.location.hostname === "localhost" && !params.get("api-url")) {
     setDefaultApiUrlForLocalhost(params);

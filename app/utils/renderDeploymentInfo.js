@@ -1,4 +1,5 @@
 import getDeploymentInfo from "../services/getDeploymentInfo.js";
+import t from "./t.js";
 
 export default async function renderDeploymentInfo() {
   try {
@@ -6,9 +7,9 @@ export default async function renderDeploymentInfo() {
     console.log({ deploymentInfo });
     document.getElementById("deployment-info").textContent =
       `${deploymentInfo.deploymentName} (${deploymentInfo.applicationVersion})`;
-    document.getElementById("system-name").textContent =
-      deploymentInfo.applicationName.slice(0, 1).toUpperCase() +
-      deploymentInfo.applicationName.slice(1);
+    document.getElementById("system-name").textContent = t(
+      "apiHelper_systemNameText",
+    );
   } catch (error) {
     console.error("Failed to render deployment info:", error);
   }

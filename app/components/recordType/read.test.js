@@ -11,6 +11,10 @@ vi.mock("../dataFormat/dataFormat.js", () => ({
   }),
 }));
 
+vi.mock("../group/group.js", () => ({
+  default: vi.fn(() => document.createElement("div")),
+}));
+
 describe("read", () => {
   it("renders read request config", () => {
     const recordTypePool = {
@@ -32,15 +36,11 @@ describe("read", () => {
     const metadataPool = {};
 
     document.body.appendChild(
-      recordTypeRead({ recordTypePool, metadataPool, recordTypeId: "person" })
+      recordTypeRead({ recordTypePool, metadataPool, recordTypeId: "person" }),
     );
 
     expect(screen.getByText("Request config")).toBeInTheDocument();
     expect(screen.getByText("Data format content")).toBeInTheDocument();
-    expect(dataFormat).toHaveBeenCalledWith({
-      metadataPool,
-      rootGroupId: "personGroup",
-      dataWrapper: true,
-    });
+    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
   });
 });

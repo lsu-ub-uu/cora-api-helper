@@ -1,19 +1,18 @@
 import { el } from "../utils/el.js";
+import t from "../utils/t.js";
 
 export default function welcomeMessage() {
   return el("div", {
     children: [
-      el("h2", { textContent: "Welcome to the API helper!" }),
+      el("h2", { textContent: t("apiHelper_welcomeText") }),
       el("p", {
-        textContent: "This tool helps you explore the Cora REST API.",
+        textContent: t("apiHelper_welcomeDescriptionText"),
       }),
       el("p", {
-        textContent:
-          "Select a record type from the navigation to the left to begin. ⬅️",
+        textContent: t("apiHelper_welcomeNavigationText"),
       }),
       el("p", {
-        textContent:
-          "You can set your preferred data format, language and API URL in the settings at the top right. ↗️",
+        textContent: t("apiHelper_welcomeSettingsText"),
       }),
     ],
   });

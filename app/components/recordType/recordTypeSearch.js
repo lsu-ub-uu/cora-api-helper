@@ -7,6 +7,7 @@ import {
   getSearchId,
   updateSearchParam,
 } from "../../utils/searchParams.js";
+import t from "../../utils/t.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import dataWrapper from "../dataWrapper/dataWrapper.js";
 import group from "../group/group.js";
@@ -35,7 +36,7 @@ export function recordTypeSearch({
         },
       }),
       searchRoot,
-      el("h3", { textContent: "Response body format" }),
+      el("h3", { textContent: t("apiHelper_responseBodyFormatText") }),
       searchResponseBody({ recordTypePool, recordTypeId, metadataPool }),
     ],
   });
@@ -56,11 +57,11 @@ export function recordTypeSearch({
     ).value;
 
     searchRoot.replaceChildren(
-      el("h3", { textContent: "Request config" }),
+      el("h3", { textContent: t("apiHelper_requestConfigText") }),
       searchRequestConfigDoc({
         searchId,
       }),
-      el("h3", { textContent: "Search data format" }),
+      el("h3", { textContent: t("apiHelper_searchDataFormatText") }),
       search({
         search: matchingSearch,
         metadataPool,
@@ -89,7 +90,7 @@ function getSearchesForRecordType({ searchPool, recordTypeId }) {
 
 function searchSelect({ searches, onChange }) {
   return el("label", {
-    textContent: "Select search: ",
+    textContent: t("apiHelper_selectSearchText"),
     children: [
       el("select", {
         children: searches.map((search) => searchOption(search)),
@@ -142,7 +143,7 @@ function searchRequestConfigDoc({ searchId }) {
   return el("div", {
     className: "code-block",
     children: [
-      el("strong", { textContent: "GET" }),
+      el("strong", { textContent: t("apiHelper_getText") }),
       ` ${apiUrl}/record/searchResult/${searchId}?searchData=`,
       el("span", {
         className: "highlight",
@@ -154,7 +155,7 @@ function searchRequestConfigDoc({ searchId }) {
         textContent: `Accept: application/vnd.cora.recordList+${format}`,
       }),
       el("div", {
-        textContent: "AuthToken: xxxx-xxxx-xxxx-xxxx",
+        textContent: t("apiHelper_authTokenText"),
       }),
     ],
   });

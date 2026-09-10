@@ -1,25 +1,23 @@
 import { el } from "../utils/el.js";
 import { getApiUrl } from "../utils/searchParams.js";
+import t from "../utils/t.js";
 
 export default function authentication() {
   const apiUrl = getApiUrl();
 
   return el("article", {
     children: [
-      el("h1", { textContent: "Authentication" }),
+      el("h1", { textContent: t("apiHelper_authenticationText") }),
       el("p", {
-        textContent:
-          "The Cora API is publicly accessible, but requires authentication for administrative actions like creating or updating records, or reading restricted data.",
+        textContent: t("apiHelper_authenticationIntroText"),
       }),
       el("p", {
-        textContent:
-          "To authenticate API requests, you need to obtain an auth token and pass it in the 'Authtoken' header of your requests.",
+        textContent: t("apiHelper_authenticationTokenInstructionText"),
       }),
       el("p", {
-        textContent:
-          "An auth token can be obtained by logging in using an App Token connected to your user or by using your username and password. The auth token is valid for a short time (typically around 10 minutes) and can be used for all API requests during that time. The response of a successful login request contains an actionLink that can be used to renew the auth token before it expires.",
+        textContent: t("apiHelper_authenticationTokenInfoText"),
       }),
-      el("h2", { textContent: "Log in with App Token" }),
+      el("h2", { textContent: t("apiHelper_authenticationAppTokenText") }),
       el("p", {
         className: "code-block",
         children: [
@@ -28,18 +26,16 @@ export default function authentication() {
             children: [
               el("br"),
               el("div", {
-                textContent:
-                  "Content-Type: Content-Type: application/vnd.cora.login",
+                textContent: t("apiHelper_httpHeaderContentTypeLoginText"),
               }),
               el("div", {
-                textContent:
-                  "Accept:     application/vnd.cora.authentication+json",
+                textContent: t("apiHelper_httpHeaderAcceptAuthenticationText"),
               }),
             ],
           }),
         ],
       }),
-      el("h3", { textContent: "Request body" }),
+      el("h3", { textContent: t("apiHelper_requestBodyText") }),
       el("p", {
         className: "code-block",
         children: [
@@ -51,7 +47,7 @@ export default function authentication() {
           }),
         ],
       }),
-      el("h3", { textContent: "Response" }),
+      el("h3", { textContent: t("apiHelper_responseText") }),
       authResponseBody(),
     ],
   });

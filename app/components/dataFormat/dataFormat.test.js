@@ -5,14 +5,6 @@ vi.mock("../../utils/searchParams.js", () => ({
   getFormat: vi.fn(() => "xml"),
 }));
 
-vi.mock("../group/group.js", () => ({
-  default: vi.fn(() => {
-    const div = document.createElement("div");
-    div.textContent = "mock-group";
-    return div;
-  }),
-}));
-
 vi.mock("../legend/legend.js", () => ({
   default: vi.fn(() => {
     const div = document.createElement("div");
@@ -30,10 +22,15 @@ vi.mock("../expandButton/expandButton.js", () => ({
 }));
 
 describe("dataFormat", () => {
+  function createChildren() {
+    const children = document.createElement("div");
+    children.textContent = "mock-group";
+    return children;
+  }
+
   it("renders with code-block class", () => {
     const result = dataFormat({
-      metadataPool: {},
-      rootGroupId: "someGroup",
+      children: createChildren(),
     });
 
     expect(result.className).toBe("code-block data-format");
@@ -41,47 +38,41 @@ describe("dataFormat", () => {
 
   it("renders group and legend", () => {
     const result = dataFormat({
-      metadataPool: {},
-      rootGroupId: "someGroup",
+      children: createChildren(),
     });
 
     expect(result.textContent).toContain("mock-group");
     expect(result.textContent).toContain("mock-legend");
   });
 
-  it("renders without data wrapper by default", () => {
+  it("renders the XML declaration", () => {
     const result = dataFormat({
-      metadataPool: {},
-      rootGroupId: "someGroup",
+      children: createChildren(),
     });
 
+    expect(result.textContent).toContain(
+      '<?xml version="1.0" encoding="UTF-8"?>',
+    );
+  });
+
+  it("renders provided XML data without adding a wrapper", () => {
+    const result = dataFormat({
+      children: createChildren(),
+    });
+
+    expect(result.textContent).toContain("mock-group");
     expect(result.textContent).not.toContain("<record>");
   });
 
-  it("renders XML data wrapper when dataWrapper is true", () => {
-    const result = dataFormat({
-      metadataPool: {},
-      rootGroupId: "someGroup",
-      dataWrapper: true,
-    });
-
-    expect(result.textContent).toContain("<record>");
-    expect(result.textContent).toContain("<data>");
-    expect(result.textContent).toContain("</data>");
-    expect(result.textContent).toContain("</record>");
-  });
-
-  it("renders JSON data wrapper when format is json", async () => {
+  it("renders provided JSON data", async () => {
     const { getFormat } = await import("../../utils/searchParams.js");
     vi.mocked(getFormat).mockReturnValue("json");
 
     const result = dataFormat({
-      metadataPool: {},
-      rootGroupId: "someGroup",
-      dataWrapper: true,
+      children: createChildren(),
     });
 
-    expect(result.textContent).toContain('"record"');
-    expect(result.textContent).toContain('"data"');
+    expect(result.textContent).toContain("mock-group");
+    expect(result.textContent).not.toContain("<?xml");
   });
 });

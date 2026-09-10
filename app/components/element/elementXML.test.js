@@ -36,16 +36,11 @@ vi.mock("../attributes/attributesXML.js", () => ({
 
 describe("elementXML", () => {
   it("renders an xml element with opening and closing tags", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "title" }],
-    };
-
     const children = document.createElement("span");
     children.textContent = "someContent";
 
     const result = elementXML({
-      metadataPool: {},
-      metadata,
+      name: "title",
       repeatMin: "1",
       repeatMax: "1",
       children,
@@ -60,15 +55,10 @@ describe("elementXML", () => {
   });
 
   it("renders multiplicity", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "item" }],
-    };
-
     const children = document.createElement("span");
 
     const result = elementXML({
-      metadataPool: {},
-      metadata,
+      name: "item",
       repeatMin: "0",
       repeatMax: "X",
       children,
@@ -78,18 +68,13 @@ describe("elementXML", () => {
   });
 
   it("renders array children", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "group" }],
-    };
-
     const child1 = document.createElement("div");
     child1.textContent = "child1";
     const child2 = document.createElement("div");
     child2.textContent = "child2";
 
     const result = elementXML({
-      metadataPool: {},
-      metadata,
+      name: "group",
       repeatMin: "1",
       repeatMax: "1",
       children: [child1, child2],
@@ -100,15 +85,10 @@ describe("elementXML", () => {
   });
 
   it("renders expand button", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "test" }],
-    };
-
     const children = document.createElement("span");
 
     const result = elementXML({
-      metadataPool: {},
-      metadata,
+      name: "test",
       repeatMin: "1",
       repeatMax: "1",
       children,

@@ -33,16 +33,11 @@ vi.mock("../attributes/attributesJSON.js", () => ({
 
 describe("elementJSON", () => {
   it("renders a json element with name", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "title" }],
-    };
-
     const children = document.createElement("span");
     children.textContent = "someValue";
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "title",
       repeatMin: "1",
       repeatMax: "1",
       children,
@@ -56,16 +51,11 @@ describe("elementJSON", () => {
   });
 
   it("renders repeatId when repeating", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "item" }],
-    };
-
     const children = document.createElement("span");
     children.textContent = "val";
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "item",
       repeatMin: "0",
       repeatMax: "X",
       children,
@@ -76,15 +66,10 @@ describe("elementJSON", () => {
   });
 
   it("does not render repeatId when repeatMax is 1", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "item" }],
-    };
-
     const children = document.createElement("span");
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "item",
       repeatMin: "1",
       repeatMax: "1",
       children,
@@ -94,18 +79,13 @@ describe("elementJSON", () => {
   });
 
   it("renders children array as children property", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "group" }],
-    };
-
     const child1 = document.createElement("div");
     child1.textContent = "child1";
     const child2 = document.createElement("div");
     child2.textContent = "child2";
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "group",
       repeatMin: "1",
       repeatMax: "1",
       children: [child1, child2],
@@ -117,14 +97,10 @@ describe("elementJSON", () => {
   });
 
   it("renders closing bracket with comma when not lastChild", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "item" }],
-    };
     const children = document.createElement("span");
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "item",
       repeatMin: "1",
       repeatMax: "1",
       children,
@@ -135,14 +111,10 @@ describe("elementJSON", () => {
   });
 
   it("renders closing bracket without comma when lastChild", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "item" }],
-    };
     const children = document.createElement("span");
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "item",
       repeatMin: "1",
       repeatMax: "1",
       children,
@@ -153,20 +125,15 @@ describe("elementJSON", () => {
   });
 
   it("renders recordLink children directly", () => {
-    const metadata = {
-      children: [{ name: "nameInData", value: "link" }],
-      attributes: { type: "recordLink" },
-    };
-
     const linkChildren = document.createElement("div");
     linkChildren.textContent = "linkContent";
 
     const result = elementJSON({
-      metadataPool: {},
-      metadata,
+      name: "link",
       repeatMin: "1",
       repeatMax: "1",
       children: linkChildren,
+      isRecordLink: true,
     });
 
     expect(result.textContent).toContain("linkContent");

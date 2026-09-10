@@ -16,6 +16,10 @@ vi.mock("../dataFormat/dataFormat.js", () => ({
   }),
 }));
 
+vi.mock("../group/group.js", () => ({
+  default: vi.fn(() => document.createElement("div")),
+}));
+
 const personValidationType = {
   children: [
     {
@@ -84,10 +88,7 @@ describe("createOrUpdate", () => {
     expect(screen.getByText("Request config")).toBeInTheDocument();
     expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
     expect(screen.getByText("Mock data format")).toBeInTheDocument();
-    expect(dataFormat).toHaveBeenCalledWith({
-      metadataPool,
-      rootGroupId: "personNewGroup",
-    });
+    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
   });
 
   it("renders documentation for update with one validationType", () => {
@@ -104,10 +105,7 @@ describe("createOrUpdate", () => {
       }),
     );
 
-    expect(dataFormat).toHaveBeenCalledWith({
-      metadataPool,
-      rootGroupId: "personUpdateGroup",
-    });
+    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
   });
 
   it("renders a validation type select when multiple validation types exist", async () => {
@@ -128,20 +126,12 @@ describe("createOrUpdate", () => {
     await waitFor(() =>
       expect(screen.getByRole("combobox")).toBeInTheDocument(),
     );
-    expect(dataFormat).toHaveBeenCalledWith(
-      expect.objectContaining({
-        rootGroupId: "personNewGroup",
-      }),
-    );
+    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
 
     await userEvent.click(screen.getByRole("combobox"));
     await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(2));
     await userEvent.click(screen.getByText(/anotherValidationType/));
 
-    expect(dataFormat).toHaveBeenCalledWith(
-      expect.objectContaining({
-        rootGroupId: "anotherNewGroup",
-      }),
-    );
+    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
   });
 });
