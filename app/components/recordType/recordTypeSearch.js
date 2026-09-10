@@ -1,7 +1,12 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import getTextFromLink from "../../utils/getTextFromLink.js";
-import { getSearchId, updateSearchParam } from "../../utils/searchParams.js";
+import {
+  getApiUrl,
+  getFormat,
+  getSearchId,
+  updateSearchParam,
+} from "../../utils/searchParams.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import dataWrapper from "../dataWrapper/dataWrapper.js";
 import group from "../group/group.js";
@@ -18,8 +23,9 @@ export function recordTypeSearch({
     searchPool,
     recordTypeId,
   });
-  const searchRoot = el("div");
-  const root = el("div", {
+  const searchRoot = el("div", { className: "record-type" });
+
+  const root = el("fragment", {
     children: [
       searchSelect({
         searches: searchesForRecordType,
@@ -28,7 +34,6 @@ export function recordTypeSearch({
           renderSearch();
         },
       }),
-      el("h3", { textContent: "Search data format" }),
       searchRoot,
       el("h3", { textContent: "Response body format" }),
       searchResponseBody({ recordTypePool, recordTypeId, metadataPool }),
@@ -36,16 +41,28 @@ export function recordTypeSearch({
   });
 
   function renderSearch() {
-    const searchId = getSearchId();
-    const matchingSearch = searchesForRecordType.find(
-      (search) =>
-        getFirstChildWithName(getFirstChildWithName(search, "recordInfo"), "id")
-          .value === searchId,
-    );
+    const searchIdFromUrl = getSearchId();
+    const matchingSearch =
+      searchesForRecordType.find(
+        (search) =>
+          getFirstChildWithName(
+            getFirstChildWithName(search, "recordInfo"),
+            "id",
+          ).value === searchIdFromUrl,
+      ) ?? searchesForRecordType[0];
+    const searchId = getFirstChildWithName(
+      getFirstChildWithName(matchingSearch, "recordInfo"),
+      "id",
+    ).value;
 
     searchRoot.replaceChildren(
+      el("h3", { textContent: "Request config" }),
+      searchRequestConfigDoc({
+        searchId,
+      }),
+      el("h3", { textContent: "Search data format" }),
       search({
-        search: matchingSearch ?? searchesForRecordType[0],
+        search: matchingSearch,
         metadataPool,
       }),
     );
@@ -115,5 +132,30 @@ function searchResponseBody({ recordTypePool, recordTypeId, metadataPool }) {
         repeating: true,
       }),
     }),
+  });
+}
+
+function searchRequestConfigDoc({ searchId }) {
+  const format = getFormat();
+  const apiUrl = getApiUrl();
+
+  return el("div", {
+    className: "code-block",
+    children: [
+      el("strong", { textContent: "GET" }),
+      ` ${apiUrl}/record/searchResult/${searchId}?searchData=`,
+      el("span", {
+        className: "highlight",
+        textContent: `{search data ${format} in one line(see below)}`,
+      }),
+      el("br"),
+      el("br"),
+      el("div", {
+        textContent: `Accept: application/vnd.cora.recordList+${format}`,
+      }),
+      el("div", {
+        textContent: "AuthToken: xxxx-xxxx-xxxx-xxxx",
+      }),
+    ],
   });
 }

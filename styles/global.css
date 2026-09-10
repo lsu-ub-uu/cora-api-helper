@@ -19,6 +19,7 @@
   --color-button-bg: rgb(255 255 255 / 6%);
   --color-button-hover: rgb(255 255 255 / 20%);
   --color-button-active: rgb(255 255 255 / 30%);
+  --color-xml-declaration: silver;
 }
 
 body {
@@ -418,4 +419,8 @@ summary {
       position: relative;
     }
   }
+}
+
+.xml-declaration {
+  color: var(--color-xml-declaration);
 }

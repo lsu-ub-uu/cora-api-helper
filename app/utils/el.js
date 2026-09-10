@@ -9,7 +9,10 @@
  * @returns {HTMLElement} The created HTML element with the specified properties and children.
  */
 export function el(tag, props = {}) {
-  const element = document.createElement(tag);
+  const element =
+    tag === "fragment"
+      ? document.createDocumentFragment()
+      : document.createElement(tag);
   const { children, ...rest } = props;
 
   for (const [key, value] of Object.entries(rest)) {
