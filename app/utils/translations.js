@@ -10,8 +10,6 @@ export const getTranslations = () => ({
   apiHelper_formatText: { en: "Format", sv: "Format" },
   apiHelper_languageText: { en: "Language", sv: "Språk" },
   apiHelper_authenticationText: { en: "Authentication", sv: "Autentisering" },
-  apiHelper_systemNameText: { en: "Cora", sv: "Cora" },
-  apiHelper_appNameText: { en: "API Helper", sv: "API Helper" },
   apiHelper_welcomeDescriptionText: {
     en: "This tool helps you explore the Cora REST API.",
     sv: "Det här verktyget hjälper dig att utforska Cora REST API.",
@@ -84,8 +82,8 @@ export const getTranslations = () => ({
     sv: "Sätt till ID för länkad post",
   },
   apiHelper_selectRequestMethodText: {
-    en: "Select request method",
-    sv: "Välj begäransmetod",
+    en: "Select operation",
+    sv: "Välj operation",
   },
   apiHelper_requestConfigText: {
     en: "Request config",

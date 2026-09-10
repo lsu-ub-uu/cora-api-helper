@@ -4,6 +4,7 @@ import { screen, waitFor } from "@testing-library/dom";
 
 vi.mock("../../utils/searchParams.js", () => ({
   getMethod: vi.fn(() => "create"),
+  getLanguage: vi.fn(() => "en"),
 }));
 
 vi.mock("../../utils/getTextFromLink.js", () => ({

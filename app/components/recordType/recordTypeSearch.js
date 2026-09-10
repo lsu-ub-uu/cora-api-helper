@@ -147,7 +147,7 @@ function searchRequestConfigDoc({ searchId }) {
       ` ${apiUrl}/record/searchResult/${searchId}?searchData=`,
       el("span", {
         className: "highlight",
-        textContent: `{search data ${format} in one line(see below)}`,
+        textContent: `{${format} search data}`,
       }),
       el("br"),
       el("br"),
