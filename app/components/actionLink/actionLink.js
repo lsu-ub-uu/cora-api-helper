@@ -1,24 +1,58 @@
 import elementXML from "../element/elementXML";
 
 export default function actionLink({ method, recordType }) {
+  switch (method) {
+    case "read":
+      return actionLinkElement({
+        name: "read",
+        requestMethod: "GET",
+        recordType,
+        accept: "application/vnd.cora.record+xml",
+        repeatMin: "1",
+      });
+    case "update":
+      return actionLinkElement({
+        name: "update",
+        requestMethod: "POST",
+        recordType,
+        accept: "application/vnd.cora.record+xml",
+        contentType: "application/vnd.cora.recordgroup+xml",
+      });
+    case "delete":
+      return actionLinkElement({
+        name: "delete",
+        requestMethod: "DELETE",
+        recordType,
+      });
+    default:
+      throw new Error(`Unsupported method: ${method}`);
+  }
+}
+
+function actionLinkElement({
+  name,
+  requestMethod,
+  recordType,
+  accept,
+  contentType,
+  repeatMin = "0",
+}) {
   return elementXML({
-    name: method,
-    repeatMin: method === "read" ? "1" : "0",
+    name,
+    repeatMin,
     repeatMax: "1",
     children: [
       elementXML({
         name: "requestMethod",
         repeatMin: "1",
         repeatMax: "1",
-        children: [
-          method === "read" ? "GET" : method === "delete" ? "DELETE" : "POST",
-        ],
+        children: [requestMethod],
       }),
       elementXML({
         name: "rel",
         repeatMin: "1",
         repeatMax: "1",
-        children: [method],
+        children: [name],
       }),
       elementXML({
         name: "url",
@@ -26,22 +60,22 @@ export default function actionLink({ method, recordType }) {
         repeatMax: "1",
         children: [`http://example.com/rest/record/${recordType}/{recordId}`],
       }),
-      ...(method === "update"
-        ? [
-            elementXML({
-              name: "contentType",
-              repeatMin: "1",
-              repeatMax: "1",
-              children: ["application/vnd.cora.recordgroup+xml"],
-            }),
-          ]
-        : []),
-      elementXML({
-        name: "accept",
-        repeatMin: "1",
-        repeatMax: "1",
-        children: ["application/vnd.cora.record+xml"],
-      }),
+      ...(contentType && [
+        elementXML({
+          name: "contentType",
+          repeatMin: "1",
+          repeatMax: "1",
+          children: [contentType],
+        }),
+      ]),
+      ...(accept && [
+        elementXML({
+          name: "accept",
+          repeatMin: "1",
+          repeatMax: "1",
+          children: [accept],
+        }),
+      ]),
     ],
   });
 }
