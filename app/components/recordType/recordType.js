@@ -47,8 +47,7 @@ export default function recordType({
 }
 
 function pageTitle({ recordTypePool, recordTypeId }) {
-  const root = document.createElement("h2");
-  root.textContent = recordTypeId;
+  const root = el("h2", { textContent: recordTypeId });
 
   const recordType = recordTypePool[recordTypeId];
   const recordTypeTextId = getFirstChildWithName(recordType, "textId");

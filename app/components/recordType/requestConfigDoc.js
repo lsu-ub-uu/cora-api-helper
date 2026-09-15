@@ -17,7 +17,7 @@ export default function requestConfigDoc({ recordTypeId, method }) {
       : method === "delete"
         ? "DELETE"
         : t("apiHelper_postText");
-  const root = document.createDocumentFragment();
+  const root = el("fragment");
   root.appendChild(el("h3", { textContent: t("apiHelper_requestConfigText") }));
   root.appendChild(
     el("div", {

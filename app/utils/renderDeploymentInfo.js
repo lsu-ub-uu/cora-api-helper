@@ -3,7 +3,6 @@ import getDeploymentInfo from "../services/getDeploymentInfo.js";
 export default async function renderDeploymentInfo() {
   try {
     const deploymentInfo = await getDeploymentInfo();
-    console.log({ deploymentInfo });
     document.getElementById("deployment-info").textContent =
       `${deploymentInfo.deploymentName} (${deploymentInfo.applicationVersion})`;
     document.getElementById("system-name").textContent =

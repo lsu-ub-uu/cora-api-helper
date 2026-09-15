@@ -25,7 +25,7 @@ export default function group({
   )?.children;
 
   if (!childReferences) {
-    return document.createDocumentFragment();
+    return el("fragment");
   }
 
   return el("div", {

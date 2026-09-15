@@ -44,11 +44,12 @@ export default function itemCollection({
     );
 
     if (collectionItems.length > MAX) {
-      const expandButton = renderExpandButton({ expanded });
-
-      expandButton.addEventListener("click", () => {
-        expanded = !expanded;
-        render();
+      const expandButton = renderExpandButton({
+        expanded,
+        onClick: () => {
+          expanded = !expanded;
+          render();
+        },
       });
 
       root.appendChild(expandButton);
@@ -71,7 +72,7 @@ export function extractCollectionItems({ metadataPool, collectionReference }) {
   )?.children;
 
   if (!collectionItemReferences) {
-    return document.createDocumentFragment();
+    return el("fragment");
   }
 
   const collectionItems = collectionItemReferences.map((itemRef) => {
@@ -83,29 +84,24 @@ export function extractCollectionItems({ metadataPool, collectionReference }) {
 }
 
 function renderCollectionItems(collectionItems) {
-  const root = document.createDocumentFragment();
+  return el("fragment", {
+    children: collectionItems.flatMap((item, index) => {
+      const isLastItem = index === collectionItems.length - 1;
+      const separator = !isLastItem ? " | " : null;
 
-  collectionItems.forEach((item, index) => {
-    const isLastItem = index === collectionItems.length - 1;
-    root.appendChild(dataName({ metadata: item }));
-    if (!isLastItem) {
-      root.appendChild(document.createTextNode(" | "));
-    }
+      return [dataName({ metadata: item }), separator];
+    }),
   });
-
-  return root;
 }
 
-function renderExpandButton({ expanded }) {
-  const root = document.createElement("button");
-
-  root.className = "collection-variable-expand";
-  root.textContent = expanded ? "—" : "...";
-  root.setAttribute("aria-expanded", expanded ? "true" : "false");
-  root.setAttribute(
-    "aria-label",
-    expanded ? "Collapse collection items" : "Expand collection items",
-  );
-
-  return root;
+function renderExpandButton({ expanded, onClick }) {
+  return el("button", {
+    className: "collection-variable-expand",
+    textContent: expanded ? "—" : "...",
+    "aria-expanded": expanded ? "true" : "false",
+    "aria-label": expanded
+      ? "Collapse collection items"
+      : "Expand collection items",
+    onClick,
+  });
 }

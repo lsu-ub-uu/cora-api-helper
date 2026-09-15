@@ -1,3 +1,4 @@
+import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import element from "../element/element.js";
 
@@ -13,18 +14,17 @@ export default function numberVariable({
   const numberOfDecimals =
     getFirstChildWithName(metadata, "numberOfDecimals")?.value ?? 0;
 
-  const regex = document.createElement("div");
-  regex.className = "number-variable";
-  regex.textContent = `${Number(min).toFixed(numberOfDecimals)} - ${Number(
-    max
-  ).toFixed(numberOfDecimals)}`;
-
   return element({
     metadataPool,
     metadata,
     repeatMin,
     repeatMax,
-    children: regex,
+    children: el("div", {
+      className: "number-variable",
+      textContent: `${Number(min).toFixed(numberOfDecimals)} - ${Number(
+        max,
+      ).toFixed(numberOfDecimals)}`,
+    }),
     lastChild,
   });
 }
