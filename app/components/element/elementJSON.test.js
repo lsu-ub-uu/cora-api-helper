@@ -1,10 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import elementJSON from "./elementJSON";
+import elementJSON, { jsonObject } from "./elementJSON";
 
 vi.mock("../expandButton/expandButton.js", () => ({
-  default: vi.fn(() => {
+  default: vi.fn(({ onClick }) => {
     const btn = document.createElement("button");
     btn.textContent = "toggle";
+    btn.addEventListener("click", onClick);
     return btn;
   }),
 }));
@@ -48,6 +49,19 @@ describe("elementJSON", () => {
     expect(result.textContent).toContain("title");
     expect(result.textContent).toContain('"value"');
     expect(result.textContent).toContain("someValue");
+  });
+
+  it("collapses a metadata element", () => {
+    const result = elementJSON({
+      name: "title",
+      repeatMin: "1",
+      repeatMax: "1",
+      children: "someValue",
+    });
+
+    result.querySelector("button").click();
+
+    expect(result.classList.contains("collapsed")).toBe(true);
   });
 
   it("renders repeatId when repeating", () => {
@@ -139,5 +153,41 @@ describe("elementJSON", () => {
     expect(result.textContent).toContain("linkContent");
     expect(result.textContent).not.toContain('"children"');
     expect(result.textContent).not.toContain('"value"');
+  });
+
+  it("renders a nested JSON object", () => {
+    const result = jsonObject({
+      name: "read",
+      value: {
+        requestMethod: "GET",
+        body: {
+          children: [{ name: "title", value: 'A "quoted" title' }],
+        },
+      },
+    });
+
+    expect(result.className).toBe("json-element");
+    expect(result.textContent).toContain('"read": {');
+    expect(result.textContent).toContain('"requestMethod": "GET",');
+    expect(result.textContent).toContain('"children": [');
+    expect(result.textContent).toContain('"value": "A \\"quoted\\" title"');
+  });
+
+  it("renders a trailing comma when the object is not the last child", () => {
+    const result = jsonObject({
+      name: "read",
+      value: { requestMethod: "GET" },
+      lastChild: false,
+    });
+
+    expect(result.textContent).toMatch(/},$/);
+  });
+
+  it("toggles the collapsed class", () => {
+    const result = jsonObject({ name: "read", value: {} });
+
+    result.querySelector("button").click();
+
+    expect(result.classList.contains("collapsed")).toBe(true);
   });
 });

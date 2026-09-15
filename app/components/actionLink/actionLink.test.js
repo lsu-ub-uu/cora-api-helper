@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { getFormat } from "../../utils/searchParams";
+import { getApiUrl, getFormat } from "../../utils/searchParams";
 import actionLink from "./actionLink";
 import { normalize } from "../../utils/normalize";
 
@@ -8,6 +8,7 @@ vi.mock("../../utils/searchParams.js");
 describe("actionLink", () => {
   it("returns read XML action link", () => {
     getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
 
     const result = actionLink({ method: "read", recordType: "someRecordType" });
 
@@ -20,7 +21,7 @@ describe("actionLink", () => {
                 read
             </rel>
             -<url>(1 - 1)
-                http://example.com/rest/record/someRecordType/{recordId}
+                https://someapiurl.com/rest/record/someRecordType/{recordId}
             </url>
             -<accept>(1 - 1)
                 application/vnd.cora.record+xml
@@ -33,6 +34,7 @@ describe("actionLink", () => {
 
   it("returns update XML action link", () => {
     getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
 
     const result = actionLink({
       method: "update",
@@ -48,7 +50,7 @@ describe("actionLink", () => {
                 update
             </rel>
             -<url>(1 - 1)
-                http://example.com/rest/record/someRecordType/{recordId}
+                https://someapiurl.com/rest/record/someRecordType/{recordId}
             </url>
             -<contentType>(1 - 1)
                 application/vnd.cora.recordgroup+xml
@@ -64,6 +66,7 @@ describe("actionLink", () => {
 
   it("returns delete XML action link", () => {
     getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
 
     const result = actionLink({
       method: "delete",
@@ -79,34 +82,177 @@ describe("actionLink", () => {
                 delete
             </rel>
             -<url>(1 - 1)
-                http://example.com/rest/record/someRecordType/{recordId}
+                https://someapiurl.com/rest/record/someRecordType/{recordId}
             </url>
         </delete>
     `;
 
     expect(normalize(result.textContent)).toEqual(normalize(expectedResult));
   });
+
+  it("returns index XML action link", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "index",
+      recordType: "someRecordType",
+    });
+
+    const expectedResult = `
+        -<index>(0 - 1)
+            -<requestMethod>(1 - 1)
+                POST
+            </requestMethod>
+            -<rel>(1 - 1)
+                index
+            </rel>
+            -<url>(1 - 1)
+                https://someapiurl.com/rest/record/workOrder
+            </url>
+            -<contentType>(1 - 1)
+                application/vnd.cora.recordgroup+xml
+            </contentType>
+            -<accept>(1 - 1)
+                application/vnd.cora.record+xml
+            </accept>
+            -<body>(1 - 1)
+                -<workOrder>(1 - 1)
+                    -<recordType>(1 - 1)
+                        -<linkedRecordType>(1 - 1)
+                            recordType
+                        </linkedRecordType>
+                        -<linkedRecordId>(1 - 1)
+                            someRecordType
+                        </linkedRecordId>
+                        -<recordId>(1 - 1)
+                            {recordId}
+                        </recordId>
+                        -<type>(1 - 1)
+                            index
+                        </type>
+                    </recordType>
+                </workOrder>
+            </body>
+        </index>
+    `;
+
+    expect(normalize(result.textContent)).toEqual(normalize(expectedResult));
+  });
+
+  it("returns read JSON action link", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({ method: "read", recordType: "someRecordType" });
+
+    expect(normalize(result.textContent)).toEqual(
+      normalize(`
+        -"read": {
+          "requestMethod": "GET",
+          "rel": "read",
+          "url": "https://someapiurl.com/rest/record/someRecordType/{recordId}",
+          "accept": "application/vnd.cora.record+json"
+        }
+      `),
+    );
+  });
+
+  it("returns update JSON action link", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "update",
+      recordType: "someRecordType",
+    });
+
+    expect(normalize(result.textContent)).toEqual(
+      normalize(`
+        -"update": {
+          "requestMethod": "POST",
+          "rel": "update",
+          "contentType": "application/vnd.cora.recordgroup+json",
+          "url": "https://someapiurl.com/rest/record/someRecordType/{recordId}",
+          "accept": "application/vnd.cora.record+json"
+        }
+      `),
+    );
+  });
+
+  it("returns delete JSON action link", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "delete",
+      recordType: "someRecordType",
+    });
+
+    expect(normalize(result.textContent)).toEqual(
+      normalize(`
+        -"delete": {
+          "requestMethod": "DELETE",
+          "rel": "delete",
+          "url": "https://someapiurl.com/rest/record/someRecordType/{recordId}"
+        }
+      `),
+    );
+  });
+
+  it("returns index JSON action link", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "index",
+      recordType: "someRecordType",
+    });
+
+    expect(normalize(result.textContent)).toEqual(
+      normalize(`
+        -"index": {
+          "requestMethod": "POST",
+          "rel": "index",
+          "body": {
+            "children": [
+              {
+                "children": [
+                  {
+                    "name": "linkedRecordType",
+                    "value": "recordType"
+                  },
+                  {
+                    "name": "linkedRecordId",
+                    "value": "someRecordType"
+                  }
+                ],
+                "name": "recordType"
+              },
+              {
+                "name": "recordId",
+                "value": "{recordId}"
+              },
+              {
+                "name": "type",
+                "value": "index"
+              }
+            ],
+            "name": "workOrder"
+          },
+          "contentType": "application/vnd.cora.recordgroup+json",
+          "url": "https://someapiurl.com/rest/record/workOrder/",
+          "accept": "application/vnd.cora.record+json"
+        }
+      `),
+    );
+  });
+
+  it("throws for an unsupported method", () => {
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    expect(() => actionLink({ method: "unsupported" })).toThrow(
+      "Unsupported method: unsupported",
+    );
+  });
 });
-
-/*  
-index 
-
- <index>
-      <requestMethod>POST</requestMethod>
-      <rel>index</rel>
-      <url>https://preview.diva.cora.epc.ub.uu.se/rest/record/workOrder</url>
-      <contentType>application/vnd.cora.recordgroup+xml</contentType>
-      <accept>application/vnd.cora.record+xml</accept>
-      <body>
-        <workOrder>
-          <recordType>
-            <linkedRecordType>recordType</linkedRecordType>
-            <linkedRecordId>diva-person</linkedRecordId>
-            <recordId>13</recordId>
-            <type>index</type>
-          </recordType>
-        </workOrder>
-      </body>
-    </index>
-
-*/

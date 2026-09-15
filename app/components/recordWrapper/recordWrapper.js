@@ -2,12 +2,13 @@ import { getFormat } from "../../utils/searchParams.js";
 import { el } from "../../utils/el.js";
 import expandButton from "../expandButton/expandButton.js";
 import elementXML from "../element/elementXML.js";
+import actionLink from "../actionLink/actionLink.js";
 
-export default function recordWrapper({ children, mode, recordType }) {
+export default function recordWrapper({ children, recordType }) {
   if (getFormat() === "json") {
     return recordWrapperJSON({ children });
   }
-  return recordWrapperXML({ children, mode, recordType });
+  return recordWrapperXML({ children, recordType });
 }
 
 function recordWrapperJSON({ children }) {
@@ -40,7 +41,7 @@ function recordWrapperJSON({ children }) {
   return root;
 }
 
-function recordWrapperXML({ children, mode, recordType }) {
+function recordWrapperXML({ children, recordType }) {
   return elementXML({
     name: "record",
     repeatMin: "1",
@@ -52,45 +53,17 @@ function recordWrapperXML({ children, mode, recordType }) {
         repeatMax: "1",
         children: children,
       }),
-      mode === "read" &&
-        elementXML({
-          name: "actionLinks",
-          repeatMin: "1",
-          repeatMax: "1",
-          children: [
-            elementXML({
-              name: "read",
-              repeatMin: "1",
-              repeatMax: "1",
-              children: [
-                elementXML({
-                  name: "requestMethod",
-                  children: "GET",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                }),
-                elementXML({
-                  name: "rel",
-                  children: "read",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                }),
-                elementXML({
-                  name: "url",
-                  children: `http://example.com/rest/record/${recordType}/1`,
-                  repeatMin: "1",
-                  repeatMax: "1",
-                }),
-                elementXML({
-                  name: "accept",
-                  children: "application/vnd.cora.record+xml",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                }),
-              ],
-            }),
-          ],
-        }),
+      elementXML({
+        name: "actionLinks",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: [
+          actionLink({ method: "read", recordType }),
+          actionLink({ method: "update", recordType }),
+          actionLink({ method: "delete", recordType }),
+          actionLink({ method: "index", recordType }),
+        ],
+      }),
     ],
   });
 }
