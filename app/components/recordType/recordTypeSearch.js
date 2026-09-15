@@ -9,7 +9,7 @@ import {
 } from "../../utils/searchParams.js";
 import t from "../../utils/t.js";
 import dataFormat from "../dataFormat/dataFormat.js";
-import dataWrapper from "../dataWrapper/dataWrapper.js";
+import recordWrapper from "../recordWrapper/recordWrapper.js";
 import group from "../group/group.js";
 import recordListWrapper from "../recordListWrapper/recordListWrapper.js";
 import search from "../search/search.js";
@@ -125,7 +125,7 @@ function searchResponseBody({ recordTypePool, recordTypeId, metadataPool }) {
 
   return dataFormat({
     children: recordListWrapper({
-      children: dataWrapper({
+      children: recordWrapper({
         children: group({
           metadataPool,
           groupId: metadataId,

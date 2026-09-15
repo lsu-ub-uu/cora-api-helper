@@ -1,11 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
 import { screen, waitFor } from "@testing-library/dom";
-import { recordTypeSearch } from "./recordTypeSearch";
-import dataFormat from "../dataFormat/dataFormat";
-import dataWrapper from "../dataWrapper/dataWrapper";
+import { describe, expect, it, vi } from "vitest";
 import group from "../group/group";
-import recordListWrapper from "../recordListWrapper/recordListWrapper";
 import search from "../search/search";
+import { recordTypeSearch } from "./recordTypeSearch";
 
 vi.mock("../../utils/getTextFromLink.js", () => ({
   default: vi.fn((textId) => Promise.resolve(textId?.value ?? "text")),
@@ -19,7 +16,7 @@ vi.mock("../dataFormat/dataFormat.js", () => ({
   }),
 }));
 
-vi.mock("../dataWrapper/dataWrapper.js", () => ({
+vi.mock("../recordWrapper/recordWrapper.js", () => ({
   default: vi.fn(() => document.createElement("div")),
 }));
 
