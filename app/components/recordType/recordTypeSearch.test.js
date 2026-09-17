@@ -7,7 +7,7 @@ import group from "../group/group";
 import recordListWrapper from "../recordListWrapper/recordListWrapper";
 import search from "../search/search";
 
-vi.mock("../../utils/getTextFromLink.js", () => ({
+vi.mock("../../services/getTextFromLink.js", () => ({
   default: vi.fn((textId) => Promise.resolve(textId?.value ?? "text")),
 }));
 

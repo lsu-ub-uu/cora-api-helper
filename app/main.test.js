@@ -2,12 +2,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { el } from "./utils/el.js";
 import renderDeploymentInfo from "./utils/renderDeploymentInfo.js";
 import initSettings from "./utils/initSettings";
-import initPools from "./services/initPools";
+import fetchPools from "./services/fetchPools";
 import { screen } from "@testing-library/dom";
 import currentPage from "./components/currentPage/currentPage.js";
 import navigation from "./components/navigation/navigation.js";
 
-vi.mock("./services/initPools.js");
+vi.mock("./services/fetchPools.js");
 vi.mock("./utils/initSettings.js");
 vi.mock("./utils/renderDeploymentInfo.js");
 vi.mock("./components/navigation/navigation.js");
@@ -20,7 +20,7 @@ describe("main", () => {
   });
 
   it("initializes the application", async () => {
-    initPools.mockResolvedValue({
+    fetchPools.mockResolvedValue({
       recordTypePool: "recordType",
       validationTypePool: "validationType",
       metadataPool: "metadata",
@@ -37,7 +37,7 @@ describe("main", () => {
 
     expect(renderDeploymentInfo).toHaveBeenCalledOnce();
     expect(initSettings).toHaveBeenCalledOnce();
-    expect(initPools).toHaveBeenCalledOnce();
+    expect(fetchPools).toHaveBeenCalledOnce();
     expect(navigation).toHaveBeenCalledExactlyOnceWith({
       path: "/",
       recordTypePool: "recordType",
@@ -56,7 +56,7 @@ describe("main", () => {
   });
 
   it("re-renders on browser navigation", async () => {
-    initPools.mockResolvedValue({
+    fetchPools.mockResolvedValue({
       recordTypePool: "recordType",
       validationTypePool: "validationType",
       metadataPool: "metadata",

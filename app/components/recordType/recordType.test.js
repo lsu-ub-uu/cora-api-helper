@@ -7,7 +7,7 @@ vi.mock("../../utils/searchParams.js", () => ({
   getLanguage: vi.fn(() => "en"),
 }));
 
-vi.mock("../../utils/getTextFromLink.js", () => ({
+vi.mock("../../services/getTextFromLink.js", () => ({
   default: vi.fn(() => Promise.resolve("translated")),
 }));
 

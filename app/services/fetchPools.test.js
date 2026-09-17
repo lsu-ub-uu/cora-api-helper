@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import initPools from "./initPools.js";
+import fetchPools from "./fetchPools.js";
 import { screen } from "@testing-library/dom";
 import listRecordType from "./listRecordType.js";
 
@@ -9,10 +9,10 @@ vi.mock("./listRecordType.js", () => ({
     .mockImplementation((recordTypeId) => Promise.resolve(recordTypeId)),
 }));
 
-describe("initPools", () => {
+describe("fetchPools", () => {
   it("returns pools", async () => {
     const { recordTypePool, validationTypePool, metadataPool, searchPool } =
-      await initPools();
+      await fetchPools();
 
     expect(vi.mocked(listRecordType)).toHaveBeenCalledTimes(4);
 
@@ -26,7 +26,7 @@ describe("initPools", () => {
     vi.useFakeTimers();
     document.body.innerHTML = '<div id="app"></div>';
 
-    initPools();
+    fetchPools();
 
     expect(
       screen.queryByText("Loading metadata, please wait..."),

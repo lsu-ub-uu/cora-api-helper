@@ -26,6 +26,7 @@ export default function element({
       isRecordLink: metadata.attributes?.type === "recordLink",
     });
   }
+
   return elementXML({
     name: dataName({ metadata }),
     attributes: attributesXML({ metadataPool, metadata }),
