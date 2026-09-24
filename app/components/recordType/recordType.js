@@ -7,6 +7,7 @@ import radio from "../radio/radio.js";
 import createOrUpdateRecordType from "./createOrUpdate.js";
 import recordTypeRead from "./read.js";
 import requestConfigDoc from "./requestConfigDoc.js";
+import recordTypeList from "./recordTypeList.js";
 import { recordTypeSearch } from "./recordTypeSearch.js";
 
 export default function recordType({
@@ -59,9 +60,10 @@ function pageTitle({ recordTypePool, recordTypeId }) {
 }
 
 function requestMethods({ selectedMethod, onSelectMethod }) {
-  const methods = ["read", "create", "update", "delete", "search"];
+  const methods = ["read", "list", "create", "update", "delete", "search"];
   const methodLabels = {
     read: t("apiHelper_readText"),
+    list: t("apiHelper_listText"),
     create: t("apiHelper_createText"),
     update: t("apiHelper_updateText"),
     delete: t("apiHelper_deleteText"),
@@ -100,6 +102,12 @@ function requestDoc({
       recordTypePool,
       metadataPool,
       recordTypeId,
+    });
+  } else if (method === "list") {
+    return recordTypeList({
+      recordTypePool,
+      recordTypeId,
+      metadataPool,
     });
   } else if (method === "create" || method === "update") {
     return createOrUpdateRecordType({

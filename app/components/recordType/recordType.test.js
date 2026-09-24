@@ -43,6 +43,14 @@ vi.mock("./read.js", () => ({
   }),
 }));
 
+vi.mock("./recordTypeList.js", () => ({
+  default: vi.fn(() => {
+    const div = document.createElement("div");
+    div.textContent = "mock-list";
+    return div;
+  }),
+}));
+
 vi.mock("./requestConfigDoc.js", () => ({
   default: vi.fn(() => {
     const div = document.createElement("div");
@@ -135,6 +143,21 @@ describe("recordType", () => {
     });
 
     expect(result.textContent).toContain("mock-read");
+  });
+
+  it("renders list view for list method", async () => {
+    const { getMethod } = await import("../../utils/searchParams.js");
+    vi.mocked(getMethod).mockReturnValue("list");
+
+    const result = recordType({
+      recordTypeId: "person",
+      recordTypePool: { person: recordTypeData },
+      validationTypePool: {},
+      metadataPool: {},
+    });
+
+    expect(result.textContent).toContain("mock-list");
+    expect(result.textContent).toContain("List");
   });
 
   it("renders requestConfigDoc for delete method", async () => {

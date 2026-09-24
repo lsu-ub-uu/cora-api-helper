@@ -148,6 +148,7 @@ export const getTranslations = () => ({
   apiHelper_englishText: { en: "English", sv: "Engelska" },
   apiHelper_swedishText: { en: "Swedish", sv: "Svenska" },
   apiHelper_readText: { en: "Read", sv: "Läs" },
+  apiHelper_listText: { en: "List", sv: "Lista" },
   apiHelper_createText: { en: "Create", sv: "Skapa" },
   apiHelper_updateText: { en: "Update", sv: "Uppdatera" },
   apiHelper_deleteText: { en: "Delete", sv: "Ta bort" },
