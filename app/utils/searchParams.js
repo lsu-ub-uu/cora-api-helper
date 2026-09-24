@@ -7,7 +7,7 @@ export function getSearchId() {
 }
 
 export function getMethod() {
-  return getSearchParamValue("method", "create");
+  return getSearchParamValue("method", "read");
 }
 
 export function getApiUrl() {

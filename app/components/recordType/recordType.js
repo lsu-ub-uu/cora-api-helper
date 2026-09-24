@@ -60,7 +60,7 @@ function pageTitle({ recordTypePool, recordTypeId }) {
 }
 
 function requestMethods({ selectedMethod, onSelectMethod }) {
-  const methods = ["read", "list", "create", "update", "delete", "search"];
+  const methods = ["read", "list", "search", "create", "update", "delete"];
   const methodLabels = {
     read: t("apiHelper_readText"),
     list: t("apiHelper_listText"),
