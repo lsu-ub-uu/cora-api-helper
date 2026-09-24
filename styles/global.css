@@ -109,6 +109,25 @@ select {
   }
 }
 
+.collapsible-section {
+  summary {
+    cursor: pointer;
+
+    h3 {
+      display: inline;
+    }
+  }
+
+  .collapsible-section-content {
+    margin-top: 1rem;
+  }
+}
+
+.collapsible-section-icon {
+  width: 1rem;
+  font-family: monospace;
+}
+
 .validation-type-select {
   display: flex;
   flex-direction: column;

@@ -1,6 +1,7 @@
 import { el } from "../../utils/el.js";
 import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 import t from "../../utils/t.js";
+import collapsibleSection from "../collapsibleSection/collapsibleSection.js";
 
 export default function requestConfigDoc({ recordTypeId, method }) {
   const format = getFormat();
@@ -17,10 +18,9 @@ export default function requestConfigDoc({ recordTypeId, method }) {
       : method === "delete"
         ? "DELETE"
         : t("apiHelper_postText");
-  const root = el("fragment");
-  root.appendChild(el("h3", { textContent: t("apiHelper_requestConfigText") }));
-  root.appendChild(
-    el("div", {
+  return collapsibleSection({
+    title: t("apiHelper_requestConfigText"),
+    children: el("div", {
       className: "code-block",
       children: [
         el("strong", { textContent: httpMethod }),
@@ -40,7 +40,5 @@ export default function requestConfigDoc({ recordTypeId, method }) {
         }),
       ],
     }),
-  );
-
-  return root;
+  });
 }

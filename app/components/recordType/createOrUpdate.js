@@ -5,6 +5,7 @@ import {
   updateSearchParam,
 } from "../../utils/searchParams.js";
 import t from "../../utils/t.js";
+import collapsibleSection from "../collapsibleSection/collapsibleSection.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import group from "../group/group.js";
 import recordWrapper from "../recordWrapper/recordWrapper.js";
@@ -54,20 +55,24 @@ export default function createOrUpdateRecordType({
         onChangeValidationType: render,
       }),
       requestConfigDoc({ recordTypeId, method }),
-      el("h3", { textContent: t("apiHelper_requestBodyFormatText") }),
-      dataFormat({
-        children: group({
-          metadataPool,
-          groupId: metadataId,
-        }),
-      }),
-      el("h3", { textContent: t("apiHelper_responseBodyFormatText") }),
-      dataFormat({
-        children: recordWrapper({
-          recordType: recordTypeId,
+      collapsibleSection({
+        title: t("apiHelper_requestBodyFormatText"),
+        children: dataFormat({
           children: group({
             metadataPool,
-            groupId: responseMetadataId,
+            groupId: metadataId,
+          }),
+        }),
+      }),
+      collapsibleSection({
+        title: t("apiHelper_responseBodyFormatText"),
+        children: dataFormat({
+          children: recordWrapper({
+            recordType: recordTypeId,
+            children: group({
+              metadataPool,
+              groupId: responseMetadataId,
+            }),
           }),
         }),
       }),

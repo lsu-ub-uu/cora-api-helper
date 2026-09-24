@@ -8,6 +8,7 @@ import {
   updateSearchParam,
 } from "../../utils/searchParams.js";
 import t from "../../utils/t.js";
+import collapsibleSection from "../collapsibleSection/collapsibleSection.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import recordWrapper from "../recordWrapper/recordWrapper.js";
 import group from "../group/group.js";
@@ -36,8 +37,14 @@ export function recordTypeSearch({
         },
       }),
       searchRoot,
-      el("h3", { textContent: t("apiHelper_responseBodyFormatText") }),
-      searchResponseBody({ recordTypePool, recordTypeId, metadataPool }),
+      collapsibleSection({
+        title: t("apiHelper_responseBodyFormatText"),
+        children: searchResponseBody({
+          recordTypePool,
+          recordTypeId,
+          metadataPool,
+        }),
+      }),
     ],
   });
 
@@ -57,14 +64,16 @@ export function recordTypeSearch({
     ).value;
 
     searchRoot.replaceChildren(
-      el("h3", { textContent: t("apiHelper_requestConfigText") }),
-      searchRequestConfigDoc({
-        searchId,
+      collapsibleSection({
+        title: t("apiHelper_requestConfigText"),
+        children: searchRequestConfigDoc({ searchId }),
       }),
-      el("h3", { textContent: t("apiHelper_searchDataFormatText") }),
-      search({
-        search: matchingSearch,
-        metadataPool,
+      collapsibleSection({
+        title: t("apiHelper_searchDataFormatText"),
+        children: search({
+          search: matchingSearch,
+          metadataPool,
+        }),
       }),
     );
   }
