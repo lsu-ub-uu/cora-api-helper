@@ -3,32 +3,62 @@ import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import getTextFromLink from "../../services/getTextFromLink.js";
 import { getBasePath } from "../../utils/routing.js";
 import t from "../../utils/t.js";
+import collapsibleSection from "../collapsibleSection/collapsibleSection.js";
 
 export default function navigation({
   recordTypePool,
   metadataPool,
+  systemPool,
   path,
   navigate,
 }) {
-  const groupOfRecordTypeCollection =
-    metadataPool["groupOfRecordTypeCollection"];
-  const collectionItemReferences = getFirstChildWithName(
-    groupOfRecordTypeCollection,
-    "collectionItemReferences",
-  );
-
-  const groups = collectionItemReferences.children.map((itemRef) => {
-    const itemRefId = getFirstChildWithName(itemRef, "linkedRecordId")?.value;
-    return metadataPool[itemRefId];
-  });
-
   return el("nav", {
     className: "main-nav",
     children: [
       authenticationLink({ path, navigate }),
-      recordTypesNav({ recordTypePool, path, navigate, groups }),
+      ...recordTypesByDataDivider(recordTypePool).map(
+        ([dataDivider, dividedRecordTypePool]) =>
+          recordTypesNav({
+            recordTypePool: dividedRecordTypePool,
+            dataDivider,
+            path,
+            navigate,
+            metadataPool,
+            systemPool,
+          }),
+      ),
     ],
   });
+}
+
+function recordTypesByDataDivider(recordTypePool) {
+  const recordTypesByDivider = new Map();
+
+  Object.entries(recordTypePool).forEach(([recordTypeId, recordType]) => {
+    const dataDivider = getDataDivider(recordType);
+    const dividedRecordTypePool = recordTypesByDivider.get(dataDivider) ?? {};
+    dividedRecordTypePool[recordTypeId] = recordType;
+    recordTypesByDivider.set(dataDivider, dividedRecordTypePool);
+  });
+
+  return [...recordTypesByDivider.entries()].sort(
+    ([firstDivider], [secondDivider]) => {
+      if (firstDivider === secondDivider) return 0;
+      if (firstDivider === "cora") return 1;
+      if (secondDivider === "cora") return -1;
+      return 0;
+    },
+  );
+}
+
+function getDataDivider(recordType) {
+  return getFirstChildWithName(
+    getFirstChildWithName(
+      getFirstChildWithName(recordType, "recordInfo"),
+      "dataDivider",
+    ),
+    "linkedRecordId",
+  ).value;
 }
 
 function authenticationLink({ path, navigate }) {
@@ -52,13 +82,35 @@ function authenticationLink({ path, navigate }) {
   });
 }
 
-function recordTypesNav({ recordTypePool, path, navigate, groups }) {
-  return el("div", {
+function recordTypesNav({
+  recordTypePool,
+  dataDivider,
+  path,
+  navigate,
+  metadataPool,
+  systemPool,
+}) {
+  const groupOfRecordTypeCollection =
+    metadataPool["groupOfRecordTypeCollection"];
+  const collectionItemReferences = getFirstChildWithName(
+    groupOfRecordTypeCollection,
+    "collectionItemReferences",
+  );
+
+  const groups = collectionItemReferences.children.map((itemRef) => {
+    const itemRefId = getFirstChildWithName(itemRef, "linkedRecordId")?.value;
+    return metadataPool[itemRefId];
+  });
+
+  return collapsibleSection({
+    title: `${dataDivider.toUpperCase()}`,
+    headingLevel: 2,
     className: "main-nav-item",
-    children: [
-      el("h2", { textContent: t("apiHelper_recordTypesText") }),
-      groupList({ recordTypePool, path, navigate, groups }),
-    ],
+    children: groupList({ recordTypePool, path, navigate, groups }),
+    defaultExpanded: dataDivider !== "cora",
+    titlePromise: getTextFromLink(
+      getFirstChildWithName(systemPool[dataDivider], "textId"),
+    ),
   });
 }
 
@@ -117,7 +169,8 @@ function recordTypeLi({ recordTypeId, recordTypePool, path, navigate }) {
   const basePath = getBasePath();
   const href = `${basePath}/recordType/${recordTypeId}`;
   const isCurrentPage = path.startsWith(href + "/") || path === href;
-  const textId = getFirstChildWithName(recordTypePool[recordTypeId], "textId");
+  const recordType = recordTypePool[recordTypeId];
+  const textId = getFirstChildWithName(recordType, "textId");
 
   const a = el("a", {
     href,

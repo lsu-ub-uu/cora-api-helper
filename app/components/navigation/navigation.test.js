@@ -8,7 +8,13 @@ const recordTypePool = {
     children: [
       {
         name: "recordInfo",
-        children: [{ name: "id", value: "person" }],
+        children: [
+          { name: "id", value: "person" },
+          {
+            name: "dataDivider",
+            children: [{ name: "linkedRecordId", value: "diva" }],
+          },
+        ],
       },
       { name: "groupOfRecordType", value: "group1" },
     ],
@@ -17,7 +23,13 @@ const recordTypePool = {
     children: [
       {
         name: "recordInfo",
-        children: [{ name: "id", value: "organisation" }],
+        children: [
+          { name: "id", value: "organisation" },
+          {
+            name: "dataDivider",
+            children: [{ name: "linkedRecordId", value: "diva" }],
+          },
+        ],
       },
       { name: "groupOfRecordType", value: "group1" },
     ],
@@ -26,7 +38,13 @@ const recordTypePool = {
     children: [
       {
         name: "recordInfo",
-        children: [{ name: "id", value: "output" }],
+        children: [
+          { name: "id", value: "output" },
+          {
+            name: "dataDivider",
+            children: [{ name: "linkedRecordId", value: "system" }],
+          },
+        ],
       },
       { name: "groupOfRecordType", value: "group2" },
     ],
@@ -58,6 +76,43 @@ const metadataPool = {
 };
 
 describe("navigation", () => {
+  it("renders the cora data divider last", () => {
+    const coraRecordType = {
+      children: [
+        {
+          name: "recordInfo",
+          children: [
+            { name: "id", value: "coraRecord" },
+            {
+              name: "dataDivider",
+              children: [{ name: "linkedRecordId", value: "cora" }],
+            },
+          ],
+        },
+        { name: "groupOfRecordType", value: "group1" },
+      ],
+    };
+
+    document.body.appendChild(
+      navigation({
+        path: "/",
+        recordTypePool: { coraRecord: coraRecordType, ...recordTypePool },
+        metadataPool,
+      }),
+    );
+
+    const headings = screen
+      .getAllByRole("heading", { level: 2 })
+      .map((heading) => heading.textContent)
+      .filter((text) => text.startsWith("Record Types"));
+
+    expect(headings).toEqual([
+      "Record Types (diva)",
+      "Record Types (system)",
+      "Record Types (cora)",
+    ]);
+  });
+
   it("renders authentication link", () => {
     document.body.appendChild(
       navigation({
@@ -125,6 +180,22 @@ describe("navigation", () => {
     );
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
+    const divaNav = screen
+      .getByRole("heading", { name: "Record Types (diva)" })
+      .closest(".main-nav-item");
+    const systemNav = screen
+      .getByRole("heading", { name: "Record Types (system)" })
+      .closest(".main-nav-item");
+
+    expect(divaNav).toContainElement(
+      screen.getByRole("link", { name: /person/i }),
+    );
+    expect(divaNav).toContainElement(
+      screen.getByRole("link", { name: /organisation/i }),
+    );
+    expect(systemNav).toContainElement(
+      screen.getByRole("link", { name: /output/i }),
+    );
 
     expect(screen.getByText("group1")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /person/i })).toHaveAttribute(
@@ -141,6 +212,39 @@ describe("navigation", () => {
       "href",
       "/recordType/output",
     );
+  });
+
+  it("collapses each data divider from its h2 heading", async () => {
+    document.body.appendChild(
+      navigation({
+        path: "/recordType/person/1",
+        recordTypePool,
+        metadataPool,
+      }),
+    );
+
+    const divaHeading = screen.getByRole("heading", {
+      level: 2,
+      name: "Record Types (diva)",
+    });
+    const divaSection = divaHeading.closest("details");
+    const systemSection = screen
+      .getByRole("heading", {
+        level: 2,
+        name: "Record Types (system)",
+      })
+      .closest("details");
+
+    expect(divaSection).toHaveAttribute("open");
+    expect(systemSection).toHaveAttribute("open");
+
+    await userEvent.click(divaHeading.closest("summary"));
+
+    expect(divaSection).not.toHaveAttribute("open");
+    expect(systemSection).toHaveAttribute("open");
+    expect(
+      systemSection.querySelector('a[href="/recordType/output"]'),
+    ).toBeVisible();
   });
 
   it("renders navigation items with base path", () => {

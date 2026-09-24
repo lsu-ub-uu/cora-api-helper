@@ -123,6 +123,7 @@ select {
   summary {
     cursor: pointer;
 
+    h2,
     h3 {
       display: inline;
     }

@@ -8,13 +8,19 @@ export default async function fetchPools() {
     );
   }, 200);
 
-  const [recordTypePool, validationTypePool, metadataPool, searchPool] =
-    await Promise.all([
-      listRecordType("recordType"),
-      listRecordType("validationType"),
-      listRecordType("metadata"),
-      listRecordType("search"),
-    ]);
+  const [
+    recordTypePool,
+    validationTypePool,
+    metadataPool,
+    searchPool,
+    systemPool,
+  ] = await Promise.all([
+    listRecordType("recordType"),
+    listRecordType("validationType"),
+    listRecordType("metadata"),
+    listRecordType("search"),
+    listRecordType("system"),
+  ]);
 
   clearTimeout(loadingTextTimeout);
 
@@ -23,5 +29,6 @@ export default async function fetchPools() {
     validationTypePool,
     metadataPool,
     searchPool,
+    systemPool,
   };
 }

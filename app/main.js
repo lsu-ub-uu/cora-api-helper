@@ -6,8 +6,13 @@ import renderDeploymentInfo from "./utils/renderDeploymentInfo.js";
 
 renderDeploymentInfo();
 initSettings();
-const { recordTypePool, validationTypePool, metadataPool, searchPool } =
-  await fetchPools();
+const {
+  recordTypePool,
+  validationTypePool,
+  metadataPool,
+  searchPool,
+  systemPool,
+} = await fetchPools();
 
 window.addEventListener("popstate", render);
 render();
@@ -21,6 +26,7 @@ function render() {
       path,
       recordTypePool,
       metadataPool,
+      systemPool,
       navigate: render,
     }),
     currentPage({

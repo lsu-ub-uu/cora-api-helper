@@ -11,15 +11,21 @@ vi.mock("./listRecordType.js", () => ({
 
 describe("fetchPools", () => {
   it("returns pools", async () => {
-    const { recordTypePool, validationTypePool, metadataPool, searchPool } =
-      await fetchPools();
+    const {
+      recordTypePool,
+      validationTypePool,
+      metadataPool,
+      searchPool,
+      systemPool,
+    } = await fetchPools();
 
-    expect(vi.mocked(listRecordType)).toHaveBeenCalledTimes(4);
+    expect(vi.mocked(listRecordType)).toHaveBeenCalledTimes(5);
 
     expect(recordTypePool).toBe("recordType");
     expect(validationTypePool).toBe("validationType");
     expect(metadataPool).toBe("metadata");
     expect(searchPool).toBe("search");
+    expect(systemPool).toBe("system");
   });
 
   it("shows loading text if it takes longer than 200ms", async () => {
