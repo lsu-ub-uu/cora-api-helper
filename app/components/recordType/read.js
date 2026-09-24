@@ -30,6 +30,7 @@ export default function recordTypeRead({
             children: group({
               metadataPool,
               groupId: metadataId,
+              mode: "read",
             }),
           }),
         }),

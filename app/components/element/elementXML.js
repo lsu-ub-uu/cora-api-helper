@@ -9,12 +9,16 @@ export default function elementXML({
   repeatMax,
   children,
   inline = false,
+  defaultExpanded = true,
 }) {
   const root = el("div", {
-    className: "element",
+    className: `element${defaultExpanded ? "" : " collapsed"}`,
     children: [
       !inline &&
-        expandButton({ onClick: () => root.classList.toggle("collapsed") }),
+        expandButton({
+          onClick: () => root.classList.toggle("collapsed"),
+          defaultExpanded,
+        }),
       "<",
       name,
       attributes,

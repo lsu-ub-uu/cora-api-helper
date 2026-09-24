@@ -13,6 +13,7 @@ export default function search({ search, metadataPool }) {
     children: group({
       metadataPool,
       groupId: searchMetadataId,
+      mode: "search",
     }),
   });
 }

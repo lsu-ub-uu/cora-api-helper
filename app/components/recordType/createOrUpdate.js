@@ -61,6 +61,7 @@ export default function createOrUpdateRecordType({
           children: group({
             metadataPool,
             groupId: metadataId,
+            mode: method,
           }),
         }),
       }),
@@ -72,6 +73,7 @@ export default function createOrUpdateRecordType({
             children: group({
               metadataPool,
               groupId: responseMetadataId,
+              mode: "read",
             }),
           }),
         }),

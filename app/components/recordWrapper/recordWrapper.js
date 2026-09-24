@@ -5,11 +5,11 @@ import { jsonObject } from "../element/elementJSON.js";
 import elementXML from "../element/elementXML.js";
 import actionLink from "../actionLink/actionLink.js";
 
-export default function recordWrapper({ children, recordType }) {
+export default function recordWrapper({ children, recordType, repeating }) {
   if (getFormat() === "json") {
     return recordWrapperJSON({ children, recordType });
   }
-  return recordWrapperXML({ children, recordType });
+  return recordWrapperXML({ children, recordType, repeating });
 }
 
 function recordWrapperJSON({ children, recordType }) {
@@ -49,11 +49,11 @@ function recordWrapperJSON({ children, recordType }) {
   return root;
 }
 
-function recordWrapperXML({ children, recordType }) {
+function recordWrapperXML({ children, recordType, repeating }) {
   return elementXML({
     name: "record",
-    repeatMin: "1",
-    repeatMax: "1",
+    repeatMin: repeating ? "0" : "1",
+    repeatMax: repeating ? "X" : "1",
     children: [
       elementXML({
         name: "data",

@@ -27,6 +27,7 @@ describe("recordLink", () => {
       recordLink({
         metadataPool,
         metadata,
+        mode: "read",
         repeatMin: "0",
         repeatMax: "1",
       }),
@@ -37,12 +38,12 @@ describe("recordLink", () => {
         -<animal>(0 - 1)
           <linkedRecordType>animal</linkedRecordType>
           <linkedRecordId>{id}</linkedRecordId>
-          -<actionLinks>(1 - 1)
-            -<read>(1 - 1)
-              -<requestMethod>GET</requestMethod>(1 - 1)
-              -<rel>read</rel>(1 - 1)
-              -<url>https://someapiurl.com/rest/record/animal/{id}</url>(1 - 1)
-              -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
+          +<actionLinks>(0 - 1)
+            -<read>(0 - 1)
+              <requestMethod>GET</requestMethod>(1 - 1)
+              <rel>read</rel>(1 - 1)
+              <url>https://someapiurl.com/rest/record/animal/{id}</url>(1 - 1)
+              <accept>application/vnd.cora.record+xml</accept>(1 - 1)
             </read>
           </actionLinks>
         </animal>
@@ -72,6 +73,7 @@ describe("recordLink", () => {
       recordLink({
         metadataPool,
         metadata,
+        mode: "read",
         repeatMin: "0",
         repeatMax: "1",
       }),
@@ -82,12 +84,12 @@ describe("recordLink", () => {
         -<animal>(0 - 1)
           <linkedRecordType>animal</linkedRecordType>
           <linkedRecordId>dog</linkedRecordId>
-          -<actionLinks>(1 - 1)
-            -<read>(1 - 1)
-              -<requestMethod>GET</requestMethod>(1 - 1)
-              -<rel>read</rel>(1 - 1)
-              -<url>https://someapiurl.com/rest/record/animal/dog</url>(1 - 1)
-              -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
+          +<actionLinks>(0 - 1)
+            -<read>(0 - 1)
+              <requestMethod>GET</requestMethod>(1 - 1)
+              <rel>read</rel>(1 - 1)
+              <url>https://someapiurl.com/rest/record/animal/dog</url>(1 - 1)
+              <accept>application/vnd.cora.record+xml</accept>(1 - 1)
             </read>
           </actionLinks>
         </animal>
@@ -117,6 +119,7 @@ describe("recordLink", () => {
       recordLink({
         metadataPool,
         metadata,
+        mode: "read",
         repeatMin: "0",
         repeatMax: "1",
       }),
@@ -130,7 +133,7 @@ describe("recordLink", () => {
             {"name": "linkedRecordType","value": "animal"},
             {"name": "linkedRecordId","value": "{id}"}
           ],
-          -"actionLinks": {
+          +"actionLinks": {
             -"read": {
               "requestMethod": "GET",
               "rel": "read",
@@ -141,6 +144,9 @@ describe("recordLink", () => {
         }`),
     );
     expect(document.querySelectorAll("button")).toHaveLength(4);
+    expect(document.querySelectorAll(".json-element.collapsed")).toHaveLength(
+      1,
+    );
   });
 
   it("uses finalValue in the JSON read action link URL", () => {
@@ -163,6 +169,7 @@ describe("recordLink", () => {
     const result = recordLink({
       metadataPool: {},
       metadata,
+      mode: "read",
       repeatMin: "0",
       repeatMax: "1",
     });
@@ -170,5 +177,31 @@ describe("recordLink", () => {
     expect(result.textContent).toContain(
       '"url": "https://someapiurl.com/rest/record/animal/dog"',
     );
+  });
+
+  it("does not render action links outside read mode", () => {
+    vi.mocked(getFormat).mockReturnValue("json");
+
+    const metadata = {
+      name: "animalLink",
+      attributes: { type: "recordLink" },
+      children: [
+        { name: "nameInData", value: "animal" },
+        {
+          name: "linkedRecordType",
+          children: [{ name: "linkedRecordId", value: "animal" }],
+        },
+      ],
+    };
+
+    const result = recordLink({
+      metadataPool: {},
+      metadata,
+      mode: "create",
+      repeatMin: "0",
+      repeatMax: "1",
+    });
+
+    expect(result.textContent).not.toContain('"actionLinks"');
   });
 });

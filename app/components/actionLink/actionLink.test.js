@@ -13,11 +13,11 @@ describe("actionLink", () => {
     const result = actionLink({ method: "read", recordType: "someRecordType" });
 
     const expectedResult = `
-        -<read>(1 - 1)
-          -<requestMethod>GET</requestMethod>(1 - 1)
-          -<rel>read</rel>(1 - 1)
-          -<url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
-          -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
+        -<read>(0 - 1)
+          <requestMethod>GET</requestMethod>(1 - 1)
+          <rel>read</rel>(1 - 1)
+          <url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
+          <accept>application/vnd.cora.record+xml</accept>(1 - 1)
         </read>
     `;
 
@@ -35,11 +35,11 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<update>(0 - 1)
-          -<requestMethod>POST</requestMethod>(1 - 1)
-          -<rel>update</rel>(1 - 1)
-          -<url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
-          -<contentType>application/vnd.cora.recordgroup+xml</contentType>(1 - 1)
-          -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
+          <requestMethod>POST</requestMethod>(1 - 1)
+          <rel>update</rel>(1 - 1)
+          <url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
+          <contentType>application/vnd.cora.recordgroup+xml</contentType>(1 - 1)
+          <accept>application/vnd.cora.record+xml</accept>(1 - 1)
         </update>
     `;
 
@@ -57,9 +57,9 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<delete>(0 - 1)
-          -<requestMethod>DELETE</requestMethod>(1 - 1)
-          -<rel>delete</rel>(1 - 1)
-          -<url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
+          <requestMethod>DELETE</requestMethod>(1 - 1)
+          <rel>delete</rel>(1 - 1)
+          <url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
         </delete>
     `;
 
@@ -77,18 +77,18 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<index>(0 - 1)
-          -<requestMethod>POST</requestMethod>(1 - 1)
-          -<rel>index</rel>(1 - 1)
-          -<url>https://someapiurl.com/rest/record/workOrder</url>(1 - 1)
-          -<contentType>application/vnd.cora.recordgroup+xml</contentType>(1 - 1)
-          -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
+          <requestMethod>POST</requestMethod>(1 - 1)
+          <rel>index</rel>(1 - 1)
+          <url>https://someapiurl.com/rest/record/workOrder</url>(1 - 1)
+          <contentType>application/vnd.cora.recordgroup+xml</contentType>(1 - 1)
+          <accept>application/vnd.cora.record+xml</accept>(1 - 1)
             -<body>(1 - 1)
                 -<workOrder>(1 - 1)
                     -<recordType>(1 - 1)
-                        -<linkedRecordType>recordType</linkedRecordType>(1 - 1)
-                        -<linkedRecordId>someRecordType</linkedRecordId>(1 - 1)
-                        -<recordId>{recordId}</recordId>(1 - 1)
-                        -<type>index</type>(1 - 1)
+                        <linkedRecordType>recordType</linkedRecordType>(1 - 1)
+                        <linkedRecordId>someRecordType</linkedRecordId>(1 - 1)
+                        <recordId>{recordId}</recordId>(1 - 1)
+                        <type>index</type>(1 - 1)
                     </recordType>
                 </workOrder>
             </body>
@@ -114,6 +114,20 @@ describe("actionLink", () => {
         }
       `),
     );
+  });
+
+  it("renders collapsed when defaultExpanded is false", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "read",
+      recordType: "someRecordType",
+      defaultExpanded: false,
+    });
+
+    expect(result).toHaveClass("collapsed");
+    expect(result.querySelector("button")).toHaveTextContent("+");
   });
 
   it("returns update JSON action link", () => {

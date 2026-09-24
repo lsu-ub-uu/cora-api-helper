@@ -9,6 +9,7 @@ import { jsonObject } from "../element/elementJSON.js";
 export default function recordLink({
   metadataPool,
   metadata,
+  mode,
   repeatMin,
   repeatMax,
   lastChild = true,
@@ -29,13 +30,13 @@ export default function recordLink({
     repeatMax,
     children:
       format === "json"
-        ? recordLinkJson({ linkedRecordTypeValue, linkedRecordId })
-        : recordLinkXml({ linkedRecordTypeValue, linkedRecordId }),
+        ? recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode })
+        : recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }),
     lastChild,
   });
 }
 
-function recordLinkJson({ linkedRecordTypeValue, linkedRecordId }) {
+function recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode }) {
   return el("div", {
     className: "record-link",
     children: [
@@ -115,25 +116,27 @@ function recordLinkJson({ linkedRecordTypeValue, linkedRecordId }) {
             ],
           }),
 
-          el("div", { textContent: "]," }),
+          el("div", { textContent: `]${mode === "read" ? "," : ""}` }),
         ],
       }),
-      el("div", {
-        className: "indent",
-        children: jsonObject({
-          name: "actionLinks",
-          children: actionLink({
-            method: "read",
-            recordType: linkedRecordTypeValue,
-            recordId: linkedRecordId,
+      mode === "read" &&
+        el("div", {
+          className: "indent",
+          children: jsonObject({
+            name: "actionLinks",
+            defaultExpanded: false,
+            children: actionLink({
+              method: "read",
+              recordType: linkedRecordTypeValue,
+              recordId: linkedRecordId,
+            }),
           }),
         }),
-      }),
     ],
   });
 }
 
-function recordLinkXml({ linkedRecordTypeValue, linkedRecordId }) {
+function recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }) {
   return el("div", {
     className: "record-link",
     children: [
@@ -157,16 +160,18 @@ function recordLinkXml({ linkedRecordTypeValue, linkedRecordId }) {
           `</linkedRecordId>`,
         ],
       }),
-      elementXML({
-        name: "actionLinks",
-        repeatMin: "1",
-        repeatMax: "1",
-        children: actionLink({
-          method: "read",
-          recordType: linkedRecordTypeValue,
-          recordId: linkedRecordId,
+      mode === "read" &&
+        elementXML({
+          name: "actionLinks",
+          repeatMin: "0",
+          repeatMax: "1",
+          defaultExpanded: false,
+          children: actionLink({
+            method: "read",
+            recordType: linkedRecordTypeValue,
+            recordId: linkedRecordId,
+          }),
         }),
-      }),
     ],
   });
 }

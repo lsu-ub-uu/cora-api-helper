@@ -95,6 +95,7 @@ describe("recordTypeSearch", () => {
     expect(group).toHaveBeenCalledWith({
       metadataPool: {},
       groupId: "personGroup",
+      mode: "read",
     });
 
     await waitFor(() => {

@@ -15,6 +15,7 @@ describe("recordWrapper", () => {
     });
 
     const text = normalize(result.textContent);
+    expect(text).toContain(normalize("<record>(1 - 1)"));
     expect(text).toContain(normalize("<data>(1 - 1)child</data>"));
     expect(text).toContain("<actionLinks>");
     expect(text).toContain("<read>");
@@ -24,6 +25,18 @@ describe("recordWrapper", () => {
     expect(text).toContain(
       "https://someapiurl.com/rest/record/someRecordType/{recordId}",
     );
+  });
+
+  it("renders repeating XML record wrapper", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "someRecordType",
+      repeating: true,
+    });
+    const text = normalize(result.textContent);
+    expect(text).toContain(normalize("<record>(0 - X)"));
   });
 
   it("renders JSON record wrapper", () => {

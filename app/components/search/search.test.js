@@ -28,6 +28,7 @@ describe("search", () => {
     expect(group).toHaveBeenCalledWith({
       metadataPool,
       groupId: "searchGroup",
+      mode: "search",
     });
     expect(dataFormat).toHaveBeenCalledWith({
       children: expect.anything(),

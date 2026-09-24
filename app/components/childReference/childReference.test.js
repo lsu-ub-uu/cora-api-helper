@@ -8,7 +8,7 @@ vi.mock("../group/group.js", () => ({
       const mockGroup = document.createElement("div");
       mockGroup.textContent = `Group: ${refRecordId}, Min: ${repeatMin}, Max: ${repeatMax}, Depth: ${depth}, Last Child: ${lastChild}`;
       return mockGroup;
-    }
+    },
   ),
 }));
 
@@ -43,11 +43,11 @@ vi.mock("../numberVariable/numberVariable.js", () => ({
 }));
 
 vi.mock("../recordLink/recordLink.js", () => ({
-  default: vi.fn(({ metadata, repeatMin, repeatMax, lastChild }) => {
+  default: vi.fn(({ metadata, mode, repeatMin, repeatMax, lastChild }) => {
     const mockRecordLink = document.createElement("div");
     mockRecordLink.textContent = `Record Link: ${
       getFirstChildWithName(metadata, "nameInData").value
-    }, Min: ${repeatMin}, Max: ${repeatMax}, Last Child: ${lastChild}`;
+    }, Mode: ${mode}, Min: ${repeatMin}, Max: ${repeatMax}, Last Child: ${lastChild}`;
     return mockRecordLink;
   }),
 }));
@@ -79,7 +79,7 @@ describe("childReference", () => {
     });
 
     expect(result.textContent).toBe(
-      "Group: group1, Min: 1, Max: 5, Depth: 0, Last Child: true"
+      "Group: group1, Min: 1, Max: 5, Depth: 0, Last Child: true",
     );
   });
 
@@ -109,7 +109,7 @@ describe("childReference", () => {
     });
 
     expect(result.textContent).toBe(
-      "Text Variable: textVar1, Min: 1, Max: 5, Last Child: true"
+      "Text Variable: textVar1, Min: 1, Max: 5, Last Child: true",
     );
   });
 
@@ -139,7 +139,7 @@ describe("childReference", () => {
     });
 
     expect(result.textContent).toBe(
-      "Collection Variable: collectionVar1, Min: 1, Max: 5, Last Child: true"
+      "Collection Variable: collectionVar1, Min: 1, Max: 5, Last Child: true",
     );
   });
   it('renders a number variable component for "numberVariable" type', () => {
@@ -168,7 +168,7 @@ describe("childReference", () => {
     });
 
     expect(result.textContent).toBe(
-      "Number Variable: numberVar1, Min: 1, Max: 5, Last Child: true"
+      "Number Variable: numberVar1, Min: 1, Max: 5, Last Child: true",
     );
   });
 
@@ -193,12 +193,13 @@ describe("childReference", () => {
           },
         ],
       },
+      mode: "read",
       depth: 0,
       lastChild: true,
     });
 
     expect(result.textContent).toBe(
-      "Record Link: recordLink1, Min: 1, Max: 5, Last Child: true"
+      "Record Link: recordLink1, Mode: read, Min: 1, Max: 5, Last Child: true",
     );
   });
 });

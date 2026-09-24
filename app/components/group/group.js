@@ -7,6 +7,7 @@ import element from "../element/element.js";
 export default function group({
   metadataPool,
   groupId,
+  mode,
   repeatMin = "1",
   repeatMax = "1",
   depth = 0,
@@ -38,6 +39,7 @@ export default function group({
         childReference({
           metadataPool,
           childReference: childRef,
+          mode,
           depth: depth + 1,
           lastChild: index === childReferences.length - 1,
         }),

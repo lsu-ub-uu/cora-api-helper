@@ -4,23 +4,33 @@ import expandButton from "./expandButton.js";
 import { screen } from "@testing-library/dom";
 
 describe("expandButton", () => {
+  it("renders collapsed when defaultExpanded is false", () => {
+    document.body.appendChild(
+      expandButton({ onClick: vi.fn(), defaultExpanded: false }),
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Expand element" }),
+    ).toHaveTextContent("+");
+  });
+
   it("toggles on click", async () => {
     const onClickSpy = vi.fn();
     document.body.appendChild(expandButton({ onClick: onClickSpy }));
     await userEvent.click(
-      screen.getByRole("button", { name: "Collapse element" })
+      screen.getByRole("button", { name: "Collapse element" }),
     );
     expect(onClickSpy).toHaveBeenCalled();
     expect(
-      screen.getByRole("button", { name: "Expand element" })
+      screen.getByRole("button", { name: "Expand element" }),
     ).toHaveTextContent("+");
 
     await userEvent.click(
-      screen.getByRole("button", { name: "Expand element" })
+      screen.getByRole("button", { name: "Expand element" }),
     );
     expect(onClickSpy).toHaveBeenCalledTimes(2);
     expect(
-      screen.getByRole("button", { name: "Collapse element" })
+      screen.getByRole("button", { name: "Collapse element" }),
     ).toHaveTextContent("-");
   });
 });

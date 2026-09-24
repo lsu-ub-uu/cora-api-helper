@@ -110,10 +110,12 @@ describe("createOrUpdate", () => {
     expect(group).toHaveBeenNthCalledWith(1, {
       metadataPool,
       groupId: "personNewGroup",
+      mode: "create",
     });
     expect(group).toHaveBeenNthCalledWith(2, {
       metadataPool,
       groupId: "personGroup",
+      mode: "read",
     });
   });
 
@@ -136,10 +138,12 @@ describe("createOrUpdate", () => {
     expect(group).toHaveBeenNthCalledWith(1, {
       metadataPool,
       groupId: "personUpdateGroup",
+      mode: "update",
     });
     expect(group).toHaveBeenNthCalledWith(2, {
       metadataPool,
       groupId: "personGroup",
+      mode: "read",
     });
   });
 

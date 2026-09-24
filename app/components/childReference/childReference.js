@@ -9,6 +9,7 @@ import { el } from "../../utils/el.js";
 export default function childReference({
   metadataPool,
   childReference,
+  mode,
   depth = 0,
   lastChild = true,
 }) {
@@ -25,6 +26,7 @@ export default function childReference({
     return group({
       metadataPool,
       groupId: refRecordId,
+      mode,
       repeatMin,
       repeatMax,
       depth,
@@ -66,6 +68,7 @@ export default function childReference({
     return recordLink({
       metadataPool,
       metadata: childMetadata,
+      mode,
       repeatMin,
       repeatMax,
       lastChild,

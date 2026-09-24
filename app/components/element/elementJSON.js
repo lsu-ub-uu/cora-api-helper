@@ -54,8 +54,16 @@ export default function elementJSON({
   return root;
 }
 
-export function jsonObject({ name, value, children, lastChild = true }) {
-  const root = el("div", { className: "json-element" });
+export function jsonObject({
+  name,
+  value,
+  children,
+  lastChild = true,
+  defaultExpanded = true,
+}) {
+  const root = el("div", {
+    className: `json-element${defaultExpanded ? "" : " collapsed"}`,
+  });
 
   const content =
     children === undefined
@@ -69,7 +77,10 @@ export function jsonObject({ name, value, children, lastChild = true }) {
       : el("div", { className: "indent", children });
 
   root.append(
-    expandButton({ onClick: () => root.classList.toggle("collapsed") }),
+    expandButton({
+      onClick: () => root.classList.toggle("collapsed"),
+      defaultExpanded,
+    }),
     jsonKey(name, ": {"),
     ...[content].flat(),
     el("div", { textContent: `}${lastChild ? "" : ","}` }),

@@ -136,9 +136,11 @@ function searchResponseBody({ recordTypePool, recordTypeId, metadataPool }) {
     children: recordListWrapper({
       children: recordWrapper({
         recordType: recordTypeId,
+        repeating: true,
         children: group({
           metadataPool,
           groupId: metadataId,
+          mode: "read",
         }),
       }),
     }),

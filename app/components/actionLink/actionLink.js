@@ -8,6 +8,7 @@ export default function actionLink({
   recordType,
   recordId = "{recordId}",
   lastChild = true,
+  defaultExpanded = true,
 }) {
   const apiUrl = getApiUrl();
   const format = getFormat();
@@ -19,8 +20,8 @@ export default function actionLink({
         requestMethod: "GET",
         url: `${apiUrl}/rest/record/${recordType}/${recordId}`,
         accept: "application/vnd.cora.record+xml",
-        repeatMin: "1",
         lastChild,
+        defaultExpanded,
       });
     case "update":
       return actionLinkElement({
@@ -30,6 +31,7 @@ export default function actionLink({
         accept: "application/vnd.cora.record+xml",
         contentType: "application/vnd.cora.recordgroup+xml",
         lastChild,
+        defaultExpanded,
       });
     case "delete":
       return actionLinkElement({
@@ -37,6 +39,7 @@ export default function actionLink({
         requestMethod: "DELETE",
         url: `${apiUrl}/rest/record/${recordType}/{recordId}`,
         lastChild,
+        defaultExpanded,
       });
     case "index":
       return actionLinkElement({
@@ -47,6 +50,7 @@ export default function actionLink({
         url: `${apiUrl}/rest/record/workOrder`,
         body: indexBody(recordType, format),
         lastChild,
+        defaultExpanded,
       });
     default:
       throw new Error(`Unsupported method: ${method}`);
@@ -62,6 +66,7 @@ function actionLinkElement({
   url,
   body,
   lastChild,
+  defaultExpanded,
 }) {
   if (getFormat() === "json") {
     return actionLinkJSON({
@@ -72,6 +77,7 @@ function actionLinkElement({
       url,
       body,
       lastChild,
+      defaultExpanded,
     });
   }
 
@@ -83,6 +89,7 @@ function actionLinkElement({
     repeatMin,
     url,
     body,
+    defaultExpanded,
   });
 }
 
@@ -94,6 +101,7 @@ function actionLinkJSON({
   url,
   body,
   lastChild,
+  defaultExpanded,
 }) {
   const value = {
     requestMethod,
@@ -106,7 +114,7 @@ function actionLinkJSON({
     ...(accept ? { accept: accept.replace("+xml", "+json") } : {}),
   };
 
-  return jsonObject({ name, value, lastChild });
+  return jsonObject({ name, value, lastChild, defaultExpanded });
 }
 
 function actionLinkXML({
@@ -117,11 +125,13 @@ function actionLinkXML({
   repeatMin,
   url,
   body,
+  defaultExpanded,
 }) {
   return elementXML({
     name,
     repeatMin,
     repeatMax: "1",
+    defaultExpanded,
     children: [
       elementXML({
         name: "requestMethod",
