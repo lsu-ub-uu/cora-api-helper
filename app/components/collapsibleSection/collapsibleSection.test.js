@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import collapsibleSection from "./collapsibleSection.js";
@@ -38,5 +38,29 @@ describe("collapsibleSection", () => {
     await userEvent.click(summary);
     expect(details).toHaveAttribute("open");
     expect(screen.getByText("Section content")).toBeVisible();
+  });
+
+  it("calls onToggle on toggle", async () => {
+    const content = document.createElement("div");
+    content.textContent = "Section content";
+    const onToggle = vi.fn();
+
+    document.body.appendChild(
+      collapsibleSection({
+        title: "Request config",
+        children: content,
+        onToggle,
+      }),
+    );
+
+    const summary = screen
+      .getByRole("heading", { name: "Request config" })
+      .closest("summary");
+
+    await userEvent.click(summary);
+    expect(onToggle).toHaveBeenCalledWith(false);
+
+    await userEvent.click(summary);
+    expect(onToggle).toHaveBeenCalledWith(true);
   });
 });

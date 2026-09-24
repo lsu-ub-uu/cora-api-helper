@@ -5,6 +5,8 @@ import { getBasePath } from "../../utils/routing.js";
 import t from "../../utils/t.js";
 import collapsibleSection from "../collapsibleSection/collapsibleSection.js";
 
+const sectionExpanded = {};
+
 export default function navigation({
   recordTypePool,
   metadataPool,
@@ -102,12 +104,18 @@ function recordTypesNav({
     return metadataPool[itemRefId];
   });
 
+  sectionExpanded[dataDivider] =
+    sectionExpanded[dataDivider] ?? dataDivider !== "cora";
+
   return collapsibleSection({
     title: `${dataDivider.toUpperCase()}`,
     headingLevel: 2,
     className: "main-nav-item",
     children: groupList({ recordTypePool, path, navigate, groups }),
-    defaultExpanded: dataDivider !== "cora",
+    defaultExpanded: sectionExpanded[dataDivider],
+    onToggle: (expanded) => {
+      sectionExpanded[dataDivider] = expanded;
+    },
     titlePromise: getTextFromLink(
       getFirstChildWithName(systemPool[dataDivider], "textId"),
     ),

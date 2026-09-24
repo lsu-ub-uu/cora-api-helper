@@ -7,6 +7,7 @@ export default function collapsibleSection({
   className = "",
   defaultExpanded = true,
   titlePromise,
+  onToggle,
 }) {
   const titleEl = el(`h${headingLevel}`, {
     textContent: title,
@@ -21,6 +22,11 @@ export default function collapsibleSection({
   return el("details", {
     className: `collapsible-section${className ? ` ${className}` : ""}`,
     open: defaultExpanded,
+    onToggle: (e) => {
+      if (onToggle) {
+        onToggle(e.target.open);
+      }
+    },
     children: [
       el("summary", {
         children: titleEl,
