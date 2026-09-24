@@ -104,6 +104,7 @@ function requestDoc({
   } else if (method === "create" || method === "update") {
     return createOrUpdateRecordType({
       validationTypePool,
+      recordTypePool,
       metadataPool,
       recordTypeId,
       method,

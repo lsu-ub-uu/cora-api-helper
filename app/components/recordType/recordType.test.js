@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import recordType from "./recordType";
+import createOrUpdateRecordType from "./createOrUpdate";
 import { screen, waitFor } from "@testing-library/dom";
 
 vi.mock("../../utils/searchParams.js", () => ({
@@ -108,14 +109,18 @@ describe("recordType", () => {
   });
 
   it("renders createOrUpdate for create method", () => {
+    const recordTypePool = { person: recordTypeData };
     const result = recordType({
       recordTypeId: "person",
-      recordTypePool: { person: recordTypeData },
+      recordTypePool,
       validationTypePool: {},
       metadataPool: {},
     });
 
     expect(result.textContent).toContain("mock-createOrUpdate");
+    expect(createOrUpdateRecordType).toHaveBeenCalledWith(
+      expect.objectContaining({ recordTypePool }),
+    );
   });
 
   it("renders read view for read method", async () => {

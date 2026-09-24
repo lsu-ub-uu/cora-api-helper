@@ -8,6 +8,7 @@ export default function elementXML({
   repeatMin,
   repeatMax,
   children,
+  inline = false,
 }) {
   const root = el("div", {
     className: "element",
@@ -17,12 +18,13 @@ export default function elementXML({
       name,
       attributes,
       el("span", { textContent: ">", className: "closing-bracket" }),
-      multiplicity({ repeatMin, repeatMax }),
-      el("div", { className: "indent", children }),
+      !inline && multiplicity({ repeatMin, repeatMax }),
+      inline ? children : el("div", { className: "indent", children }),
       el("span", {
         className: "closing-tag",
         textContent: `</${name.textContent ?? name}>`,
       }),
+      inline && multiplicity({ repeatMin, repeatMax }),
     ],
   });
 

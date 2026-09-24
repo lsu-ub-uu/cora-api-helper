@@ -1,9 +1,12 @@
 import elementXML from "../element/elementXML.js";
-import { jsonObject } from "../element/elementJSON.js";
+import elementJSON, { jsonObject } from "../element/elementJSON.js";
 import { getApiUrl, getFormat } from "../../utils/searchParams.js";
+import { el } from "../../utils/el.js";
 
-export default function actionLink({ method, recordType }) {
+export default function actionLink({ method, recordType, lastChild = true }) {
   const apiUrl = getApiUrl();
+  const format = getFormat();
+
   switch (method) {
     case "read":
       return actionLinkElement({
@@ -12,6 +15,7 @@ export default function actionLink({ method, recordType }) {
         url: `${apiUrl}/rest/record/${recordType}/{recordId}`,
         accept: "application/vnd.cora.record+xml",
         repeatMin: "1",
+        lastChild,
       });
     case "update":
       return actionLinkElement({
@@ -20,12 +24,14 @@ export default function actionLink({ method, recordType }) {
         url: `${apiUrl}/rest/record/${recordType}/{recordId}`,
         accept: "application/vnd.cora.record+xml",
         contentType: "application/vnd.cora.recordgroup+xml",
+        lastChild,
       });
     case "delete":
       return actionLinkElement({
         name: "delete",
         requestMethod: "DELETE",
         url: `${apiUrl}/rest/record/${recordType}/{recordId}`,
+        lastChild,
       });
     case "index":
       return actionLinkElement({
@@ -34,7 +40,8 @@ export default function actionLink({ method, recordType }) {
         accept: "application/vnd.cora.record+xml",
         contentType: "application/vnd.cora.recordgroup+xml",
         url: `${apiUrl}/rest/record/workOrder`,
-        body: indexBody(recordType),
+        body: indexBody(recordType, format),
+        lastChild,
       });
     default:
       throw new Error(`Unsupported method: ${method}`);
@@ -49,6 +56,7 @@ function actionLinkElement({
   repeatMin = "0",
   url,
   body,
+  lastChild,
 }) {
   if (getFormat() === "json") {
     return actionLinkJSON({
@@ -58,6 +66,7 @@ function actionLinkElement({
       contentType,
       url,
       body,
+      lastChild,
     });
   }
 
@@ -79,11 +88,12 @@ function actionLinkJSON({
   contentType,
   url,
   body,
+  lastChild,
 }) {
   const value = {
     requestMethod,
     rel: name,
-    ...(body ? { body: body.json } : {}),
+    ...(body ? { body } : {}),
     ...(contentType
       ? { contentType: contentType.replace("+xml", "+json") }
       : {}),
@@ -91,7 +101,7 @@ function actionLinkJSON({
     ...(accept ? { accept: accept.replace("+xml", "+json") } : {}),
   };
 
-  return jsonObject({ name, value });
+  return jsonObject({ name, value, lastChild });
 }
 
 function actionLinkXML({
@@ -112,19 +122,22 @@ function actionLinkXML({
         name: "requestMethod",
         repeatMin: "1",
         repeatMax: "1",
-        children: [requestMethod],
+        children: id(requestMethod),
+        inline: true,
       }),
       elementXML({
         name: "rel",
         repeatMin: "1",
         repeatMax: "1",
-        children: [name],
+        children: id(name),
+        inline: true,
       }),
       elementXML({
         name: "url",
         repeatMin: "1",
         repeatMax: "1",
-        children: [url],
+        children: id(url),
+        inline: true,
       }),
       ...(contentType
         ? [
@@ -132,7 +145,8 @@ function actionLinkXML({
               name: "contentType",
               repeatMin: "1",
               repeatMax: "1",
-              children: [contentType],
+              children: id(contentType),
+              inline: true,
             }),
           ]
         : []),
@@ -142,75 +156,110 @@ function actionLinkXML({
               name: "accept",
               repeatMin: "1",
               repeatMax: "1",
-              children: [accept],
+              children: id(accept),
+              inline: true,
             }),
           ]
         : []),
-      ...(body ? [body.xml] : []),
+      body,
     ],
   });
 }
 
-function indexBody(recordType) {
-  return {
-    json: {
-      children: [
-        {
-          children: [
-            { name: "linkedRecordType", value: "recordType" },
-            { name: "linkedRecordId", value: recordType },
-          ],
-          name: "recordType",
-        },
-        { name: "recordId", value: "{recordId}" },
-        { name: "type", value: "index" },
-      ],
+function indexBody(recordType, format) {
+  if (format === "json") {
+    return elementJSON({
       name: "workOrder",
-    },
-    xml: elementXML({
-      name: "body",
-      repeatMin: "1",
       repeatMax: "1",
       children: [
-        elementXML({
-          name: "workOrder",
-          repeatMin: "1",
+        elementJSON({
+          name: "recordType",
           repeatMax: "1",
           children: [
-            elementXML({
-              name: "recordType",
-              repeatMin: "1",
+            elementJSON({
+              name: "linkedRecordType",
               repeatMax: "1",
-              children: [
-                elementXML({
-                  name: "linkedRecordType",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                  children: ["recordType"],
-                }),
-                elementXML({
-                  name: "linkedRecordId",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                  children: [recordType],
-                }),
-                elementXML({
-                  name: "recordId",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                  children: ["{recordId}"],
-                }),
-                elementXML({
-                  name: "type",
-                  repeatMin: "1",
-                  repeatMax: "1",
-                  children: ["index"],
-                }),
-              ],
+              children: id("recordType"),
+              lastChild: false,
+            }),
+            elementJSON({
+              name: "linkedRecordId",
+              repeatMax: "1",
+              children: id(recordType),
+              lastChild: true,
             }),
           ],
+          lastChild: false,
+        }),
+        elementJSON({
+          name: "recordId",
+          repeatMax: "1",
+          children: id("{recordId}"),
+          lastChild: false,
+        }),
+        elementJSON({
+          name: "type",
+          repeatMax: "1",
+          children: id("index"),
         }),
       ],
-    }),
-  };
+      lastChild: false,
+    });
+  }
+  return elementXML({
+    name: "body",
+    repeatMin: "1",
+    repeatMax: "1",
+    children: [
+      elementXML({
+        name: "workOrder",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: [
+          elementXML({
+            name: "recordType",
+            repeatMin: "1",
+            repeatMax: "1",
+            children: [
+              elementXML({
+                name: "linkedRecordType",
+                repeatMin: "1",
+                repeatMax: "1",
+                children: id("recordType"),
+                inline: true,
+              }),
+              elementXML({
+                name: "linkedRecordId",
+                repeatMin: "1",
+                repeatMax: "1",
+                children: id(recordType),
+                inline: true,
+              }),
+              elementXML({
+                name: "recordId",
+                repeatMin: "1",
+                repeatMax: "1",
+                children: id("{recordId}"),
+                inline: true,
+              }),
+              elementXML({
+                name: "type",
+                repeatMin: "1",
+                repeatMax: "1",
+                children: id("index"),
+                inline: true,
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+function id(text) {
+  return el("span", {
+    textContent: text,
+    className: "id",
+  });
 }

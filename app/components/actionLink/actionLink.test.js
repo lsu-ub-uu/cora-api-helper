@@ -14,18 +14,10 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<read>(1 - 1)
-            -<requestMethod>(1 - 1)
-                GET
-            </requestMethod>
-            -<rel>(1 - 1)
-                read
-            </rel>
-            -<url>(1 - 1)
-                https://someapiurl.com/rest/record/someRecordType/{recordId}
-            </url>
-            -<accept>(1 - 1)
-                application/vnd.cora.record+xml
-            </accept>
+          -<requestMethod>GET</requestMethod>(1 - 1)
+          -<rel>read</rel>(1 - 1)
+          -<url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
+          -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
         </read>
     `;
 
@@ -43,21 +35,11 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<update>(0 - 1)
-            -<requestMethod>(1 - 1)
-                POST
-            </requestMethod>
-            -<rel>(1 - 1)
-                update
-            </rel>
-            -<url>(1 - 1)
-                https://someapiurl.com/rest/record/someRecordType/{recordId}
-            </url>
-            -<contentType>(1 - 1)
-                application/vnd.cora.recordgroup+xml
-            </contentType>
-            -<accept>(1 - 1)
-                application/vnd.cora.record+xml
-            </accept>
+          -<requestMethod>POST</requestMethod>(1 - 1)
+          -<rel>update</rel>(1 - 1)
+          -<url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
+          -<contentType>application/vnd.cora.recordgroup+xml</contentType>(1 - 1)
+          -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
         </update>
     `;
 
@@ -75,15 +57,9 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<delete>(0 - 1)
-            -<requestMethod>(1 - 1)
-                DELETE
-            </requestMethod>
-            -<rel>(1 - 1)
-                delete
-            </rel>
-            -<url>(1 - 1)
-                https://someapiurl.com/rest/record/someRecordType/{recordId}
-            </url>
+          -<requestMethod>DELETE</requestMethod>(1 - 1)
+          -<rel>delete</rel>(1 - 1)
+          -<url>https://someapiurl.com/rest/record/someRecordType/{recordId}</url>(1 - 1)
         </delete>
     `;
 
@@ -101,36 +77,18 @@ describe("actionLink", () => {
 
     const expectedResult = `
         -<index>(0 - 1)
-            -<requestMethod>(1 - 1)
-                POST
-            </requestMethod>
-            -<rel>(1 - 1)
-                index
-            </rel>
-            -<url>(1 - 1)
-                https://someapiurl.com/rest/record/workOrder
-            </url>
-            -<contentType>(1 - 1)
-                application/vnd.cora.recordgroup+xml
-            </contentType>
-            -<accept>(1 - 1)
-                application/vnd.cora.record+xml
-            </accept>
+          -<requestMethod>POST</requestMethod>(1 - 1)
+          -<rel>index</rel>(1 - 1)
+          -<url>https://someapiurl.com/rest/record/workOrder</url>(1 - 1)
+          -<contentType>application/vnd.cora.recordgroup+xml</contentType>(1 - 1)
+          -<accept>application/vnd.cora.record+xml</accept>(1 - 1)
             -<body>(1 - 1)
                 -<workOrder>(1 - 1)
                     -<recordType>(1 - 1)
-                        -<linkedRecordType>(1 - 1)
-                            recordType
-                        </linkedRecordType>
-                        -<linkedRecordId>(1 - 1)
-                            someRecordType
-                        </linkedRecordId>
-                        -<recordId>(1 - 1)
-                            {recordId}
-                        </recordId>
-                        -<type>(1 - 1)
-                            index
-                        </type>
+                        -<linkedRecordType>recordType</linkedRecordType>(1 - 1)
+                        -<linkedRecordId>someRecordType</linkedRecordId>(1 - 1)
+                        -<recordId>{recordId}</recordId>(1 - 1)
+                        -<type>index</type>(1 - 1)
                     </recordType>
                 </workOrder>
             </body>
@@ -214,31 +172,31 @@ describe("actionLink", () => {
         -"index": {
           "requestMethod": "POST",
           "rel": "index",
-          "body": {
+          "body": -{
+            "name": "workOrder",
             "children": [
-              {
+              -{
+                "name": "recordType",
                 "children": [
-                  {
+                  -{
                     "name": "linkedRecordType",
                     "value": "recordType"
                   },
-                  {
+                  -{
                     "name": "linkedRecordId",
                     "value": "someRecordType"
                   }
-                ],
-                "name": "recordType"
+                ]
               },
-              {
+              -{
                 "name": "recordId",
                 "value": "{recordId}"
               },
-              {
+              -{
                 "name": "type",
                 "value": "index"
               }
-            ],
-            "name": "workOrder"
+            ]
           },
           "contentType": "application/vnd.cora.recordgroup+json",
           "url": "https://someapiurl.com/rest/record/workOrder/",
@@ -246,6 +204,7 @@ describe("actionLink", () => {
         }
       `),
     );
+    expect(result.querySelectorAll("button")).toHaveLength(7);
   });
 
   it("throws for an unsupported method", () => {

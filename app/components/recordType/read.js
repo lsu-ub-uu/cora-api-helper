@@ -24,6 +24,7 @@ export default function recordTypeRead({
       el("h3", { textContent: t("apiHelper_responseBodyFormatText") }),
       dataFormat({
         children: recordWrapper({
+          recordType: recordTypeId,
           children: group({
             metadataPool,
             groupId: metadataId,

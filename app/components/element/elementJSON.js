@@ -54,19 +54,24 @@ export default function elementJSON({
   return root;
 }
 
-export function jsonObject({ name, value, lastChild = true }) {
+export function jsonObject({ name, value, children, lastChild = true }) {
   const root = el("div", { className: "json-element" });
+
+  const content =
+    children === undefined
+      ? Object.entries(value).map(([key, childValue], index, entries) =>
+          jsonProperty({
+            name: key,
+            value: childValue,
+            lastChild: index === entries.length - 1,
+          }),
+        )
+      : el("div", { className: "indent", children });
 
   root.append(
     expandButton({ onClick: () => root.classList.toggle("collapsed") }),
     jsonKey(name, ": {"),
-    ...Object.entries(value).map(([key, childValue], index, entries) =>
-      jsonProperty({
-        name: key,
-        value: childValue,
-        lastChild: index === entries.length - 1,
-      }),
-    ),
+    ...[content].flat(),
     el("div", { textContent: `}${lastChild ? "" : ","}` }),
   );
 
@@ -76,11 +81,15 @@ export function jsonObject({ name, value, lastChild = true }) {
 function jsonProperty({ name, value, lastChild }) {
   return el("div", {
     className: "indent",
-    children: [jsonKey(name, ": "), ...jsonValue({ value, lastChild })],
+    children: [jsonKey(name, ": ", "span"), ...jsonValue({ value, lastChild })],
   });
 }
 
 function jsonValue({ value, lastChild }) {
+  if (value instanceof HTMLElement) {
+    return [value];
+  }
+
   if (Array.isArray(value)) {
     return [
       "[",
@@ -119,8 +128,8 @@ function jsonArrayItem({ value, lastChild }) {
   });
 }
 
-function jsonKey(name, suffix) {
-  return el("div", {
+function jsonKey(name, suffix, tag = "div") {
+  return el(tag, {
     children: [
       el("span", {
         className: "json-key",

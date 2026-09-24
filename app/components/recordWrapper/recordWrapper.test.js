@@ -1,81 +1,46 @@
 import { describe, expect, it, vi } from "vitest";
 import recordWrapper from "./recordWrapper.js";
 import { normalize } from "../../utils/normalize.js";
-import { getFormat } from "../../utils/searchParams.js";
+import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 
 vi.mock("../../utils/searchParams.js");
 
 describe("recordWrapper", () => {
-  it("renders XML record wrapper", () => {
+  it("renders XML record wrapper with action links", () => {
     getFormat.mockReturnValue("xml");
-    const result = recordWrapper({ children: "child" });
-
-    expect(normalize(result.textContent)).toEqual(
-      normalize(
-        `
-        -<record>(1 - 1)
-            -<data>(1 - 1)
-                child
-            </data>
-        </record>
-      `,
-      ),
-    );
-  });
-
-  it("renders XML record wrapper with action links when read mode", () => {
-    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
     const result = recordWrapper({
       children: "child",
-      mode: "read",
-      recordType: "recordType",
+      recordType: "someRecordType",
     });
 
-    expect(normalize(result.textContent)).toEqual(
-      normalize(
-        `
-        -<record>(1 - 1)
-            -<data>(1 - 1)
-                child
-            </data>
-            -<actionLinks>(1 - 1)
-                -<read>(1 - 1)
-                -<requestMethod>(1 - 1)
-                  GET
-                </requestMethod>
-                -<rel>(1 - 1)
-                  read
-                </rel>
-                -<url>(1 - 1)
-                  http://example.com/rest/record/recordType/1
-                </url>
-                -<accept>(1 - 1)
-                  application/vnd.cora.record+xml
-                </accept>
-                </read>
-            </actionLinks>
-        </record>
-      `,
-      ),
+    const text = normalize(result.textContent);
+    expect(text).toContain(normalize("<data>(1 - 1)child</data>"));
+    expect(text).toContain("<actionLinks>");
+    expect(text).toContain("<read>");
+    expect(text).toContain("<update>");
+    expect(text).toContain("<delete>");
+    expect(text).toContain("<index>");
+    expect(text).toContain(
+      "https://someapiurl.com/rest/record/someRecordType/{recordId}",
     );
   });
 
   it("renders JSON record wrapper", () => {
     getFormat.mockReturnValue("json");
-    const result = recordWrapper({ children: "child" });
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "someRecordType",
+    });
 
-    expect(normalize(result.textContent)).toEqual(
-      normalize(
-        `
-        -{
-            "record": {
-                "data": {
-                    child
-                }
-            }
-        }
-      `,
-      ),
-    );
+    const text = normalize(result.textContent);
+    expect(text).toContain('"data":{child},');
+    expect(text).toContain('"actionLinks":{');
+    expect(text).toContain('"read":{');
+    expect(text).toContain('"update":{');
+    expect(text).toContain('"delete":{');
+    expect(text).toContain('"index":{');
+    expect(result.querySelectorAll("button")).toHaveLength(14);
   });
 });

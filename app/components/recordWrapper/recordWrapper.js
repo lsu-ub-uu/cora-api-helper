@@ -1,17 +1,18 @@
 import { getFormat } from "../../utils/searchParams.js";
 import { el } from "../../utils/el.js";
 import expandButton from "../expandButton/expandButton.js";
+import { jsonObject } from "../element/elementJSON.js";
 import elementXML from "../element/elementXML.js";
 import actionLink from "../actionLink/actionLink.js";
 
 export default function recordWrapper({ children, recordType }) {
   if (getFormat() === "json") {
-    return recordWrapperJSON({ children });
+    return recordWrapperJSON({ children, recordType });
   }
   return recordWrapperXML({ children, recordType });
 }
 
-function recordWrapperJSON({ children }) {
+function recordWrapperJSON({ children, recordType }) {
   const root = el("div", { className: "json-element" });
 
   root.appendChild(
@@ -22,18 +23,25 @@ function recordWrapperJSON({ children }) {
     el("div", { textContent: "{" }),
     el("div", {
       className: "indent",
-      textContent: `"record": {`,
-      children: [
-        el("div", {
-          className: "indent",
-          textContent: `"data": {`,
-          children: [
-            el("div", { className: "indent", children: [children] }),
-            el("div", { textContent: "}" }),
-          ],
-        }),
-        el("div", { textContent: "}" }),
-      ],
+      children: jsonObject({
+        name: "record",
+        children: [
+          jsonObject({
+            name: "data",
+            children,
+            lastChild: false,
+          }),
+          jsonObject({
+            name: "actionLinks",
+            children: [
+              actionLink({ method: "read", recordType, lastChild: false }),
+              actionLink({ method: "update", recordType, lastChild: false }),
+              actionLink({ method: "delete", recordType, lastChild: false }),
+              actionLink({ method: "index", recordType }),
+            ],
+          }),
+        ],
+      }),
     }),
     el("div", { textContent: "}" }),
   );

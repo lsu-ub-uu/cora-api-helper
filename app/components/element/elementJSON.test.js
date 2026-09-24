@@ -183,6 +183,27 @@ describe("elementJSON", () => {
     expect(result.textContent).toMatch(/},$/);
   });
 
+  it("renders primitive values inline with their keys", () => {
+    const result = jsonObject({
+      name: "read",
+      value: { requestMethod: "GET" },
+    });
+
+    const property = result.querySelector(".indent");
+    expect(property.children[0].tagName).toBe("SPAN");
+    expect(property.textContent).toBe('"requestMethod": "GET"');
+  });
+
+  it("renders pre-rendered children inside an object", () => {
+    const child = document.createElement("div");
+    child.textContent = "child";
+
+    const result = jsonObject({ name: "data", children: child });
+
+    expect(result.textContent).toBe('toggle"data": {child}');
+    expect(result.children[2]).toHaveClass("indent");
+  });
+
   it("toggles the collapsed class", () => {
     const result = jsonObject({ name: "read", value: {} });
 

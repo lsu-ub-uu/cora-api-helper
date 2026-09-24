@@ -126,11 +126,11 @@ function searchResponseBody({ recordTypePool, recordTypeId, metadataPool }) {
   return dataFormat({
     children: recordListWrapper({
       children: recordWrapper({
+        recordType: recordTypeId,
         children: group({
           metadataPool,
           groupId: metadataId,
         }),
-        repeating: true,
       }),
     }),
   });
