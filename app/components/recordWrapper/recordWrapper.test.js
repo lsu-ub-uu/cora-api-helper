@@ -21,10 +21,10 @@ describe("recordWrapper", () => {
       normalize(`
         -<permissions>(0 - 1)
           -<read>(0 - 1)
-            <permission>{dataName}</permission>(1 - X)
+            <permission>{fieldName}</permission>(1 - X)
           </read>
           -<write>(0 - 1)
-            <permission>{dataName}</permission>(1 - X)
+            <permission>{fieldName}</permission>(1 - X)
           </write>
         </permissions>
       `),
@@ -66,7 +66,7 @@ describe("recordWrapper", () => {
     const text = normalize(result.textContent);
     expect(text).toContain('"data":{child},');
     expect(text).toContain(
-      '"permissions":{"read":["{dataName}"],"write":["{dataName}"]},',
+      '"permissions":{"read":[{fieldName}],"write":[{fieldName}]},',
     );
     expect(text).toContain('"actionLinks":{');
     expect(text.indexOf('"data"')).toBeLessThan(text.indexOf('"permissions"'));

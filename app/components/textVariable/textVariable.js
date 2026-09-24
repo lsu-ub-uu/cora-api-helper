@@ -1,5 +1,5 @@
 import { el } from "../../utils/el.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import element from "../element/element.js";
 
 export default function textVariable({
@@ -7,6 +7,7 @@ export default function textVariable({
   metadata,
   repeatMin,
   repeatMax,
+  hasPermissions = false,
   lastChild,
 }) {
   const regexText = getFirstChildWithName(metadata, "regEx")?.value;
@@ -16,6 +17,7 @@ export default function textVariable({
     metadata,
     repeatMin,
     repeatMax,
+    hasPermissions,
     children: el("div", { className: "regex", textContent: `/${regexText}/` }),
     lastChild,
   });

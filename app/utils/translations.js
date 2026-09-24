@@ -81,6 +81,14 @@ export const getTranslations = () => ({
     en: "Set to the ID of linked record",
     sv: "Sätt till ID för länkad post",
   },
+  apiHelper_permissionControlledText: {
+    en: "The field is permission controlled. Only certain users may read and/or write this field",
+    sv: "Fältet är behörighetsstyrt. Endast vissa användare får läsa och/eller skriva i fältet",
+  },
+  apiHelper_permissionControlledTitleText: {
+    en: "Permission controlled",
+    sv: "Behörighetsstyrt",
+  },
   apiHelper_selectRequestMethodText: {
     en: "Select operation",
     sv: "Välj operation",

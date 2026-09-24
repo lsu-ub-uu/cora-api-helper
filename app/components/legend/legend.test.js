@@ -22,6 +22,8 @@ describe("legend", () => {
               <dd title="Value must be one of the listed values">Collection value</dd>
               <dt class="id">{id}</dt>
               <dd title="Set to the ID of linked record">Record ID</dd>
+              <dt><span class="permission-indicator" role="img" aria-label="The field is permission controlled. Only certain users may read and/or write this field">🔒</span></dt>
+              <dd>The field is permission controlled. Only certain users may read and/or write this field</dd>
             </dl>
           `;
     expect(normalizeHTML(result.innerHTML)).toBe(normalizeHTML(expectedHTML));

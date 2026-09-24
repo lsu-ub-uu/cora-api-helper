@@ -1,4 +1,4 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../utils/coraDataUtils.js";
 import { getApiUrl } from "../utils/searchParams.js";
 
 export default async function listRecordType(recordType) {

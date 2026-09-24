@@ -67,6 +67,34 @@ describe("elementXML", () => {
     expect(result.textContent).toContain("(mult)");
   });
 
+  it("renders a permission indicator next to multiplicity", () => {
+    const result = elementXML({
+      name: "item",
+      repeatMin: "0",
+      repeatMax: "X",
+      children: document.createElement("span"),
+      hasPermissions: true,
+    });
+
+    expect(result.querySelector(".permission-indicator")).toHaveAccessibleName(
+      "The field is permission controlled. Only certain users may read and/or write this field",
+    );
+    expect(result.querySelector(".permission-indicator")).toHaveTextContent(
+      "🔒",
+    );
+  });
+
+  it("does not render a permission indicator by default", () => {
+    const result = elementXML({
+      name: "item",
+      repeatMin: "0",
+      repeatMax: "X",
+      children: document.createElement("span"),
+    });
+
+    expect(result.querySelector(".permission-indicator")).toBeNull();
+  });
+
   it("renders array children", () => {
     const child1 = document.createElement("div");
     child1.textContent = "child1";

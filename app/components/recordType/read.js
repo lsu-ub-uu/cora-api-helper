@@ -1,5 +1,5 @@
 import { el } from "../../utils/el.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import t from "../../utils/t.js";
 import collapsibleSection from "../collapsibleSection/collapsibleSection.js";
 import dataFormat from "../dataFormat/dataFormat.js";

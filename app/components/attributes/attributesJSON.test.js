@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import attributesJSON from "./attributesJSON.js";
 
 vi.mock("../itemCollection/itemCollection.js", () => ({

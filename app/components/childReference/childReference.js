@@ -1,4 +1,7 @@
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import {
+  getFirstChildWithName,
+  getAllChildrenWithNameAndAttributes,
+} from "../../utils/coraDataUtils.js";
 import group from "../group/group.js";
 import textVariable from "../textVariable/textVariable.js";
 import recordLink from "../recordLink/recordLink.js";
@@ -18,7 +21,10 @@ export default function childReference({
   const refLink = getFirstChildWithName(childReference, "ref");
   const refRecordId = getFirstChildWithName(refLink, "linkedRecordId")?.value;
   const childMetadata = metadataPool[refRecordId];
-
+  const hasPermissions =
+    getAllChildrenWithNameAndAttributes(childReference, "childRefCollectTerm", {
+      type: "permission",
+    }).length > 0;
   const nameInData = getFirstChildWithName(childMetadata, "nameInData")?.value;
   const type = childMetadata.attributes.type;
 
@@ -27,6 +33,7 @@ export default function childReference({
       metadataPool,
       groupId: refRecordId,
       mode,
+      hasPermissions,
       repeatMin,
       repeatMax,
       depth,
@@ -38,6 +45,7 @@ export default function childReference({
     return textVariable({
       metadataPool,
       metadata: childMetadata,
+      hasPermissions,
       repeatMin,
       repeatMax,
       lastChild,
@@ -48,6 +56,7 @@ export default function childReference({
     return collectionVariable({
       metadataPool,
       metadata: childMetadata,
+      hasPermissions,
       repeatMin,
       repeatMax,
       lastChild,
@@ -58,6 +67,7 @@ export default function childReference({
     return numberVariable({
       metadataPool,
       metadata: childMetadata,
+      hasPermissions,
       repeatMin,
       repeatMax,
       lastChild,
@@ -69,6 +79,7 @@ export default function childReference({
       metadataPool,
       metadata: childMetadata,
       mode,
+      hasPermissions,
       repeatMin,
       repeatMax,
       lastChild,

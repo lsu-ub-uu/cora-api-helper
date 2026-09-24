@@ -1,5 +1,5 @@
 import { el } from "../../utils/el.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import t from "../../utils/t.js";
 import childReference from "../childReference/childReference.js";
 import element from "../element/element.js";
@@ -8,6 +8,7 @@ export default function group({
   metadataPool,
   groupId,
   mode,
+  hasPermissions = false,
   repeatMin = "1",
   repeatMax = "1",
   depth = 0,
@@ -35,6 +36,7 @@ export default function group({
       metadata: groupMetadata,
       repeatMin,
       repeatMax,
+      hasPermissions,
       children: childReferences.map((childRef, index) =>
         childReference({
           metadataPool,

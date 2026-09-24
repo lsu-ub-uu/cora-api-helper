@@ -1,5 +1,5 @@
 import { el } from "../../utils/el.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import { getFormat } from "../../utils/searchParams.js";
 import actionLink from "../actionLink/actionLink.js";
 import element from "../element/element.js";
@@ -12,6 +12,7 @@ export default function recordLink({
   mode,
   repeatMin,
   repeatMax,
+  hasPermissions = false,
   lastChild = true,
 }) {
   const format = getFormat();
@@ -28,6 +29,7 @@ export default function recordLink({
     metadata,
     repeatMin,
     repeatMax,
+    hasPermissions,
     children:
       format === "json"
         ? recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode })

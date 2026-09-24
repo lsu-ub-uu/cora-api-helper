@@ -1,6 +1,8 @@
 import { el } from "../../utils/el.js";
-import getAllChildrenWithName from "../../utils/getAllChildrenWithName.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import {
+  getAllChildrenWithName,
+  getFirstChildWithName,
+} from "../../utils/coraDataUtils.js";
 import dataName from "../dataName/dataName.js";
 import itemCollection from "../itemCollection/itemCollection.js";
 

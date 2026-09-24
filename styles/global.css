@@ -87,6 +87,16 @@ button {
   border: none;
   cursor: pointer;
   font-family: inherit;
+  border-radius: 2px;
+  background: var(--color-button-bg);
+  font-size: inherit;
+  &:hover {
+    background: var(--color-button-hover);
+  }
+
+  &:active {
+    background: var(--color-button-active);
+  }
 }
 
 p {
@@ -353,6 +363,9 @@ select {
     .multiplicity {
       display: none;
     }
+    .permission-indicator {
+      display: none;
+    }
 
     & > .name-in-data {
       display: inline;
@@ -398,6 +411,12 @@ select {
 
 .multiplicity {
   color: var(--color-multiplicity);
+  user-select: none;
+}
+
+.permission-indicator {
+  margin-left: 0.25rem;
+  font-size: 0.8em;
   user-select: none;
 }
 

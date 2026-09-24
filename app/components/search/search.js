@@ -1,4 +1,4 @@
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import group from "../group/group.js";
 

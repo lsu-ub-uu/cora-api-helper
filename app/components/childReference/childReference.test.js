@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import childReference from "./childReference.js";
+import textVariable from "../textVariable/textVariable.js";
 
 vi.mock("../group/group.js", () => ({
   default: vi.fn(
@@ -110,6 +111,37 @@ describe("childReference", () => {
 
     expect(result.textContent).toBe(
       "Text Variable: textVar1, Min: 1, Max: 5, Last Child: true",
+    );
+  });
+
+  it("marks an element when its child reference has permission terms", () => {
+    const metadataPool = {
+      textVar1: {
+        attributes: { type: "textVariable" },
+        children: [{ name: "nameInData", value: "textVar1" }],
+      },
+    };
+
+    childReference({
+      metadataPool,
+      childReference: {
+        children: [
+          { name: "repeatMin", value: "1" },
+          { name: "repeatMax", value: "1" },
+          {
+            name: "ref",
+            children: [{ name: "linkedRecordId", value: "textVar1" }],
+          },
+          {
+            name: "childRefCollectTerm",
+            attributes: { type: "permission" },
+          },
+        ],
+      },
+    });
+
+    expect(textVariable).toHaveBeenCalledWith(
+      expect.objectContaining({ hasPermissions: true }),
     );
   });
 

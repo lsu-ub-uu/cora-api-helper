@@ -1,5 +1,5 @@
 import { el } from "../../utils/el.js";
-import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import element from "../element/element.js";
 
 export default function numberVariable({
@@ -7,6 +7,7 @@ export default function numberVariable({
   metadata,
   repeatMin,
   repeatMax,
+  hasPermissions = false,
   lastChild,
 }) {
   const min = getFirstChildWithName(metadata, "min")?.value;
@@ -19,6 +20,7 @@ export default function numberVariable({
     metadata,
     repeatMin,
     repeatMax,
+    hasPermissions,
     children: el("div", {
       className: "number-variable",
       textContent: `${Number(min).toFixed(numberOfDecimals)} - ${Number(

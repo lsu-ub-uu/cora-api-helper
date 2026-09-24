@@ -1,5 +1,6 @@
 import { el } from "../../utils/el.js";
 import t from "../../utils/t.js";
+import permissionIndicator from "../permissionIndicator/permissionIndicator.js";
 
 export default function legend() {
   return el("div", {
@@ -44,6 +45,11 @@ function definitionTerms() {
     el("dd", {
       title: t("apiHelper_recordIdTitleText"),
       textContent: t("apiHelper_recordIdText"),
+    }),
+    el("dt", { children: permissionIndicator() }),
+    el("dd", {
+      title: t("apiHelper_collectionValueTitleText"),
+      textContent: t("apiHelper_permissionControlledTitleText"),
     }),
   ];
 }

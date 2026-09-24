@@ -1,4 +1,4 @@
-import getFirstChildWithName from "../utils/getFirstChildWithName.js";
+import { getFirstChildWithName } from "../utils/coraDataUtils.js";
 import { getLanguage } from "../utils/searchParams.js";
 
 const textCache = new Map();

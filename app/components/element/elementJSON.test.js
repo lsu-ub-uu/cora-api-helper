@@ -51,6 +51,33 @@ describe("elementJSON", () => {
     expect(result.textContent).toContain("someValue");
   });
 
+  it("renders a permission indicator next to multiplicity", () => {
+    const result = elementJSON({
+      name: "title",
+      repeatMin: "1",
+      repeatMax: "1",
+      children: "someValue",
+      hasPermissions: true,
+    });
+
+    const name = result.querySelector(".name-in-data");
+    expect(name.querySelector(".permission-indicator")).toHaveAccessibleName(
+      "The field is permission controlled. Only certain users may read and/or write this field",
+    );
+    expect(name.querySelector(".permission-indicator")).toHaveTextContent("🔒");
+  });
+
+  it("does not render a permission indicator by default", () => {
+    const result = elementJSON({
+      name: "title",
+      repeatMin: "1",
+      repeatMax: "1",
+      children: "someValue",
+    });
+
+    expect(result.querySelector(".permission-indicator")).toBeNull();
+  });
+
   it("collapses a metadata element", () => {
     const result = elementJSON({
       name: "title",

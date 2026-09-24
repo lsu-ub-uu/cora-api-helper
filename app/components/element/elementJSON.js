@@ -1,6 +1,7 @@
 import { el } from "../../utils/el.js";
 import expandButton from "../expandButton/expandButton.js";
 import multiplicity from "../multiplicity/multiplicity.js";
+import permissionIndicator from "../permissionIndicator/permissionIndicator.js";
 
 export default function elementJSON({
   name,
@@ -10,6 +11,7 @@ export default function elementJSON({
   children,
   lastChild = true,
   isRecordLink,
+  hasPermissions = false,
 }) {
   const isRepeating = repeatMax !== "0" && repeatMax !== "1";
 
@@ -30,6 +32,7 @@ export default function elementJSON({
         name,
         el("span", { textContent: `",` }),
         multiplicity({ repeatMin, repeatMax }),
+        hasPermissions && permissionIndicator(),
       ],
     }),
     isRepeating &&
