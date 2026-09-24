@@ -1,7 +1,10 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
 import { getFormat } from "../../utils/searchParams.js";
+import actionLink from "../actionLink/actionLink.js";
 import element from "../element/element.js";
+import elementXML from "../element/elementXML.js";
+import { jsonObject } from "../element/elementJSON.js";
 
 export default function recordLink({
   metadataPool,
@@ -17,6 +20,7 @@ export default function recordLink({
     "linkedRecordId",
   )?.value;
   const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
+  const linkedRecordId = finalValue || "{id}";
 
   return element({
     metadataPool,
@@ -25,13 +29,13 @@ export default function recordLink({
     repeatMax,
     children:
       format === "json"
-        ? recordLinkJson({ linkedRecordTypeValue, finalValue })
-        : recordLinkXml({ linkedRecordTypeValue, finalValue }),
+        ? recordLinkJson({ linkedRecordTypeValue, linkedRecordId })
+        : recordLinkXml({ linkedRecordTypeValue, linkedRecordId }),
     lastChild,
   });
 }
 
-function recordLinkJson({ linkedRecordTypeValue, finalValue }) {
+function recordLinkJson({ linkedRecordTypeValue, linkedRecordId }) {
   return el("div", {
     className: "record-link",
     children: [
@@ -95,10 +99,10 @@ function recordLinkJson({ linkedRecordTypeValue, finalValue }) {
                     textContent: '"value"',
                   }),
                   ': "',
-                  finalValue
+                  linkedRecordId !== "{id}"
                     ? el("span", {
                         className: "final-value",
-                        textContent: finalValue,
+                        textContent: linkedRecordId,
                       })
                     : el("span", {
                         className: "id",
@@ -111,14 +115,25 @@ function recordLinkJson({ linkedRecordTypeValue, finalValue }) {
             ],
           }),
 
-          el("div", { textContent: "]" }),
+          el("div", { textContent: "]," }),
         ],
+      }),
+      el("div", {
+        className: "indent",
+        children: jsonObject({
+          name: "actionLinks",
+          children: actionLink({
+            method: "read",
+            recordType: linkedRecordTypeValue,
+            recordId: linkedRecordId,
+          }),
+        }),
       }),
     ],
   });
 }
 
-function recordLinkXml({ linkedRecordTypeValue, finalValue }) {
+function recordLinkXml({ linkedRecordTypeValue, linkedRecordId }) {
   return el("div", {
     className: "record-link",
     children: [
@@ -137,10 +152,20 @@ function recordLinkXml({ linkedRecordTypeValue, finalValue }) {
           `<linkedRecordId>`,
           el("span", {
             className: "final-value",
-            textContent: finalValue ? finalValue : "{id}",
+            textContent: linkedRecordId,
           }),
           `</linkedRecordId>`,
         ],
+      }),
+      elementXML({
+        name: "actionLinks",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: actionLink({
+          method: "read",
+          recordType: linkedRecordTypeValue,
+          recordId: linkedRecordId,
+        }),
       }),
     ],
   });

@@ -3,7 +3,12 @@ import elementJSON, { jsonObject } from "../element/elementJSON.js";
 import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 import { el } from "../../utils/el.js";
 
-export default function actionLink({ method, recordType, lastChild = true }) {
+export default function actionLink({
+  method,
+  recordType,
+  recordId = "{recordId}",
+  lastChild = true,
+}) {
   const apiUrl = getApiUrl();
   const format = getFormat();
 
@@ -12,7 +17,7 @@ export default function actionLink({ method, recordType, lastChild = true }) {
       return actionLinkElement({
         name: "read",
         requestMethod: "GET",
-        url: `${apiUrl}/rest/record/${recordType}/{recordId}`,
+        url: `${apiUrl}/rest/record/${recordType}/${recordId}`,
         accept: "application/vnd.cora.record+xml",
         repeatMin: "1",
         lastChild,
