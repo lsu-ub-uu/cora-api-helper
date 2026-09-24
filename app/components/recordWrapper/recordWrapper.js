@@ -4,6 +4,7 @@ import expandButton from "../expandButton/expandButton.js";
 import { jsonObject } from "../element/elementJSON.js";
 import elementXML from "../element/elementXML.js";
 import actionLink from "../actionLink/actionLink.js";
+import permissions from "../permissions/permissions.js";
 
 export default function recordWrapper({ children, recordType, repeating }) {
   if (getFormat() === "json") {
@@ -31,6 +32,7 @@ function recordWrapperJSON({ children, recordType }) {
             children,
             lastChild: false,
           }),
+          permissions(),
           jsonObject({
             name: "actionLinks",
             children: [
@@ -61,6 +63,7 @@ function recordWrapperXML({ children, recordType, repeating }) {
         repeatMax: "1",
         children: children,
       }),
+      permissions(),
       elementXML({
         name: "actionLinks",
         repeatMin: "1",

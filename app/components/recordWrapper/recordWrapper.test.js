@@ -17,6 +17,22 @@ describe("recordWrapper", () => {
     const text = normalize(result.textContent);
     expect(text).toContain(normalize("<record>(1 - 1)"));
     expect(text).toContain(normalize("<data>(1 - 1)child</data>"));
+    expect(text).toContain(
+      normalize(`
+        -<permissions>(0 - 1)
+          -<read>(0 - 1)
+            <permission>{dataName}</permission>(1 - X)
+          </read>
+          -<write>(0 - 1)
+            <permission>{dataName}</permission>(1 - X)
+          </write>
+        </permissions>
+      `),
+    );
+    expect(text.indexOf("<data>")).toBeLessThan(text.indexOf("<permissions>"));
+    expect(text.indexOf("<permissions>")).toBeLessThan(
+      text.indexOf("<actionLinks>"),
+    );
     expect(text).toContain("<actionLinks>");
     expect(text).toContain("<read>");
     expect(text).toContain("<update>");
@@ -49,11 +65,18 @@ describe("recordWrapper", () => {
 
     const text = normalize(result.textContent);
     expect(text).toContain('"data":{child},');
+    expect(text).toContain(
+      '"permissions":{"read":["{dataName}"],"write":["{dataName}"]},',
+    );
     expect(text).toContain('"actionLinks":{');
+    expect(text.indexOf('"data"')).toBeLessThan(text.indexOf('"permissions"'));
+    expect(text.indexOf('"permissions"')).toBeLessThan(
+      text.indexOf('"actionLinks"'),
+    );
     expect(text).toContain('"read":{');
     expect(text).toContain('"update":{');
     expect(text).toContain('"delete":{');
     expect(text).toContain('"index":{');
-    expect(result.querySelectorAll("button")).toHaveLength(14);
+    expect(result.querySelectorAll("button")).toHaveLength(15);
   });
 });
