@@ -5,7 +5,14 @@ export default function permissionIndicator() {
   const popover = el("div", {
     className: "popover",
     popover: "auto",
-    textContent: t("apiHelper_permissionControlledText"),
+    children: [
+      el("h3", {
+        textContent: t("apiHelper_permissionControlledTitleText"),
+      }),
+      el("p", {
+        textContent: t("apiHelper_permissionControlledText"),
+      }),
+    ],
   });
 
   return el("fragment", {

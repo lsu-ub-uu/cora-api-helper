@@ -83,11 +83,11 @@ export const getTranslations = () => ({
   },
   apiHelper_permissionControlledText: {
     en: "The field is permission controlled. Only certain users may read and/or write this field",
-    sv: "Fältet är behörighetsstyrt. Endast vissa användare får läsa och/eller skriva i fältet",
+    sv: "Fältet är rättighetsstyrt. Endast vissa användare får läsa och/eller skriva i fältet",
   },
   apiHelper_permissionControlledTitleText: {
     en: "Permission controlled",
-    sv: "Behörighetsstyrt",
+    sv: "Rättighetsstyrt",
   },
   apiHelper_selectRequestMethodText: {
     en: "Select operation",
