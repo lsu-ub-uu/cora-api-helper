@@ -1,7 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import createOrUpdateRecordType from "./createOrUpdate";
 import { screen, waitFor } from "@testing-library/dom";
 import dataFormat from "../dataFormat/dataFormat";
+import group from "../group/group";
 import userEvent from "@testing-library/user-event";
 
 vi.mock("../../services/getTextFromLink.js", () => ({
@@ -68,7 +69,22 @@ const anotherValidationType = {
   ],
 };
 
+const recordTypePool = {
+  person: {
+    children: [
+      {
+        name: "metadataId",
+        children: [{ name: "linkedRecordId", value: "personGroup" }],
+      },
+    ],
+  },
+};
+
 describe("createOrUpdate", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("renders documentation for create with one validationType", () => {
     const validationTypePool = {
       personValidationType,
@@ -79,6 +95,7 @@ describe("createOrUpdate", () => {
     document.body.appendChild(
       createOrUpdateRecordType({
         validationTypePool,
+        recordTypePool,
         metadataPool,
         recordTypeId: "person",
         method: "create",
@@ -87,8 +104,17 @@ describe("createOrUpdate", () => {
 
     expect(screen.getByText("Request config")).toBeInTheDocument();
     expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
-    expect(screen.getByText("Mock data format")).toBeInTheDocument();
-    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
+    expect(screen.getByText("Request body format")).toBeInTheDocument();
+    expect(screen.getByText("Response body format")).toBeInTheDocument();
+    expect(screen.getAllByText("Mock data format")).toHaveLength(2);
+    expect(group).toHaveBeenNthCalledWith(1, {
+      metadataPool,
+      groupId: "personNewGroup",
+    });
+    expect(group).toHaveBeenNthCalledWith(2, {
+      metadataPool,
+      groupId: "personGroup",
+    });
   });
 
   it("renders documentation for update with one validationType", () => {
@@ -99,13 +125,22 @@ describe("createOrUpdate", () => {
     document.body.appendChild(
       createOrUpdateRecordType({
         validationTypePool,
+        recordTypePool,
         metadataPool,
         recordTypeId: "person",
         method: "update",
       }),
     );
 
-    expect(dataFormat).toHaveBeenCalledWith({ children: expect.anything() });
+    expect(screen.getByText("Response body format")).toBeInTheDocument();
+    expect(group).toHaveBeenNthCalledWith(1, {
+      metadataPool,
+      groupId: "personUpdateGroup",
+    });
+    expect(group).toHaveBeenNthCalledWith(2, {
+      metadataPool,
+      groupId: "personGroup",
+    });
   });
 
   it("renders a validation type select when multiple validation types exist", async () => {
@@ -117,6 +152,7 @@ describe("createOrUpdate", () => {
     document.body.appendChild(
       createOrUpdateRecordType({
         validationTypePool,
+        recordTypePool,
         metadataPool: {},
         recordTypeId: "person",
         method: "create",

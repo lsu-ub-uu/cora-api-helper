@@ -7,11 +7,13 @@ import {
 import t from "../../utils/t.js";
 import dataFormat from "../dataFormat/dataFormat.js";
 import group from "../group/group.js";
+import recordWrapper from "../recordWrapper/recordWrapper.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import validationTypeSelect from "./validationTypeSelect.js";
 
 export default function createOrUpdateRecordType({
   validationTypePool,
+  recordTypePool,
   metadataPool,
   recordTypeId,
   method,
@@ -36,6 +38,14 @@ export default function createOrUpdateRecordType({
       metadataLink,
       "linkedRecordId",
     ).value;
+    const responseMetadataLink = getFirstChildWithName(
+      recordTypePool[recordTypeId],
+      "metadataId",
+    );
+    const responseMetadataId = getFirstChildWithName(
+      responseMetadataLink,
+      "linkedRecordId",
+    ).value;
 
     root.replaceChildren(
       validationTypeSection({
@@ -49,6 +59,16 @@ export default function createOrUpdateRecordType({
         children: group({
           metadataPool,
           groupId: metadataId,
+        }),
+      }),
+      el("h3", { textContent: t("apiHelper_responseBodyFormatText") }),
+      dataFormat({
+        children: recordWrapper({
+          recordType: recordTypeId,
+          children: group({
+            metadataPool,
+            groupId: responseMetadataId,
+          }),
         }),
       }),
     );
