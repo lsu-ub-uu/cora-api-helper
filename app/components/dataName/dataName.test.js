@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/dom";
 import { describe, expect, it, vi } from "vitest";
 import dataName from "./dataName";
-import * as getTextFromLinkModule from "../../utils/getTextFromLink.js";
+import * as getTextFromLinkModule from "../../services/getTextFromLink.js";
 
 describe("dataName", () => {
   it("renders a button", async () => {
@@ -12,7 +12,7 @@ describe("dataName", () => {
     const dataNameComponent = dataName({ metadata });
     document.body.appendChild(dataNameComponent);
     expect(
-      screen.getByRole("button", { name: /testName/i })
+      screen.getByRole("button", { name: /testName/i }),
     ).toBeInTheDocument();
   });
 

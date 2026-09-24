@@ -1,6 +1,6 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
-import getTextFromLink from "../../utils/getTextFromLink.js";
+import getTextFromLink from "../../services/getTextFromLink.js";
 import { getMethod, updateSearchParam } from "../../utils/searchParams.js";
 import t from "../../utils/t.js";
 import radio from "../radio/radio.js";
@@ -47,8 +47,7 @@ export default function recordType({
 }
 
 function pageTitle({ recordTypePool, recordTypeId }) {
-  const root = document.createElement("h2");
-  root.textContent = recordTypeId;
+  const root = el("h2", { textContent: recordTypeId });
 
   const recordType = recordTypePool[recordTypeId];
   const recordTypeTextId = getFirstChildWithName(recordType, "textId");

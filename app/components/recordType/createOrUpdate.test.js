@@ -4,7 +4,7 @@ import { screen, waitFor } from "@testing-library/dom";
 import dataFormat from "../dataFormat/dataFormat";
 import userEvent from "@testing-library/user-event";
 
-vi.mock("../../utils/getTextFromLink.js", () => ({
+vi.mock("../../services/getTextFromLink.js", () => ({
   default: vi.fn((textId) => Promise.resolve(textId?.value ?? "text")),
 }));
 

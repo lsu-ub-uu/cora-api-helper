@@ -11,7 +11,7 @@ export default function attributes({ metadataPool, metadata }) {
   );
 
   if (!attributeReferences) {
-    return document.createDocumentFragment();
+    return el("fragment");
   }
 
   const refs = getAllChildrenWithName(attributeReferences, "ref");

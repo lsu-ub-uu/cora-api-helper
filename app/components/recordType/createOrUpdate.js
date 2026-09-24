@@ -64,7 +64,7 @@ function validationTypeSection({
   onChangeValidationType,
 }) {
   if (validationTypes.length <= 1) {
-    return document.createDocumentFragment();
+    return el("fragment");
   }
 
   const selectedValidationTypeId = getFirstChildWithName(

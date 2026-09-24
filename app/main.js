@@ -1,13 +1,13 @@
 import currentPage from "./components/currentPage/currentPage.js";
 import navigation from "./components/navigation/navigation.js";
-import initPools from "./services/initPools.js";
+import fetchPools from "./services/fetchPools.js";
 import initSettings from "./utils/initSettings.js";
 import renderDeploymentInfo from "./utils/renderDeploymentInfo.js";
 
 renderDeploymentInfo();
 initSettings();
 const { recordTypePool, validationTypePool, metadataPool, searchPool } =
-  await initPools();
+  await fetchPools();
 
 window.addEventListener("popstate", render);
 render();

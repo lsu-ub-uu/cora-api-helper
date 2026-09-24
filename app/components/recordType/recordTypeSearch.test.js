@@ -4,7 +4,7 @@ import group from "../group/group";
 import search from "../search/search";
 import { recordTypeSearch } from "./recordTypeSearch";
 
-vi.mock("../../utils/getTextFromLink.js", () => ({
+vi.mock("../../services/getTextFromLink.js", () => ({
   default: vi.fn((textId) => Promise.resolve(textId?.value ?? "text")),
 }));
 

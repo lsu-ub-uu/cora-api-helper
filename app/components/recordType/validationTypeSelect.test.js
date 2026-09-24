@@ -2,9 +2,9 @@ import { describe, expect, it, vi } from "vitest";
 import validationTypeSelect from "./validationTypeSelect";
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import getTextFromLink from "../../utils/getTextFromLink.js";
+import getTextFromLink from "../../services/getTextFromLink.js";
 
-vi.mock("../../utils/getTextFromLink.js", () => ({
+vi.mock("../../services/getTextFromLink.js", () => ({
   default: vi.fn(() => Promise.resolve("translated text")),
 }));
 

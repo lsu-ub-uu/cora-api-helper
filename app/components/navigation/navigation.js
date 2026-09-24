@@ -1,6 +1,6 @@
 import { el } from "../../utils/el.js";
 import getFirstChildWithName from "../../utils/getFirstChildWithName.js";
-import getTextFromLink from "../../utils/getTextFromLink.js";
+import getTextFromLink from "../../services/getTextFromLink.js";
 import { getBasePath } from "../../utils/routing.js";
 import t from "../../utils/t.js";
 
