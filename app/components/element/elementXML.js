@@ -13,7 +13,8 @@ export default function elementXML({
   const root = el("div", {
     className: "element",
     children: [
-      expandButton({ onClick: () => root.classList.toggle("collapsed") }),
+      !inline &&
+        expandButton({ onClick: () => root.classList.toggle("collapsed") }),
       "<",
       name,
       attributes,

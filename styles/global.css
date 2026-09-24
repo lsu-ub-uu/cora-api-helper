@@ -209,11 +209,14 @@ select {
 }
 
 .data-format {
-  display: grid;
-  grid-template-columns: 1fr max-content;
+  display: flow-root;
 }
 
 .legend {
+  float: right;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+
   font-size: 0.9rem;
 
   line-height: 1.5;

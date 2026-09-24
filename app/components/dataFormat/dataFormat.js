@@ -7,6 +7,7 @@ export default function dataFormat({ children }) {
   return el("div", {
     className: "code-block data-format",
     children: [
+      legend(),
       el("div", {
         children: [
           format === "xml" &&
@@ -17,7 +18,6 @@ export default function dataFormat({ children }) {
           children,
         ],
       }),
-      legend(),
     ],
   });
 }
