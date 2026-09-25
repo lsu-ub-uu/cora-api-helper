@@ -16,10 +16,16 @@
   --color-popover-bg: #ddd;
   --color-popover-fg: #333;
   --color-element-expand: #aaa;
-  --color-button-bg: rgb(255 255 255 / 6%);
-  --color-button-hover: rgb(255 255 255 / 20%);
-  --color-button-active: rgb(255 255 255 / 30%);
+  --color-button-bg: rgb(0 0 0 / 6%);
+  --color-button-hover: rgb(0 0 0 / 20%);
+  --color-button-active: rgb(0 0 0 / 30%);
+  --color-code-button-bg: rgb(255 255 255 / 6%);
+  --color-code-button-hover: rgb(255 255 255 / 20%);
+  --color-code-button-active: rgb(255 255 255 / 30%);
   --color-xml-declaration: silver;
+  --button-background: var(--color-button-bg);
+  --button-background-hover: var(--color-button-hover);
+  --button-background-active: var(--color-button-active);
 }
 
 body {
@@ -76,26 +82,55 @@ hr {
 
 #app {
   display: grid;
-  grid-template-columns: minmax(15rem, max-content) 1fr;
+  grid-template-columns: max-content 1fr;
   gap: 1rem;
   padding: 1rem;
 }
 
+.navigation-panel {
+  padding-right: 1rem;
+  min-height: 100vh;
+ 
+}
+
+#app.navigation-hidden {
+  grid-template-columns: max-content 1fr;
+
+  .navigation-toggle {
+    padding: 0.5rem;
+  }
+
+  .navigation-panel {
+    padding-right: 0;
+  }
+  
+  .main-nav {
+    display: none;
+  }
+}
+
+.navigation-toggle {
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 0.5rem 1rem;
+  color: var(--color-background);
+}
+
 button {
   color: inherit;
-  background: none;
   border: none;
+  background: var(--button-background);
   cursor: pointer;
   font-family: inherit;
-  border-radius: 2px;
-  background: var(--color-button-bg);
+  border-radius: 2px;h1
   font-size: inherit;
   &:hover {
-    background: var(--color-button-hover);
+    background: var(--button-background-hover);
   }
 
   &:active {
-    background: var(--color-button-active);
+    background: var(--button-background-active);
   }
 }
 
@@ -201,6 +236,10 @@ select {
 }
 
 .code-block {
+  --button-background: var(--color-code-button-bg);
+  --button-background-hover: var(--color-code-button-hover);
+  --button-background-active: var(--color-code-button-active);
+
   position: relative;
   padding: 1rem;
   padding-left: 2rem;
@@ -250,36 +289,17 @@ select {
 
 .collection-variable-expand {
   cursor: pointer;
-  background: var(--color-button-bg);
   border-radius: 2px;
   margin-left: 1ch;
-
-  &:hover {
-    background: var(--color-button-hover);
-  }
-
-  &:active {
-    background: var(--color-button-active);
-  }
 }
 
 .data-name {
   position: relative;
-
-  button {
     user-select: text;
     padding: 0;
     cursor: pointer;
     border-radius: 2px;
-    background: var(--color-button-bg);
     font-size: inherit;
-    &:hover {
-      background: var(--color-button-hover);
-    }
-
-    &:active {
-      background: var(--color-button-active);
-    }
   }
 }
 
@@ -384,22 +404,14 @@ select {
 
 .element-expand-button {
   color: var(--color-element-expand);
+  background: none;
   position: absolute;
   left: -1rem;
   top: -1px;
   width: 1rem;
   height: 1rem;
   cursor: pointer;
-  background: none;
   border-radius: 50%;
-
-  &:hover {
-    background: var(--color-button-hover);
-  }
-
-  &:active {
-    background: var(--color-button-active);
-  }
 }
 
 .final-value {
@@ -431,7 +443,6 @@ summary {
 .number-variable {
   color: var(--color-number-variable);
 }
-
 .main-nav {
   .main-nav-item {
     margin-bottom: 1.5rem;

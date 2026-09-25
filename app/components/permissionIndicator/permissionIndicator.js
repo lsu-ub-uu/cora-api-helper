@@ -21,7 +21,7 @@ export default function permissionIndicator() {
         popoverTargetElement: popover,
         popoverTargetAction: "toggle",
         "aria-label": t("apiHelper_permissionControlledTitleText"),
-        textContent: "🔒",
+        children: "🔒",
       }),
       popover,
     ],

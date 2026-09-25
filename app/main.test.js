@@ -4,6 +4,7 @@ import renderDeploymentInfo from "./utils/renderDeploymentInfo.js";
 import initSettings from "./utils/initSettings";
 import fetchPools from "./services/fetchPools";
 import { screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
 import currentPage from "./components/currentPage/currentPage.js";
 import navigation from "./components/navigation/navigation.js";
 
@@ -87,5 +88,32 @@ describe("main", () => {
     expect(
       screen.getByText("Mock current page Re-rendered"),
     ).toBeInTheDocument();
+  });
+
+  it("hides and restores the navigation", async () => {
+    fetchPools.mockResolvedValue({
+      recordTypePool: "recordType",
+      validationTypePool: "validationType",
+      metadataPool: "metadata",
+      searchPool: "search",
+    });
+    navigation.mockReturnValue(el("nav", { textContent: "Mock navigation" }));
+    currentPage.mockReturnValue(
+      el("main", { textContent: "Mock current page" }),
+    );
+    document.body.innerHTML = '<div id="app"></div>';
+
+    await import("./main.js");
+
+    const toggle = screen.getByRole("button", { name: "Hide navigation" });
+    await userEvent.click(toggle);
+
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(document.getElementById("app")).toHaveClass("navigation-hidden");
+
+    await userEvent.click(toggle);
+
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(document.getElementById("app")).not.toHaveClass("navigation-hidden");
   });
 });

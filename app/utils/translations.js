@@ -167,4 +167,5 @@ export const getTranslations = () => ({
     en: "<<MAX DEPTH EXCEEDED>>",
     sv: "<<MAX DJUP ÖVERSKRIDEN>>",
   },
+  apiHelper_navigationText: { en: "Navigation", sv: "Navigering" },
 });
