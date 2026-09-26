@@ -41,6 +41,16 @@ export const getTranslations = () => ({
   requestBody: { en: "Request body", sv: "Request-body" },
   response: { en: "Response", sv: "Svar" },
   recordTypes: { en: "Record Types", sv: "Posttyper" },
+  recordTypeNotFoundPrefix: { en: "Record type", sv: "Posttyp" },
+  recordTypeNotFoundSuffix: { en: "not found", sv: "hittades inte" },
+  recordTypeRenderError: {
+    en: "Unable to render record type",
+    sv: "Det gick inte att visa posttypen",
+  },
+  applicationRenderError: {
+    en: "Unable to render application",
+    sv: "Det gick inte att visa applikationen",
+  },
   legend: { en: "Legend", sv: "Teckenförklaring" },
   repeat: {
     en: "Repeat (min - max)",
@@ -170,4 +180,5 @@ export const getTranslations = () => ({
   navigation: { en: "Navigation", sv: "Navigering" },
   collapseNavigation: { en: "Collapse navigation", sv: "Fäll ihop navigering" },
   expandNavigation: { en: "Expand navigation", sv: "Expandera navigering" },
+  details: { en: "Details", sv: "Detaljer" },
 });

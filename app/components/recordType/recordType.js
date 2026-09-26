@@ -9,6 +9,7 @@ import recordTypeRead from "./read.js";
 import requestConfigDoc from "./requestConfigDoc.js";
 import recordTypeList from "./recordTypeList.js";
 import { recordTypeSearch } from "./recordTypeSearch.js";
+import errorBoundary from "../errorBoundary/errorBoundary.js";
 
 export default function recordType({
   recordTypeId,
@@ -21,6 +22,12 @@ export default function recordType({
 
   const root = el("div", { className: "record-type" });
 
+  if (!recordTypePool[recordTypeId]) {
+    const message = `${t("recordTypeNotFoundPrefix")} "${recordTypeId}" ${t("recordTypeNotFoundSuffix")}`;
+    return errorBoundary({
+      error: new Error(message),
+    });
+  }
   function render() {
     root.replaceChildren(
       pageTitle({ recordTypePool, recordTypeId }),

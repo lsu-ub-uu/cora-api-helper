@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { el } from "../../utils/el";
 import currentPage from "./currentPage";
+import recordType from "../../routes/recordType.js";
 import { getCurrentRoute, getRecordTypeId } from "../../utils/routing";
 
 vi.mock("../../routes/recordType.js", () => ({
@@ -50,6 +51,36 @@ describe("currentPage", () => {
     });
 
     expect(result.textContent).toBe("Welcome route");
+  });
+
+  it("renders an error message when the record type route fails", () => {
+    const error = new Error("Missing metadata");
+    vi.mocked(recordType).mockImplementationOnce(() => {
+      throw error;
+    });
+    vi.mocked(getRecordTypeId).mockReturnValue("stale-record-type");
+    vi.mocked(getCurrentRoute).mockReturnValue("recordType");
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    const result = currentPage({
+      recordTypePool: {},
+      validationTypePool: {},
+      metadataPool: {},
+      searchPool: {},
+    });
+
+    expect(result).toHaveClass("error-boundary-wrapper");
+    expect(result.querySelector(".error-boundary")).toBeTruthy();
+    expect(result.querySelector('[role="alert"]')).toHaveTextContent(
+      error.message,
+    );
+    expect(result.querySelector("pre").textContent).toContain(error.stack);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Failed to render record type:",
+      error,
+    );
   });
 
   it('renders authentication when current route is "authentication"', () => {

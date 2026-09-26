@@ -15,6 +15,9 @@
   --color-json-key: plum;
   --color-popover-bg: #ddd;
   --color-popover-fg: #333;
+  --color-alert-bg: #e0b2b9;
+  --color-alert-border: #5c1f2b;
+  --color-alert-fg: #230c11;
   --color-element-expand: #aaa;
   --color-button-bg: rgb(0 0 0 / 6%);
   --color-button-hover: rgb(0 0 0 / 20%);
@@ -137,6 +140,28 @@ button {
 p {
   max-width: 100ch;
   line-height: 1.5;
+}
+
+.error-boundary-wrapper {
+  align-self: start;
+}
+
+.error-boundary {
+  width: fit-content;
+  max-width: 100ch;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-left: 0.35rem solid var(--color-alert-border);
+  border-radius: 0.25rem;
+  color: var(--color-alert-fg);
+  background: var(--color-alert-bg);
+  line-height: 1.5;
+
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
 }
 
 select {

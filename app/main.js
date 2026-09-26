@@ -5,25 +5,38 @@ import { el } from "./utils/el.js";
 import initSettings from "./utils/initSettings.js";
 import renderDeploymentInfo from "./utils/renderDeploymentInfo.js";
 import t from "./utils/t.js";
+import { applicationErrorBoundary } from "./components/errorBoundary/errorBoundary.js";
 
 let navigationVisible = true;
 
-renderDeploymentInfo();
-initSettings();
-const {
-  recordTypePool,
-  validationTypePool,
-  metadataPool,
-  searchPool,
-  systemPool,
-} = await fetchPools();
+let pools;
 
-window.addEventListener("popstate", render);
-render();
+try {
+  renderDeploymentInfo();
+  initSettings();
+  pools = await fetchPools();
+} catch (error) {
+  console.error("Failed to initialize application:", error);
+  document
+    .getElementById("app")
+    .replaceChildren(applicationErrorBoundary(error));
+}
+
+if (pools) {
+  window.addEventListener("popstate", renderSafely);
+  renderSafely();
+}
 
 function render() {
   const root = document.getElementById("app");
   const path = window.location.pathname;
+  const {
+    recordTypePool,
+    validationTypePool,
+    metadataPool,
+    searchPool,
+    systemPool,
+  } = pools;
   const navigationElement = navigation({
     path,
     recordTypePool,
@@ -47,6 +60,17 @@ function render() {
       searchPool,
     }),
   );
+}
+
+function renderSafely() {
+  try {
+    render();
+  } catch (error) {
+    console.error("Failed to render application:", error);
+    document
+      .getElementById("app")
+      .replaceChildren(applicationErrorBoundary(error));
+  }
 }
 
 function navigationToggle(root) {

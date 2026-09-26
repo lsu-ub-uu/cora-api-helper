@@ -67,6 +67,23 @@ const recordTypeData = {
 };
 
 describe("recordType", () => {
+  it("renders a not found message when recordType not in pool", () => {
+    const result = recordType({
+      recordTypeId: "nonexistent",
+      recordTypePool: { person: recordTypeData },
+      validationTypePool: {},
+      metadataPool: {},
+    });
+
+    expect(result).toHaveClass("error-boundary-wrapper");
+    expect(result.querySelector('[role="alert"]')).toHaveTextContent(
+      'Record type "nonexistent" not found',
+    );
+    expect(result.querySelector("pre").textContent).toContain(
+      'Error: Record type "nonexistent" not found',
+    );
+  });
+
   it("renders with record-type class", () => {
     const result = recordType({
       recordTypeId: "person",

@@ -117,4 +117,25 @@ describe("main", () => {
 
     expect(document.getElementById("app")).not.toHaveClass("navigation-hidden");
   });
+
+  it("renders an application error when pools fail to load", async () => {
+    const error = new Error("Pools unavailable");
+    fetchPools.mockRejectedValue(error);
+    document.body.innerHTML = '<div id="app"></div>';
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    await import("./main.js");
+
+    expect(screen.getByRole("alert")).toHaveTextContent(error.message);
+    expect(document.querySelector("pre").textContent).toContain(error.stack);
+    expect(
+      screen.getByText("Unable to render application"),
+    ).toBeInTheDocument();
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Failed to initialize application:",
+      error,
+    );
+  });
 });
