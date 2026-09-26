@@ -75,6 +75,12 @@ const metadataPool = {
   },
 };
 
+const systemPool = {
+  diva: { children: [] },
+  system: { children: [] },
+  cora: { children: [] },
+};
+
 describe("navigation", () => {
   it("renders the cora data divider last", () => {
     const coraRecordType = {
@@ -98,19 +104,88 @@ describe("navigation", () => {
         path: "/",
         recordTypePool: { coraRecord: coraRecordType, ...recordTypePool },
         metadataPool,
+        systemPool,
       }),
     );
 
     const headings = screen
       .getAllByRole("heading", { level: 2 })
       .map((heading) => heading.textContent)
-      .filter((text) => text.startsWith("Record Types"));
+      .filter((text) => text !== "Authentication");
 
-    expect(headings).toEqual([
-      "Record Types (diva)",
-      "Record Types (system)",
-      "Record Types (cora)",
-    ]);
+    expect(headings).toEqual(["DIVA", "SYSTEM", "CORA"]);
+  });
+
+  it("renders fetched system texts for data divider headings", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) =>
+        Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              record: {
+                data: {
+                  children: [
+                    {
+                      name: "textPart",
+                      attributes: { lang: "en" },
+                      children: [
+                        {
+                          name: "text",
+                          value: url.includes("diva")
+                            ? "Diva records"
+                            : "System records",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            }),
+        }),
+      ),
+    );
+
+    document.body.appendChild(
+      navigation({
+        path: "/",
+        recordTypePool,
+        metadataPool,
+        systemPool: {
+          diva: {
+            children: [
+              {
+                name: "textId",
+                actionLinks: {
+                  read: { url: "/system-text-diva", accept: "application/json" },
+                },
+              },
+            ],
+          },
+          system: {
+            children: [
+              {
+                name: "textId",
+                actionLinks: {
+                  read: {
+                    url: "/system-text-system",
+                    accept: "application/json",
+                  },
+                },
+              },
+            ],
+          },
+        },
+      }),
+    );
+
+    expect(
+      await screen.findByRole("heading", { name: "Diva records" }),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "System records" }),
+    ).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledTimes(2);
   });
 
   it("renders authentication link", () => {
@@ -119,6 +194,7 @@ describe("navigation", () => {
         path: "/",
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
@@ -133,6 +209,7 @@ describe("navigation", () => {
         path: "/authentication",
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
@@ -160,6 +237,7 @@ describe("navigation", () => {
         navigate: navigateMock,
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
@@ -176,15 +254,16 @@ describe("navigation", () => {
         path: "/recordType/person/1",
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
-    const divaNav = screen
-      .getByRole("heading", { name: "Record Types (diva)" })
-      .closest(".main-nav-item");
+    const divaNav = screen.getByRole("heading", { name: "DIVA" }).closest(
+      ".main-nav-item",
+    );
     const systemNav = screen
-      .getByRole("heading", { name: "Record Types (system)" })
+      .getByRole("heading", { name: "SYSTEM" })
       .closest(".main-nav-item");
 
     expect(divaNav).toContainElement(
@@ -220,18 +299,19 @@ describe("navigation", () => {
         path: "/recordType/person/1",
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
     const divaHeading = screen.getByRole("heading", {
       level: 2,
-      name: "Record Types (diva)",
+      name: "DIVA",
     });
     const divaSection = divaHeading.closest("details");
     const systemSection = screen
       .getByRole("heading", {
         level: 2,
-        name: "Record Types (system)",
+        name: "SYSTEM",
       })
       .closest("details");
 
@@ -257,6 +337,7 @@ describe("navigation", () => {
         path: "/recordType/person/1",
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
@@ -285,6 +366,7 @@ describe("navigation", () => {
         path: "/recordType/output/1",
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 
@@ -313,6 +395,7 @@ describe("navigation", () => {
         navigate: navigateMock,
         recordTypePool,
         metadataPool,
+        systemPool,
       }),
     );
 

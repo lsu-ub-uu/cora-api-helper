@@ -13,9 +13,6 @@ export default function elementXML({
   defaultExpanded = true,
   hasPermissions = false,
 }) {
-  if (hasPermissions) {
-    console.log("Element has permissions");
-  }
   const root = el("div", {
     className: `element${defaultExpanded ? "" : " collapsed"}`,
     children: [

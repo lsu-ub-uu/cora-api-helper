@@ -168,4 +168,6 @@ export const getTranslations = () => ({
     sv: "<<MAX DJUP ÖVERSKRIDEN>>",
   },
   navigation: { en: "Navigation", sv: "Navigering" },
+  collapseNavigation: { en: "Collapse navigation", sv: "Fäll ihop navigering" },
+  expandNavigation: { en: "Expand navigation", sv: "Expandera navigering" },
 });

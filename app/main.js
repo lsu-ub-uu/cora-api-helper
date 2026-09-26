@@ -59,6 +59,10 @@ function navigationToggle(root) {
   function render() {
     toggle.textContent = navigationVisible ? `❮❮ ${t("navigation")}` : "❯❯";
     toggle.setAttribute("aria-expanded", navigationVisible);
+    toggle.setAttribute(
+      "aria-label",
+      navigationVisible ? t("collapseNavigation") : t("expandNavigation"),
+    );
   }
 
   toggle.addEventListener("click", () => {

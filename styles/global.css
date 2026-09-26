@@ -112,7 +112,7 @@ hr {
 .navigation-toggle {
   margin-bottom: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   padding: 0.5rem 1rem;
   color: var(--color-background);
 }
@@ -295,11 +295,14 @@ select {
 
 .data-name {
   position: relative;
-    user-select: text;
+  user-select: text;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 2px; 
+  font-size: inherit;
+  
+  button {
     padding: 0;
-    cursor: pointer;
-    border-radius: 2px;
-    font-size: inherit;
   }
 }
 

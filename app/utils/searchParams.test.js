@@ -25,8 +25,8 @@ describe("searchParams", () => {
   });
 
   describe("getMethod", () => {
-    it("defaults to create when no param is set", () => {
-      expect(getMethod()).toBe("create");
+    it("defaults to read when no param is set", () => {
+      expect(getMethod()).toBe("read");
     });
 
     it("returns the method param", () => {

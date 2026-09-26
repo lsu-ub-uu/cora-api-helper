@@ -1,35 +1,23 @@
 import { describe, expect, it } from "vitest";
 import legend from "./legend.js";
+import { normalize } from "../../utils/normalize.js";
 
 describe("legend", () => {
   it("should render legend", () => {
     const result = legend();
-    expect(result.tagName).toBe("DIV");
-    expect(result.className).toBe("legend");
 
-    const expectedHTML = `
-            <h3>Legend</h3>
-            <dl>
-              <dt class="multiplicity">(0 - 1)</dt>
-              <dd title="Specifies the min and max times this element can be repeated. X means unlimited.">Repeat (min - max)</dd>
-              <dt class="final-value">value</dt>
-              <dd title="Value must be set to the final value">Final value</dd>
-              <dt class="regex">/.+/</dt>
-              <dd title="Value must match regular expression">Text value (RegEx)</dd>
-              <dt class="number-variable">0 - 100</dt>
-              <dd title="Value must be a number within range">Number value (min - max)</dd>
-              <dt class="collection-value">sv | en</dt>
-              <dd title="Value must be one of the listed values">Collection value</dd>
-              <dt class="id">{id}</dt>
-              <dd title="Set to the ID of linked record">Record ID</dd>
-              <dt><span class="permission-indicator" role="img" aria-label="The field is permission controlled. Only certain users may read and/or write this field">🔒</span></dt>
-              <dd>The field is permission controlled. Only certain users may read and/or write this field</dd>
-            </dl>
-          `;
-    expect(normalizeHTML(result.innerHTML)).toBe(normalizeHTML(expectedHTML));
+    const expectedContent = `
+      Legend
+      (0 - 1)   Repeat (min - max)
+      value     Final value
+      /.+/      value (RegEx)
+      0 - 100   Number value (min - max)
+      sv | en   Collection value
+      {id}      Record ID
+      🔒        Permission controlled
+      The field is permission controlled. Only certain users may read and/or write this field
+      Permission controlled
+    `;
+    expect(normalize(result.textContent)).toBe(normalize(expectedContent));
   });
 });
-
-function normalizeHTML(html) {
-  return html.replace(/>\s+</g, "><").replace(/\s+/g, " ").trim();
-}

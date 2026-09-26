@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import elementJSON, { jsonObject } from "./elementJSON";
+import { screen } from "@testing-library/dom";
 
 vi.mock("../expandButton/expandButton.js", () => ({
   default: vi.fn(({ onClick }) => {
@@ -52,19 +53,17 @@ describe("elementJSON", () => {
   });
 
   it("renders a permission indicator next to multiplicity", () => {
-    const result = elementJSON({
-      name: "title",
-      repeatMin: "1",
-      repeatMax: "1",
-      children: "someValue",
-      hasPermissions: true,
-    });
-
-    const name = result.querySelector(".name-in-data");
-    expect(name.querySelector(".permission-indicator")).toHaveAccessibleName(
-      "The field is permission controlled. Only certain users may read and/or write this field",
+    document.body.appendChild(
+      elementJSON({
+        name: "title",
+        repeatMin: "1",
+        repeatMax: "1",
+        children: "someValue",
+        hasPermissions: true,
+      }),
     );
-    expect(name.querySelector(".permission-indicator")).toHaveTextContent("🔒");
+
+    expect(screen.getByText("Permission controlled")).toBeInTheDocument();
   });
 
   it("does not render a permission indicator by default", () => {

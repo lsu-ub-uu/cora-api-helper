@@ -105,7 +105,7 @@ describe("main", () => {
 
     await import("./main.js");
 
-    const toggle = screen.getByRole("button", { name: "Hide navigation" });
+    const toggle = screen.getByRole("button", { name: "Collapse navigation" });
     await userEvent.click(toggle);
 
     expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -114,6 +114,7 @@ describe("main", () => {
     await userEvent.click(toggle);
 
     expect(toggle).toHaveAttribute("aria-expanded", "true");
+
     expect(document.getElementById("app")).not.toHaveClass("navigation-hidden");
   });
 });
