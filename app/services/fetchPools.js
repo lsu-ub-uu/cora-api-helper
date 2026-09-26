@@ -3,9 +3,7 @@ import t from "../utils/t.js";
 
 export default async function fetchPools() {
   const loadingTextTimeout = setTimeout(() => {
-    document.getElementById("app").innerHTML = t(
-      "apiHelper_loadingMetadataText",
-    );
+    document.getElementById("app").innerHTML = t("loadingMetadata");
   }, 200);
 
   const [

@@ -11,7 +11,7 @@ export default function validationTypeSelect({
 }) {
   const root = el("label", {
     className: "validation-type-select",
-    textContent: t("apiHelper_selectValidationTypeText"),
+    textContent: t("selectValidationType"),
   });
 
   getOptions(validationTypes).then((options) => {

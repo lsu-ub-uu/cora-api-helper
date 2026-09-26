@@ -62,17 +62,17 @@ function pageTitle({ recordTypePool, recordTypeId }) {
 function requestMethods({ selectedMethod, onSelectMethod }) {
   const methods = ["read", "list", "search", "create", "update", "delete"];
   const methodLabels = {
-    read: t("apiHelper_readText"),
-    list: t("apiHelper_listText"),
-    create: t("apiHelper_createText"),
-    update: t("apiHelper_updateText"),
-    delete: t("apiHelper_deleteText"),
-    search: t("apiHelper_searchText"),
+    read: t("read"),
+    list: t("list"),
+    create: t("create"),
+    update: t("update"),
+    delete: t("delete"),
+    search: t("search"),
   };
 
   return el("fieldset", {
     children: [
-      el("legend", { textContent: t("apiHelper_selectRequestMethodText") }),
+      el("legend", { textContent: t("selectRequestMethod") }),
       ...methods.map((method) =>
         radio({
           name: "method",

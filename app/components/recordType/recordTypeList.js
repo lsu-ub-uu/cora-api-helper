@@ -16,11 +16,11 @@ export default function recordTypeList({
   return el("fragment", {
     children: [
       collapsibleSection({
-        title: t("apiHelper_requestConfigText"),
+        title: t("requestConfig"),
         children: listRequestConfigDoc({ recordTypeId }),
       }),
       collapsibleSection({
-        title: t("apiHelper_responseBodyFormatText"),
+        title: t("responseBodyFormat"),
         children: listResponseBody({
           recordTypePool,
           recordTypeId,
@@ -38,14 +38,14 @@ function listRequestConfigDoc({ recordTypeId }) {
   return el("div", {
     className: "code-block",
     children: [
-      el("strong", { textContent: t("apiHelper_getText") }),
+      el("strong", { textContent: t("get") }),
       ` ${apiUrl}/record/${recordTypeId}`,
       el("br"),
       el("br"),
       el("div", {
         textContent: `Accept: application/vnd.cora.recordList+${format}`,
       }),
-      el("div", { textContent: t("apiHelper_authTokenText") }),
+      el("div", { textContent: t("authToken") }),
     ],
   });
 }

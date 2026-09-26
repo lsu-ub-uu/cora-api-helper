@@ -71,7 +71,7 @@ function authenticationLink({ path, navigate }) {
     className: "main-nav-item",
     children: el("a", {
       href,
-      textContent: t("apiHelper_authenticationText"),
+      textContent: t("authentication"),
       "aria-current":
         path.startsWith(href + "/") || path === href ? "page" : null,
       onClick: (e) => {

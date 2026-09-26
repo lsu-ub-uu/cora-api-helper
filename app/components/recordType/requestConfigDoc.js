@@ -13,13 +13,9 @@ export default function requestConfigDoc({ recordTypeId, method }) {
   }`;
 
   const httpMethod =
-    method === "read"
-      ? t("apiHelper_getText")
-      : method === "delete"
-        ? "DELETE"
-        : t("apiHelper_postText");
+    method === "read" ? t("get") : method === "delete" ? "DELETE" : t("post");
   return collapsibleSection({
-    title: t("apiHelper_requestConfigText"),
+    title: t("requestConfig"),
     children: el("div", {
       className: "code-block",
       children: [
@@ -36,7 +32,7 @@ export default function requestConfigDoc({ recordTypeId, method }) {
             textContent: `Content-Type: application/vnd.cora.recordGroup+${format}`,
           }),
         el("div", {
-          textContent: t("apiHelper_authTokenText"),
+          textContent: t("authToken"),
         }),
       ],
     }),

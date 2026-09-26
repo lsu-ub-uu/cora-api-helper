@@ -38,7 +38,7 @@ export function recordTypeSearch({
       }),
       searchRoot,
       collapsibleSection({
-        title: t("apiHelper_responseBodyFormatText"),
+        title: t("responseBodyFormat"),
         children: searchResponseBody({
           recordTypePool,
           recordTypeId,
@@ -65,11 +65,11 @@ export function recordTypeSearch({
 
     searchRoot.replaceChildren(
       collapsibleSection({
-        title: t("apiHelper_requestConfigText"),
+        title: t("requestConfig"),
         children: searchRequestConfigDoc({ searchId }),
       }),
       collapsibleSection({
-        title: t("apiHelper_searchDataFormatText"),
+        title: t("searchDataFormat"),
         children: search({
           search: matchingSearch,
           metadataPool,
@@ -99,7 +99,7 @@ function getSearchesForRecordType({ searchPool, recordTypeId }) {
 
 function searchSelect({ searches, onChange }) {
   return el("label", {
-    textContent: t("apiHelper_selectSearchText"),
+    textContent: t("selectSearch"),
     children: [
       el("select", {
         children: searches.map((search) => searchOption(search)),
@@ -154,7 +154,7 @@ function searchRequestConfigDoc({ searchId }) {
   return el("div", {
     className: "code-block",
     children: [
-      el("strong", { textContent: t("apiHelper_getText") }),
+      el("strong", { textContent: t("get") }),
       ` ${apiUrl}/record/searchResult/${searchId}?searchData=`,
       el("span", {
         className: "highlight",
@@ -166,7 +166,7 @@ function searchRequestConfigDoc({ searchId }) {
         textContent: `Accept: application/vnd.cora.recordList+${format}`,
       }),
       el("div", {
-        textContent: t("apiHelper_authTokenText"),
+        textContent: t("authToken"),
       }),
     ],
   });

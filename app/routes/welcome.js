@@ -4,15 +4,15 @@ import t from "../utils/t.js";
 export default function welcomeMessage() {
   return el("div", {
     children: [
-      el("h2", { textContent: t("apiHelper_welcomeText") }),
+      el("h2", { textContent: t("welcome") }),
       el("p", {
-        textContent: t("apiHelper_welcomeDescriptionText"),
+        textContent: t("welcomeDescription"),
       }),
       el("p", {
-        textContent: t("apiHelper_welcomeNavigationText"),
+        textContent: t("welcomeNavigation"),
       }),
       el("p", {
-        textContent: t("apiHelper_welcomeSettingsText"),
+        textContent: t("welcomeSettings"),
       }),
     ],
   });

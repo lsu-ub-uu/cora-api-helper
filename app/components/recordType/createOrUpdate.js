@@ -56,7 +56,7 @@ export default function createOrUpdateRecordType({
       }),
       requestConfigDoc({ recordTypeId, method }),
       collapsibleSection({
-        title: t("apiHelper_requestBodyFormatText"),
+        title: t("requestBodyFormat"),
         children: dataFormat({
           children: group({
             metadataPool,
@@ -66,7 +66,7 @@ export default function createOrUpdateRecordType({
         }),
       }),
       collapsibleSection({
-        title: t("apiHelper_responseBodyFormatText"),
+        title: t("responseBodyFormat"),
         children: dataFormat({
           children: recordWrapper({
             recordType: recordTypeId,

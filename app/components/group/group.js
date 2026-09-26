@@ -16,7 +16,7 @@ export default function group({
 }) {
   if (depth > 10) {
     console.warn("Maximum depth exceeded in group rendering");
-    return document.createTextNode(t("apiHelper_maxDepthExceededText"));
+    return document.createTextNode(t("maxDepthExceeded"));
   }
 
   const groupMetadata = metadataPool[groupId];

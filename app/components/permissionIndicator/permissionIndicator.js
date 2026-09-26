@@ -7,10 +7,10 @@ export default function permissionIndicator() {
     popover: "auto",
     children: [
       el("h3", {
-        textContent: t("apiHelper_permissionControlledTitleText"),
+        textContent: t("permissionControlledTitle"),
       }),
       el("p", {
-        textContent: t("apiHelper_permissionControlledText"),
+        textContent: t("permissionControlled"),
       }),
     ],
   });
@@ -20,7 +20,7 @@ export default function permissionIndicator() {
       el("button", {
         popoverTargetElement: popover,
         popoverTargetAction: "toggle",
-        "aria-label": t("apiHelper_permissionControlledTitleText"),
+        "aria-label": t("permissionControlledTitle"),
         children: "🔒",
       }),
       popover,

@@ -23,7 +23,7 @@ export default function recordTypeRead({
     children: [
       requestConfigDoc({ recordTypeId, method: "read" }),
       collapsibleSection({
-        title: t("apiHelper_responseBodyFormatText"),
+        title: t("responseBodyFormat"),
         children: dataFormat({
           children: recordWrapper({
             recordType: recordTypeId,

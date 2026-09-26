@@ -1,171 +1,171 @@
 export const getTranslations = () => ({
-  apiHelper_welcomeText: {
+  welcome: {
     en: "Welcome to the API helper!",
     sv: "Välkommen till API helpern",
   },
-  apiHelper_infoText: {
+  info: {
     en: "This tool helps you explore the Cora REST API.\n\nSelect a record type from the navigation to the left to begin. ⬅️\n\nYou can set your preferred data format and language in the settings at the top right. ↗️",
     sv: "Det här verktyget hjälper dig att utforska Cora REST API.\n\nVälj en posttyp i navigeringen till vänster för att börja. ⬅️\n\nDu kan ange ditt föredragna dataformat och språk i inställningarna uppe till höger. ↗️",
   },
-  apiHelper_formatText: { en: "Format", sv: "Format" },
-  apiHelper_languageText: { en: "Language", sv: "Språk" },
-  apiHelper_authenticationText: { en: "Authentication", sv: "Autentisering" },
-  apiHelper_welcomeDescriptionText: {
+  format: { en: "Format", sv: "Format" },
+  language: { en: "Language", sv: "Språk" },
+  authentication: { en: "Authentication", sv: "Autentisering" },
+  welcomeDescription: {
     en: "This tool helps you explore the Cora REST API.",
     sv: "Det här verktyget hjälper dig att utforska Cora REST API.",
   },
-  apiHelper_welcomeNavigationText: {
+  welcomeNavigation: {
     en: "Select a record type from the navigation to the left to begin. ⬅️",
     sv: "Välj en posttyp i navigeringen till vänster för att börja. ⬅️",
   },
-  apiHelper_welcomeSettingsText: {
+  welcomeSettings: {
     en: "You can set your preferred data format, language and API URL in the settings at the top right. ↗️",
     sv: "Du kan ange ditt föredragna dataformat, språk och API-URL i inställningarna uppe till höger. ↗️",
   },
-  apiHelper_authenticationIntroText: {
+  authenticationIntro: {
     en: "The Cora API is publicly accessible, but requires authentication for administrative actions like creating or updating records, or reading restricted data.",
     sv: "Cora API är offentligt tillgängligt, men kräver autentisering för administrativa åtgärder som att skapa eller uppdatera poster eller läsa begränsad data.",
   },
-  apiHelper_authenticationTokenInstructionText: {
+  authenticationTokenInstruction: {
     en: "To authenticate API requests, you need to obtain an auth token and pass it in the 'Authtoken' header of your requests.",
     sv: "För att autentisera API-anrop måste du skaffa en autentiseringstoken och skicka den i headern 'Authtoken' i dina anrop.",
   },
-  apiHelper_authenticationTokenInfoText: {
+  authenticationTokenInfo: {
     en: "An auth token can be obtained by logging in using an App Token connected to your user or by using your username and password. The auth token is valid for a short time (typically around 10 minutes) and can be used for all API requests during that time. The response of a successful login request contains an actionLink that can be used to renew the auth token before it expires.",
     sv: "En autentiseringstoken kan erhållas genom att logga in med en app-token kopplad till din användare eller genom att använda ditt användarnamn och lösenord. Autentiseringstoken är giltig en kort tid (vanligtvis cirka 10 minuter) och kan användas för alla API-anrop under den tiden. Svaret från en lyckad inloggningsförfrågan innehåller en actionLink som kan användas för att förnya autentiseringstoken innan det upphör att gälla.",
   },
-  apiHelper_authenticationAppTokenText: {
+  authenticationAppToken: {
     en: "Log in with App Token",
     sv: "Logga in med app-token",
   },
-  apiHelper_requestBodyText: { en: "Request body", sv: "Request-body" },
-  apiHelper_responseText: { en: "Response", sv: "Svar" },
-  apiHelper_recordTypesText: { en: "Record Types", sv: "Posttyper" },
-  apiHelper_legendText: { en: "Legend", sv: "Teckenförklaring" },
-  apiHelper_repeatText: {
+  requestBody: { en: "Request body", sv: "Request-body" },
+  response: { en: "Response", sv: "Svar" },
+  recordTypes: { en: "Record Types", sv: "Posttyper" },
+  legend: { en: "Legend", sv: "Teckenförklaring" },
+  repeat: {
     en: "Repeat (min - max)",
     sv: "Upprepning (min - max)",
   },
-  apiHelper_repeatTitleText: {
+  repeatTitle: {
     en: "Specifies the min and max times this element can be repeated. X means unlimited.",
     sv: "Anger hur många gånger detta element kan upprepas. X betyder obegränsat.",
   },
-  apiHelper_finalValueText: { en: "Final value", sv: "Slutvärde" },
-  apiHelper_finalValueTitleText: {
+  finalValue: { en: "Final value", sv: "Slutvärde" },
+  finalValueTitle: {
     en: "Value must be set to the final value",
     sv: "Värdet måste vara satt till slutvärdet",
   },
-  apiHelper_regexText: { en: "Text value (RegEx)", sv: "Textvärde (RegEx)" },
-  apiHelper_regexTitleText: {
+  regex: { en: " value (RegEx)", sv: "värde (RegEx)" },
+  regexTitle: {
     en: "Value must match regular expression",
     sv: "Värdet måste matcha reguljära uttrycket",
   },
-  apiHelper_numberValueText: {
+  numberValue: {
     en: "Number value (min - max)",
     sv: "Numeriskt värde (min - max)",
   },
-  apiHelper_numberValueTitleText: {
+  numberValueTitle: {
     en: "Value must be a number within range",
     sv: "Värdet måste vara ett nummer inom intervallet",
   },
-  apiHelper_collectionValueText: {
+  collectionValue: {
     en: "Collection value",
     sv: "Samlingsvärde",
   },
-  apiHelper_collectionValueTitleText: {
+  collectionValueTitle: {
     en: "Value must be one of the listed values",
     sv: "Värdet måste vara ett av de angivna värdena",
   },
-  apiHelper_recordIdText: { en: "Record ID", sv: "Post-ID" },
-  apiHelper_recordIdTitleText: {
+  recordId: { en: "Record ID", sv: "Post-ID" },
+  recordIdTitle: {
     en: "Set to the ID of linked record",
     sv: "Sätt till ID för länkad post",
   },
-  apiHelper_permissionControlledText: {
+  permissionControlled: {
     en: "The field is permission controlled. Only certain users may read and/or write this field",
     sv: "Fältet är rättighetsstyrt. Endast vissa användare får läsa och/eller skriva i fältet",
   },
-  apiHelper_permissionControlledTitleText: {
+  permissionControlledTitle: {
     en: "Permission controlled",
     sv: "Rättighetsstyrt",
   },
-  apiHelper_selectRequestMethodText: {
+  selectRequestMethod: {
     en: "Select operation",
     sv: "Välj operation",
   },
-  apiHelper_requestConfigText: {
+  requestConfig: {
     en: "Request config",
     sv: "Begäranskonfiguration",
   },
-  apiHelper_requestBodyFormatText: {
+  requestBodyFormat: {
     en: "Request body format",
     sv: "Format för request-body",
   },
-  apiHelper_responseBodyFormatText: {
+  responseBodyFormat: {
     en: "Response body format",
     sv: "Format för svarsbody",
   },
-  apiHelper_searchDataFormatText: {
+  searchDataFormat: {
     en: "Search data format",
     sv: "Format för sökdata",
   },
-  apiHelper_selectSearchText: { en: "Select search: ", sv: "Välj sökning: " },
-  apiHelper_getText: { en: "GET", sv: "GET" },
-  apiHelper_searchDataPlaceholderText: {
+  selectSearch: { en: "Select search: ", sv: "Välj sökning: " },
+  get: { en: "GET", sv: "GET" },
+  searchDataPlaceholder: {
     en: "<search data (see below)>",
     sv: "<sökdata (se nedan)>",
   },
-  apiHelper_authTokenText: {
+  authToken: {
     en: "AuthToken: xxxx-xxxx-xxxx-xxxx",
     sv: "AuthToken: xxxx-xxxx-xxxx-xxxx",
   },
-  apiHelper_selectValidationTypeText: {
+  selectValidationType: {
     en: "Select validation type: ",
     sv: "Välj valideringstyp: ",
   },
-  apiHelper_httpHeaderContentTypeLoginText: {
+  httpHeaderContentTypeLogin: {
     en: "Content-Type: Content-Type: application/vnd.cora.login",
     sv: "Content-Type: Content-Type: application/vnd.cora.login",
   },
-  apiHelper_httpHeaderAcceptAuthenticationText: {
+  httpHeaderAcceptAuthentication: {
     en: "Accept: application/vnd.cora.authentication+json",
     sv: "Accept: application/vnd.cora.authentication+json",
   },
-  apiHelper_httpHeaderAcceptRecordText: {
+  httpHeaderAcceptRecord: {
     en: "Accept: application/vnd.cora.record+",
     sv: "Accept: application/vnd.cora.record+",
   },
-  apiHelper_httpHeaderContentTypeRecordGroupText: {
+  httpHeaderContentTypeRecordGroup: {
     en: "Content-Type: application/vnd.cora.recordGroup+",
     sv: "Content-Type: application/vnd.cora.recordGroup+",
   },
-  apiHelper_httpHeaderAcceptRecordListText: {
+  httpHeaderAcceptRecordList: {
     en: "Accept: application/vnd.cora.recordList+",
     sv: "Accept: application/vnd.cora.recordList+",
   },
-  apiHelper_xmlText: { en: "XML", sv: "XML" },
-  apiHelper_jsonText: { en: "JSON", sv: "JSON" },
-  apiHelper_englishText: { en: "English", sv: "Engelska" },
-  apiHelper_swedishText: { en: "Swedish", sv: "Svenska" },
-  apiHelper_readText: { en: "Read", sv: "Läs" },
-  apiHelper_listText: { en: "List", sv: "Lista" },
-  apiHelper_createText: { en: "Create", sv: "Skapa" },
-  apiHelper_updateText: { en: "Update", sv: "Uppdatera" },
-  apiHelper_deleteText: { en: "Delete", sv: "Ta bort" },
-  apiHelper_searchText: { en: "Search", sv: "Sök" },
-  apiHelper_postText: { en: "POST", sv: "POST" },
-  apiHelper_expandElementText: {
+  xml: { en: "XML", sv: "XML" },
+  json: { en: "JSON", sv: "JSON" },
+  english: { en: "English", sv: "Engelska" },
+  swedish: { en: "Swedish", sv: "Svenska" },
+  read: { en: "Read", sv: "Läs" },
+  list: { en: "List", sv: "Lista" },
+  create: { en: "Create", sv: "Skapa" },
+  update: { en: "Update", sv: "Uppdatera" },
+  delete: { en: "Delete", sv: "Ta bort" },
+  search: { en: "Search", sv: "Sök" },
+  post: { en: "POST", sv: "POST" },
+  expandElement: {
     en: "Expand element",
     sv: "Expandera element",
   },
-  apiHelper_collapseElementText: { en: "Collapse element", sv: "Dölj element" },
-  apiHelper_loadingMetadataText: {
+  collapseElement: { en: "Collapse element", sv: "Dölj element" },
+  loadingMetadata: {
     en: "Loading metadata, please wait...",
     sv: "Laddar metadata, vänta...",
   },
-  apiHelper_maxDepthExceededText: {
+  maxDepthExceeded: {
     en: "<<MAX DEPTH EXCEEDED>>",
     sv: "<<MAX DJUP ÖVERSKRIDEN>>",
   },
-  apiHelper_navigationText: { en: "Navigation", sv: "Navigering" },
+  navigation: { en: "Navigation", sv: "Navigering" },
 });

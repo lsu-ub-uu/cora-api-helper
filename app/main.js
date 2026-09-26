@@ -57,9 +57,7 @@ function navigationToggle(root) {
   });
 
   function render() {
-    toggle.textContent = navigationVisible
-      ? `❮❮ ${t("apiHelper_navigationText")}`
-      : "❯❯";
+    toggle.textContent = navigationVisible ? `❮❮ ${t("navigation")}` : "❯❯";
     toggle.setAttribute("aria-expanded", navigationVisible);
   }
 

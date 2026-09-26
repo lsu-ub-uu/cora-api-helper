@@ -6,7 +6,7 @@ export default function legend() {
   return el("div", {
     className: "legend",
     children: [
-      el("h3", { textContent: t("apiHelper_legendText") }),
+      el("h3", { textContent: t("legend") }),
       el("dl", {
         children: definitionTerms(),
       }),
@@ -18,38 +18,38 @@ function definitionTerms() {
   return [
     el("dt", { className: "multiplicity", textContent: "(0 - 1)" }),
     el("dd", {
-      title: t("apiHelper_repeatTitleText"),
-      textContent: t("apiHelper_repeatText"),
+      title: t("repeatTitle"),
+      textContent: t("repeat"),
     }),
     el("dt", { className: "final-value", textContent: "value" }),
     el("dd", {
-      title: t("apiHelper_finalValueTitleText"),
-      textContent: t("apiHelper_finalValueText"),
+      title: t("finalValueTitle"),
+      textContent: t("finalValue"),
     }),
     el("dt", { className: "regex", textContent: "/.+/" }),
     el("dd", {
-      title: t("apiHelper_regexTitleText"),
-      textContent: t("apiHelper_regexText"),
+      title: t("regexTitle"),
+      textContent: t("regex"),
     }),
     el("dt", { className: "number-variable", textContent: "0 - 100" }),
     el("dd", {
-      title: t("apiHelper_numberValueTitleText"),
-      textContent: t("apiHelper_numberValueText"),
+      title: t("numberValueTitle"),
+      textContent: t("numberValue"),
     }),
     el("dt", { className: "collection-value", textContent: "sv | en" }),
     el("dd", {
-      title: t("apiHelper_collectionValueTitleText"),
-      textContent: t("apiHelper_collectionValueText"),
+      title: t("collectionValueTitle"),
+      textContent: t("collectionValue"),
     }),
     el("dt", { className: "id", textContent: "{id}" }),
     el("dd", {
-      title: t("apiHelper_recordIdTitleText"),
-      textContent: t("apiHelper_recordIdText"),
+      title: t("recordIdTitle"),
+      textContent: t("recordId"),
     }),
     el("dt", { children: permissionIndicator() }),
     el("dd", {
-      title: t("apiHelper_collectionValueTitleText"),
-      textContent: t("apiHelper_permissionControlledTitleText"),
+      title: t("collectionValueTitle"),
+      textContent: t("permissionControlledTitle"),
     }),
   ];
 }

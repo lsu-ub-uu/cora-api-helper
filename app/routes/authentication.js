@@ -7,17 +7,17 @@ export default function authentication() {
 
   return el("article", {
     children: [
-      el("h1", { textContent: t("apiHelper_authenticationText") }),
+      el("h1", { textContent: t("authentication") }),
       el("p", {
-        textContent: t("apiHelper_authenticationIntroText"),
+        textContent: t("authenticationIntro"),
       }),
       el("p", {
-        textContent: t("apiHelper_authenticationTokenInstructionText"),
+        textContent: t("authenticationTokenInstruction"),
       }),
       el("p", {
-        textContent: t("apiHelper_authenticationTokenInfoText"),
+        textContent: t("authenticationTokenInfo"),
       }),
-      el("h2", { textContent: t("apiHelper_authenticationAppTokenText") }),
+      el("h2", { textContent: t("authenticationAppToken") }),
       el("p", {
         className: "code-block",
         children: [
@@ -26,16 +26,16 @@ export default function authentication() {
             children: [
               el("br"),
               el("div", {
-                textContent: t("apiHelper_httpHeaderContentTypeLoginText"),
+                textContent: t("httpHeaderContentTypeLogin"),
               }),
               el("div", {
-                textContent: t("apiHelper_httpHeaderAcceptAuthenticationText"),
+                textContent: t("httpHeaderAcceptAuthentication"),
               }),
             ],
           }),
         ],
       }),
-      el("h3", { textContent: t("apiHelper_requestBodyText") }),
+      el("h3", { textContent: t("requestBody") }),
       el("p", {
         className: "code-block",
         children: [
@@ -47,7 +47,7 @@ export default function authentication() {
           }),
         ],
       }),
-      el("h3", { textContent: t("apiHelper_responseText") }),
+      el("h3", { textContent: t("response") }),
       authResponseBody(),
     ],
   });

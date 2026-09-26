@@ -7,11 +7,7 @@ export default function expandButton({ onClick, defaultExpanded = true }) {
   const root = el("button", {
     type: "button",
     className: "element-expand-button",
-    "aria-label": t(
-      expanded
-        ? "apiHelper_collapseElementText"
-        : "apiHelper_expandElementText",
-    ),
+    "aria-label": t(expanded ? "collapseElement" : "expandElement"),
     textContent: expanded ? "-" : "+",
     onClick: () => {
       onClick();
@@ -19,9 +15,7 @@ export default function expandButton({ onClick, defaultExpanded = true }) {
       root.textContent = expanded ? "-" : "+";
       root.setAttribute(
         "aria-label",
-        expanded
-          ? t("apiHelper_collapseElementText")
-          : t("apiHelper_expandElementText"),
+        expanded ? t("collapseElement") : t("expandElement"),
       );
     },
   });
