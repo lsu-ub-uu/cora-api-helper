@@ -24,6 +24,27 @@ describe("actionLink", () => {
     expect(normalize(result.textContent)).toEqual(normalize(expectedResult));
   });
 
+  it("returns read incoming links XML action link", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "readIncomingLinks",
+      recordType: "someRecordType",
+    });
+
+    expect(normalize(result.textContent)).toEqual(
+      normalize(`
+        -<read_incoming_links>(0 - 1)
+          <requestMethod>GET</requestMethod>(1 - 1)
+          <rel>read_incoming_links</rel>(1 - 1)
+          <url>https://someapiurl.com/rest/record/someRecordType/{recordId}/incomingLinks</url>(1 - 1)
+          <accept>application/vnd.cora.recordList+xml</accept>(1 - 1)
+        </read_incoming_links>
+      `),
+    );
+  });
+
   it("returns update XML action link", () => {
     getFormat.mockReturnValue("xml");
     getApiUrl.mockReturnValue("https://someapiurl.com");
@@ -111,6 +132,27 @@ describe("actionLink", () => {
           "rel": "read",
           "url": "https://someapiurl.com/rest/record/someRecordType/{recordId}",
           "accept": "application/vnd.cora.record+json"
+        }
+      `),
+    );
+  });
+
+  it("returns read incoming links JSON action link", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: "readIncomingLinks",
+      recordType: "someRecordType",
+    });
+
+    expect(normalize(result.textContent)).toEqual(
+      normalize(`
+        -"read_incoming_links": {
+          "requestMethod": "GET",
+          "rel": "read_incoming_links",
+          "url": "https://someapiurl.com/rest/record/someRecordType/{recordId}/incomingLinks",
+          "accept": "application/vnd.cora.recordList+json"
         }
       `),
     );

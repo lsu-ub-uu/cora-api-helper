@@ -23,6 +23,15 @@ export default function actionLink({
         lastChild,
         defaultExpanded,
       });
+    case "readIncomingLinks":
+      return actionLinkElement({
+        name: "read_incoming_links",
+        requestMethod: "GET",
+        url: `${apiUrl}/rest/record/${recordType}/${recordId}/incomingLinks`,
+        accept: "application/vnd.cora.recordList+xml",
+        lastChild,
+        defaultExpanded,
+      });
     case "update":
       return actionLinkElement({
         name: "update",

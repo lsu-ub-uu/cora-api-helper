@@ -37,6 +37,11 @@ function recordWrapperJSON({ children, recordType }) {
             name: "actionLinks",
             children: [
               actionLink({ method: "read", recordType, lastChild: false }),
+              actionLink({
+                method: "readIncomingLinks",
+                recordType,
+                lastChild: false,
+              }),
               actionLink({ method: "update", recordType, lastChild: false }),
               actionLink({ method: "delete", recordType, lastChild: false }),
               actionLink({ method: "index", recordType }),
@@ -70,6 +75,7 @@ function recordWrapperXML({ children, recordType, repeating }) {
         repeatMax: "1",
         children: [
           actionLink({ method: "read", recordType }),
+          actionLink({ method: "readIncomingLinks", recordType }),
           actionLink({ method: "update", recordType }),
           actionLink({ method: "delete", recordType }),
           actionLink({ method: "index", recordType }),

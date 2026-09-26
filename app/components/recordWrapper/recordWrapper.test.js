@@ -35,6 +35,10 @@ describe("recordWrapper", () => {
     );
     expect(text).toContain("<actionLinks>");
     expect(text).toContain("<read>");
+    expect(text).toContain("<read_incoming_links>");
+    expect(text).toContain(
+      "https://someapiurl.com/rest/record/someRecordType/{recordId}/incomingLinks",
+    );
     expect(text).toContain("<update>");
     expect(text).toContain("<delete>");
     expect(text).toContain("<index>");
@@ -74,9 +78,13 @@ describe("recordWrapper", () => {
       text.indexOf('"actionLinks"'),
     );
     expect(text).toContain('"read":{');
+    expect(text).toContain('"read_incoming_links":{');
+    expect(text).toContain(
+      '"url":"https://someapiurl.com/rest/record/someRecordType/{recordId}/incomingLinks"',
+    );
     expect(text).toContain('"update":{');
     expect(text).toContain('"delete":{');
     expect(text).toContain('"index":{');
-    expect(result.querySelectorAll("button")).toHaveLength(15);
+    expect(result.querySelectorAll("button")).toHaveLength(16);
   });
 });
