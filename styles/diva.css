@@ -1,0 +1,5 @@
+:root {
+  --color-diva: #6e5287;
+  --color-header-bg: var(--color-diva);
+  --color-link-active: var(--color-multiplicity);
+}

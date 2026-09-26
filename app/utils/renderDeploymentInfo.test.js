@@ -24,7 +24,30 @@ describe("renderDeploymentInfo", () => {
       "Test Deployment (1.0.0)",
     );
     expect(document.getElementById("system-name").textContent).toBe("TestApp");
+    expect(document.getElementById("application-stylesheet")).toBeNull();
   });
+
+  it.each(["diva", "alvin", "systemone"])(
+    "loads the %s application stylesheet",
+    async (applicationName) => {
+      document.body.innerHTML = `<div id="deployment-info"></div>
+        <div id="system-name"></div>
+      `;
+
+      vi.mocked(getDeploymentInfo).mockResolvedValue({
+        deploymentName: "Test Deployment",
+        applicationVersion: "1.0.0",
+        applicationName,
+      });
+
+      await renderDeploymentInfo();
+
+      expect(document.getElementById("application-stylesheet")).toHaveAttribute(
+        "href",
+        `/styles/${applicationName}.css`,
+      );
+    },
+  );
 
   it("handles errors gracefully", async () => {
     document.body.innerHTML = `<div id="deployment-info"></div>
