@@ -7,6 +7,7 @@ export default function actionLink({
   method,
   recordType,
   recordId = "{recordId}",
+  accept = "application/vnd.cora.record+xml",
   lastChild = true,
   defaultExpanded = true,
 }) {
@@ -19,7 +20,7 @@ export default function actionLink({
         name: "read",
         requestMethod: "GET",
         url: `${apiUrl}/rest/record/${recordType}/${recordId}`,
-        accept: "application/vnd.cora.record+xml",
+        accept,
         lastChild,
         defaultExpanded,
       });

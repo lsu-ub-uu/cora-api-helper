@@ -53,6 +53,16 @@ vi.mock("../recordLink/recordLink.js", () => ({
   }),
 }));
 
+vi.mock("../resourceLink/resourceLink.js", () => ({
+  default: vi.fn(({ metadata, mode, repeatMin, repeatMax, lastChild }) => {
+    const mockResourceLink = document.createElement("div");
+    mockResourceLink.textContent = `Resource Link: ${
+      getFirstChildWithName(metadata, "nameInData").value
+    }, Mode: ${mode}, Min: ${repeatMin}, Max: ${repeatMax}, Last Child: ${lastChild}`;
+    return mockResourceLink;
+  }),
+}));
+
 describe("childReference", () => {
   it('renders a group component for "group" type', () => {
     const metadataPool = {
@@ -232,6 +242,36 @@ describe("childReference", () => {
 
     expect(result.textContent).toBe(
       "Record Link: recordLink1, Mode: read, Min: 1, Max: 5, Last Child: true",
+    );
+  });
+
+  it('renders a resource link component for "resourceLink" type', () => {
+    const metadataPool = {
+      resourceLink1: {
+        type: "resourceLink",
+        attributes: { type: "resourceLink" },
+        children: [{ name: "nameInData", value: "master" }],
+      },
+    };
+
+    const result = childReference({
+      metadataPool,
+      childReference: {
+        children: [
+          { name: "repeatMin", value: "1" },
+          { name: "repeatMax", value: "1" },
+          {
+            name: "ref",
+            children: [{ name: "linkedRecordId", value: "resourceLink1" }],
+          },
+        ],
+      },
+      mode: "read",
+      lastChild: false,
+    });
+
+    expect(result.textContent).toBe(
+      "Resource Link: master, Mode: read, Min: 1, Max: 1, Last Child: false",
     );
   });
 });

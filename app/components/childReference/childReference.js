@@ -5,6 +5,7 @@ import {
 import group from "../group/group.js";
 import textVariable from "../textVariable/textVariable.js";
 import recordLink from "../recordLink/recordLink.js";
+import resourceLink from "../resourceLink/resourceLink.js";
 import collectionVariable from "../collectionVariable/collectionVariable.js";
 import numberVariable from "../numberVariable/numberVariable.js";
 import { el } from "../../utils/el.js";
@@ -76,6 +77,18 @@ export default function childReference({
 
   if (type === "recordLink") {
     return recordLink({
+      metadataPool,
+      metadata: childMetadata,
+      mode,
+      hasPermissions,
+      repeatMin,
+      repeatMax,
+      lastChild,
+    });
+  }
+
+  if (type === "resourceLink") {
+    return resourceLink({
       metadataPool,
       metadata: childMetadata,
       mode,

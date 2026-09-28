@@ -43,8 +43,8 @@ function definitionTerms() {
     }),
     el("dt", { className: "id", textContent: "{id}" }),
     el("dd", {
-      title: t("recordIdTitle"),
-      textContent: t("recordId"),
+      title: t("dynamicValueTitle"),
+      textContent: t("dynamicValue"),
     }),
     el("dt", { children: permissionIndicator() }),
     el("dd", {

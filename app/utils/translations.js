@@ -86,10 +86,10 @@ export const getTranslations = () => ({
     en: "Value must be one of the listed values",
     sv: "Värdet måste vara ett av de angivna värdena",
   },
-  recordId: { en: "Record ID", sv: "Post-ID" },
-  recordIdTitle: {
-    en: "Set to the ID of linked record",
-    sv: "Sätt till ID för länkad post",
+  dynamicValue: { en: "Dynamic value", sv: "Dynamiskt värde" },
+  dynamicValueTitle: {
+    en: "Some dynamic value, such as a record ID",
+    sv: "Ett dynamiskt värde, till exempel ett post-ID",
   },
   permissionControlled: {
     en: "The field is permission controlled. Only certain users may read and/or write this field",
