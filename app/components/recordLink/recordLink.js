@@ -17,10 +17,10 @@ export default function recordLink({
 }) {
   const format = getFormat();
   const linkedRecordType = getFirstChildWithName(metadata, "linkedRecordType");
-  const linkedRecordTypeValue = getFirstChildWithName(
-    linkedRecordType,
-    "linkedRecordId",
-  )?.value;
+  const linkedRecordTypeValue =
+    (linkedRecordType &&
+      getFirstChildWithName(linkedRecordType, "linkedRecordId")?.value) ??
+    "{recordType}";
   const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
   const linkedRecordId = finalValue || "{id}";
 
@@ -39,6 +39,9 @@ export default function recordLink({
 }
 
 function recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode }) {
+  const linkedRecordTypeClass =
+    linkedRecordTypeValue === "{recordType}" ? "id" : "final-value";
+
   return el("div", {
     className: "record-link",
     children: [
@@ -70,7 +73,7 @@ function recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode }) {
                   }),
                   ': "',
                   el("span", {
-                    className: "final-value",
+                    className: linkedRecordTypeClass,
                     textContent: linkedRecordTypeValue,
                   }),
                   '"',
@@ -146,7 +149,8 @@ function recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }) {
         children: [
           "<linkedRecordType>",
           el("span", {
-            className: "final-value",
+            className:
+              linkedRecordTypeValue === "{recordType}" ? "id" : "final-value",
             textContent: linkedRecordTypeValue,
           }),
           "</linkedRecordType>",
@@ -156,7 +160,7 @@ function recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }) {
         children: [
           `<linkedRecordId>`,
           el("span", {
-            className: "final-value",
+            className: "id",
             textContent: linkedRecordId,
           }),
           `</linkedRecordId>`,

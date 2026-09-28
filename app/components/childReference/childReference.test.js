@@ -245,6 +245,36 @@ describe("childReference", () => {
     );
   });
 
+  it('renders a record link component for "anyTypeRecordLink" type', () => {
+    const metadataPool = {
+      anyTypeRecordLink1: {
+        type: "anyTypeRecordLink",
+        attributes: { type: "anyTypeRecordLink" },
+        children: [{ name: "nameInData", value: "anyTypeRecordLink1" }],
+      },
+    };
+
+    const result = childReference({
+      metadataPool,
+      childReference: {
+        children: [
+          { name: "repeatMin", value: "1" },
+          { name: "repeatMax", value: "5" },
+          {
+            name: "ref",
+            children: [{ name: "linkedRecordId", value: "anyTypeRecordLink1" }],
+          },
+        ],
+      },
+      mode: "read",
+      lastChild: true,
+    });
+
+    expect(result.textContent).toBe(
+      "Record Link: anyTypeRecordLink1, Mode: read, Min: 1, Max: 5, Last Child: true",
+    );
+  });
+
   it('renders a resource link component for "resourceLink" type', () => {
     const metadataPool = {
       resourceLink1: {

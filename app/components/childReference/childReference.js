@@ -75,7 +75,7 @@ export default function childReference({
     });
   }
 
-  if (type === "recordLink") {
+  if (type === "recordLink" || type === "anyTypeRecordLink") {
     return recordLink({
       metadataPool,
       metadata: childMetadata,

@@ -161,7 +161,7 @@ function actionLinkXML({
         name: "url",
         repeatMin: "1",
         repeatMax: "1",
-        children: finalValue(url),
+        children: id(url),
         inline: true,
       }),
       ...(contentType
@@ -181,7 +181,9 @@ function actionLinkXML({
               name: "accept",
               repeatMin: "1",
               repeatMax: "1",
-              children: finalValue(accept),
+              children: accept.startsWith("{")
+                ? id(accept)
+                : finalValue(accept),
               inline: true,
             }),
           ]

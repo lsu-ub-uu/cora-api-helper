@@ -179,6 +179,37 @@ describe("recordLink", () => {
     );
   });
 
+  it("uses a record type placeholder when linkedRecordType is absent", () => {
+    vi.mocked(getFormat).mockReturnValue("xml");
+    vi.mocked(getApiUrl).mockReturnValue("https://someapiurl.com");
+
+    const metadata = {
+      name: "anyTypeLink",
+      attributes: { type: "anyTypeRecordLink" },
+      children: [{ name: "nameInData", value: "link" }],
+    };
+
+    const result = recordLink({
+      metadataPool: {},
+      metadata,
+      mode: "read",
+      repeatMin: "0",
+      repeatMax: "1",
+    });
+
+    expect(result.textContent).toContain(
+      "<linkedRecordType>{recordType}</linkedRecordType>",
+    );
+    const linkedRecordType = [...result.querySelectorAll("span")].find(
+      (span) => span.textContent === "{recordType}",
+    );
+    expect(linkedRecordType).toHaveClass("id");
+    expect(linkedRecordType).not.toHaveClass("final-value");
+    expect(result.textContent).toContain(
+      "<url>https://someapiurl.com/rest/record/{recordType}/{id}</url>",
+    );
+  });
+
   it("does not render action links outside read mode", () => {
     vi.mocked(getFormat).mockReturnValue("json");
 
