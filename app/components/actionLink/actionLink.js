@@ -147,14 +147,14 @@ function actionLinkXML({
         name: "requestMethod",
         repeatMin: "1",
         repeatMax: "1",
-        children: finalValue(requestMethod),
+        children: id(requestMethod),
         inline: true,
       }),
       elementXML({
         name: "rel",
         repeatMin: "1",
         repeatMax: "1",
-        children: finalValue(name),
+        children: id(name),
         inline: true,
       }),
       elementXML({
@@ -170,7 +170,7 @@ function actionLinkXML({
               name: "contentType",
               repeatMin: "1",
               repeatMax: "1",
-              children: finalValue(contentType),
+              children: id(contentType),
               inline: true,
             }),
           ]
@@ -181,9 +181,7 @@ function actionLinkXML({
               name: "accept",
               repeatMin: "1",
               repeatMax: "1",
-              children: accept.startsWith("{")
-                ? id(accept)
-                : finalValue(accept),
+              children: accept.startsWith("{") ? id(accept) : id(accept),
               inline: true,
             }),
           ]
@@ -206,13 +204,13 @@ function indexBody(recordType, format) {
             elementJSON({
               name: "linkedRecordType",
               repeatMax: "1",
-              children: finalValue("recordType"),
+              children: id("recordType"),
               lastChild: false,
             }),
             elementJSON({
               name: "linkedRecordId",
               repeatMax: "1",
-              children: finalValue(recordType),
+              children: id(recordType),
               lastChild: true,
             }),
           ],
@@ -227,7 +225,7 @@ function indexBody(recordType, format) {
         elementJSON({
           name: "type",
           repeatMax: "1",
-          children: finalValue("index"),
+          children: id("index"),
         }),
       ],
       lastChild: false,
@@ -252,14 +250,14 @@ function indexBody(recordType, format) {
                 name: "linkedRecordType",
                 repeatMin: "1",
                 repeatMax: "1",
-                children: finalValue("recordType"),
+                children: id("recordType"),
                 inline: true,
               }),
               elementXML({
                 name: "linkedRecordId",
                 repeatMin: "1",
                 repeatMax: "1",
-                children: finalValue(recordType),
+                children: id(recordType),
                 inline: true,
               }),
               elementXML({
@@ -273,7 +271,7 @@ function indexBody(recordType, format) {
                 name: "type",
                 repeatMin: "1",
                 repeatMax: "1",
-                children: finalValue("index"),
+                children: id("index"),
                 inline: true,
               }),
             ],
@@ -281,13 +279,6 @@ function indexBody(recordType, format) {
         ],
       }),
     ],
-  });
-}
-
-function finalValue(text) {
-  return el("span", {
-    textContent: text,
-    className: "final-value",
   });
 }
 
