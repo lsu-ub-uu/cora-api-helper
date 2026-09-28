@@ -1,5 +1,5 @@
-import { el } from "../utils/el.js";
-import t from "../utils/t.js";
+import { el } from "../../utils/el.js";
+import t from "../../utils/t.js";
 
 export default function welcomeMessage() {
   return el("div", {

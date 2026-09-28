@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`welcomeMessage > renders the welcome message 1`] = `
+<div>
+  <h2>
+    Welcome to the API helper!
+  </h2>
+  <p>
+    This tool helps you explore the Cora REST API.
+  </p>
+  <p>
+    Select a record type from the navigation to the left to begin. ⬅️
+  </p>
+  <p>
+    You can set your preferred data format, language and API URL in the settings at the top right. ↗️
+  </p>
+</div>
+`;

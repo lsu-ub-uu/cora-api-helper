@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import { el } from "../../utils/el";
 import currentPage from "./currentPage";
-import recordType from "../../routes/recordType.js";
+import recordType from "../recordType/recordType.js";
 import { getCurrentRoute, getRecordTypeId } from "../../utils/routing";
 
-vi.mock("../../routes/recordType.js", () => ({
+vi.mock("../recordType/recordType.js", () => ({
   default: vi.fn(() => {
     return el("div", { textContent: "Record type route" });
   }),
@@ -16,7 +16,7 @@ vi.mock("../../routes/authentication.js", () => ({
   }),
 }));
 
-vi.mock("../../routes/welcome.js", () => ({
+vi.mock("../welcome/welcome.js", () => ({
   default: vi.fn(() => {
     return el("div", { textContent: "Welcome route" });
   }),
