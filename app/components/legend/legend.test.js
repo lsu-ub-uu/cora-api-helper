@@ -13,7 +13,7 @@ describe("legend", () => {
       /.+/      value (RegEx)
       0 - 100   Number value (min - max)
       sv | en   Collection value
-      {id}      Record ID
+      {id}      Dynamic value
       🔒        Permission controlled
       The field is permission controlled. Only certain users may read and/or write this field
       Permission controlled

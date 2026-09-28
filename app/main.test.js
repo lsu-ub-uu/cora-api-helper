@@ -130,9 +130,7 @@ describe("main", () => {
 
     expect(screen.getByRole("alert")).toHaveTextContent(error.message);
     expect(document.querySelector("pre").textContent).toContain(error.stack);
-    expect(
-      screen.getByText("Unable to render application"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Pools unavailable")).toBeInTheDocument();
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Failed to initialize application:",
       error,
