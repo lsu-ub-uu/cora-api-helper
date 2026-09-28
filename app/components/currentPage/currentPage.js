@@ -2,7 +2,6 @@ import { getRecordTypeId, getCurrentRoute } from "../../utils/routing.js";
 import recordType from "../../routes/recordType.js";
 import authentication from "../../routes/authentication.js";
 import welcomeMessage from "../../routes/welcome.js";
-import t from "../../utils/t.js";
 import errorBoundary from "../errorBoundary/errorBoundary.js";
 
 export default function currentPage({
