@@ -51,6 +51,30 @@ export default function authentication() {
       }),
       el("h3", { textContent: t("response") }),
       authResponseBody(),
+      el("h2", { textContent: t("keepingSessionAlive") }),
+      el("p", {
+        textContent: t("keepingSessionAliveInstruction"),
+      }),
+      el("h3", { textContent: t("requestBody") }),
+      el("p", {
+        className: "code-block",
+        children: [
+          el("div", {
+            textContent: `POST ${apiUrl}/login/rest/authToken/<renew-token-from-actionLink>`,
+          }),
+          el("div", {
+            children: [
+              el("br"),
+              el("div", {
+                textContent: t("httpHeaderAcceptAuthentication"),
+              }),
+              el("div", { textContent: "Authtoken: <your-auth-token>" }),
+            ],
+          }),
+        ],
+      }),
+      el("h3", { textContent: t("response") }),
+      authResponseBody(),
     ],
   });
 }

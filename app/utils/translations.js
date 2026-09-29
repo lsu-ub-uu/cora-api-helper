@@ -34,6 +34,14 @@ export const getTranslations = () => ({
     en: "An auth token can be obtained by logging in using an App Token connected to your user or by using your username and password. The auth token is valid for a short time (typically around 10 minutes) and can be used for all API requests during that time. The response of a successful login request contains an actionLink that can be used to renew the auth token before it expires.",
     sv: "En autentiseringstoken kan erhållas genom att logga in med en app-token kopplad till din användare eller genom att använda ditt användarnamn och lösenord. Autentiseringstoken är giltig en kort tid (vanligtvis cirka 10 minuter) och kan användas för alla API-anrop under den tiden. Svaret från en lyckad inloggningsförfrågan innehåller en actionLink som kan användas för att förnya autentiseringstoken innan det upphör att gälla.",
   },
+  keepingSessionAlive: {
+    en: "Keeping the session alive",
+    sv: "Hålla sessionen vid liv",
+  },
+  keepingSessionAliveInstruction: {
+    en: 'To keep your session alive for longer running scripts, you need to renew your auth token before it expires. Use the "renew" actionLink provided in the login response to renew the token.',
+    sv: 'För att hålla din session vid liv för längre körande skript måste du förnya din autentiseringstoken innan den upphör att gälla. Använd "renew" actionLink som tillhandahålls i inloggningssvar för att förnya token.',
+  },
   authenticationAppToken: {
     en: "Log in with App Token",
     sv: "Logga in med app-token",
