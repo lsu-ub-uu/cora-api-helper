@@ -87,4 +87,74 @@ describe("recordWrapper", () => {
     expect(text).toContain('"index":{');
     expect(result.querySelectorAll("button")).toHaveLength(16);
   });
+
+  it("renders otherProtocols for xml binary record", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com/rest");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "binary",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain(
+      normalize(`
+      -<otherProtocols>(0-1)
+        -<iiif>(1-1)
+          <server>https://someapiurl.com/iiif/</server>(1-1)
+          <identifier>{recordId}</identifier>(1-1)
+        </iiif>
+      </otherProtocols>
+      `),
+    );
+  });
+
+  it("renders otherProtocols for json binary record", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com/rest");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "binary",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain(
+      normalize(`
+      -"otherProtocols": {
+        -"iiif": {
+          "server": "https://someapiurl.com/iiif/",
+          "identifier": "{recordId}"
+        }
+      }
+      `),
+    );
+  });
+
+  it("does not render otherProtocols for non-binary record xml", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com/rest");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "someRecordType",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).not.toContain("otherProtocols");
+  });
+
+  it("does not render otherProtocols for non-binary record json", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com/rest");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "someRecordType",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).not.toContain("otherProtocols");
+  });
 });

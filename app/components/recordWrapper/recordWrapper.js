@@ -1,4 +1,4 @@
-import { getFormat } from "../../utils/searchParams.js";
+import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 import { el } from "../../utils/el.js";
 import expandButton from "../expandButton/expandButton.js";
 import { jsonObject } from "../element/elementJSON.js";
@@ -47,6 +47,19 @@ function recordWrapperJSON({ children, recordType }) {
               actionLink({ method: "index", recordType }),
             ],
           }),
+          recordType === "binary" &&
+            jsonObject({
+              name: "otherProtocols",
+              children: [
+                jsonObject({
+                  name: "iiif",
+                  value: {
+                    server: getIIIFServerUrl(),
+                    identifier: "{recordId}",
+                  },
+                }),
+              ],
+            }),
         ],
       }),
     }),
@@ -81,6 +94,45 @@ function recordWrapperXML({ children, recordType, repeating }) {
           actionLink({ method: "index", recordType }),
         ],
       }),
+      recordType === "binary" &&
+        elementXML({
+          name: "otherProtocols",
+          repeatMin: "0",
+          repeatMax: "1",
+          children: [
+            elementXML({
+              name: "iiif",
+              repeatMin: "1",
+              repeatMax: "1",
+              children: [
+                elementXML({
+                  name: "server",
+                  repeatMin: "1",
+                  repeatMax: "1",
+                  children: el("span", {
+                    textContent: getIIIFServerUrl(),
+                    className: "id",
+                  }),
+                  inline: true,
+                }),
+                elementXML({
+                  name: "identifier",
+                  repeatMin: "1",
+                  repeatMax: "1",
+                  children: el("span", {
+                    textContent: "{recordId}",
+                    className: "id",
+                  }),
+                  inline: true,
+                }),
+              ],
+            }),
+          ],
+        }),
     ],
   });
+}
+
+function getIIIFServerUrl() {
+  return getApiUrl().replace("/rest", "/iiif/");
 }
