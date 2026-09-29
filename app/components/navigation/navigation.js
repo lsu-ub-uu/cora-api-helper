@@ -17,7 +17,6 @@ export default function navigation({
   return el("nav", {
     className: "main-nav",
     children: [
-      authenticationLink({ path, navigate }),
       ...recordTypesByDataDivider(recordTypePool).map(
         ([dataDivider, dividedRecordTypePool]) =>
           recordTypesNav({
@@ -29,6 +28,7 @@ export default function navigation({
             systemPool,
           }),
       ),
+      authenticationLink({ path, navigate }),
     ],
   });
 }

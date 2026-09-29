@@ -28,14 +28,19 @@ export default function recordType({
       error: new Error(message),
     });
   }
-  function render() {
+  function render({ recordTypeText, recordTypeDefText }) {
     root.replaceChildren(
-      pageTitle({ recordTypePool, recordTypeId }),
+      el("div", {
+        children: [
+          el("h2", { textContent: `${recordTypeText} (${recordTypeId})` }),
+          el("p", { textContent: recordTypeDefText }),
+        ],
+      }),
       requestMethods({
         selectedMethod: method,
         onSelectMethod: (newMethod) => {
           method = newMethod;
-          render();
+          render({ recordTypeText, recordTypeDefText });
         },
       }),
       requestDoc({
@@ -49,22 +54,26 @@ export default function recordType({
     );
   }
 
-  render();
+  getTexts(recordTypePool[recordTypeId]).then(
+    ({ recordTypeText, recordTypeDefText }) => {
+      render({ recordTypeText, recordTypeDefText });
+    },
+  );
 
   return root;
 }
 
-function pageTitle({ recordTypePool, recordTypeId }) {
-  const root = el("h2", { textContent: recordTypeId });
-
-  const recordType = recordTypePool[recordTypeId];
+function getTexts(recordType) {
   const recordTypeTextId = getFirstChildWithName(recordType, "textId");
-  getTextFromLink(recordTypeTextId).then((text) => {
-    root.textContent = `${text} (${recordTypeId})`;
-    document.title = `${text} | ${document.title.split(" | ")[1] ?? document.title}`;
-  });
+  const recordTypeDefTextId = getFirstChildWithName(recordType, "defTextId");
 
-  return root;
+  return Promise.all([
+    getTextFromLink(recordTypeTextId),
+    getTextFromLink(recordTypeDefTextId),
+  ]).then(([recordTypeText, recordTypeDefText]) => ({
+    recordTypeText,
+    recordTypeDefText,
+  }));
 }
 
 function requestMethods({ selectedMethod, onSelectMethod }) {
