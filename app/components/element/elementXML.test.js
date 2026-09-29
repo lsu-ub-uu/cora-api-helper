@@ -75,10 +75,10 @@ describe("elementXML", () => {
         repeatMin: "0",
         repeatMax: "X",
         children: document.createElement("span"),
-        hasPermissions: true,
+        recordPartConstraint: "write",
       }),
     );
-    expect(screen.getByText("🔒")).toBeVisible();
+    expect(screen.getByText("✍️")).toBeVisible();
   });
 
   it("does not render a permission indicator by default", () => {
@@ -91,7 +91,7 @@ describe("elementXML", () => {
       }),
     );
 
-    expect(screen.queryByText("🔒")).not.toBeInTheDocument();
+    expect(screen.queryByText("✍️")).not.toBeInTheDocument();
   });
 
   it("renders array children", () => {

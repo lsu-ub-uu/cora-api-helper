@@ -12,7 +12,7 @@ export default function resourceLink({
   mode,
   repeatMin,
   repeatMax,
-  hasPermissions = false,
+  recordPartConstraint,
   lastChild = true,
 }) {
   const children =
@@ -25,7 +25,7 @@ export default function resourceLink({
     metadata,
     repeatMin,
     repeatMax,
-    hasPermissions,
+    recordPartConstraint,
     children,
     lastChild,
   });

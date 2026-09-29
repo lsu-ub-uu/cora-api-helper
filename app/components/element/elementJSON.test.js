@@ -59,11 +59,11 @@ describe("elementJSON", () => {
         repeatMin: "1",
         repeatMax: "1",
         children: "someValue",
-        hasPermissions: true,
+        recordPartConstraint: "write",
       }),
     );
 
-    expect(screen.getByText("Permission controlled")).toBeInTheDocument();
+    expect(screen.getByText("✍️")).toBeInTheDocument();
   });
 
   it("does not render a permission indicator by default", () => {
@@ -74,7 +74,7 @@ describe("elementJSON", () => {
       children: "someValue",
     });
 
-    expect(result.querySelector(".permission-indicator")).toBeNull();
+    expect(result.querySelector(".record-part-constraint-icon")).toBeNull();
   });
 
   it("collapses a metadata element", () => {

@@ -7,7 +7,7 @@ export default function textVariable({
   metadata,
   repeatMin,
   repeatMax,
-  hasPermissions = false,
+  recordPartConstraint,
   lastChild,
 }) {
   const regexText = getFirstChildWithName(metadata, "regEx")?.value;
@@ -17,7 +17,7 @@ export default function textVariable({
     metadata,
     repeatMin,
     repeatMax,
-    hasPermissions,
+    recordPartConstraint,
     children: el("div", { className: "regex", textContent: `/${regexText}/` }),
     lastChild,
   });

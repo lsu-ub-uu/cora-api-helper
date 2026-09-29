@@ -12,7 +12,7 @@ export default function recordLink({
   mode,
   repeatMin,
   repeatMax,
-  hasPermissions = false,
+  recordPartConstraint,
   lastChild = true,
 }) {
   const format = getFormat();
@@ -29,7 +29,7 @@ export default function recordLink({
     metadata,
     repeatMin,
     repeatMax,
-    hasPermissions,
+    recordPartConstraint,
     children:
       format === "json"
         ? recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode })

@@ -60,12 +60,12 @@ export const getTranslations = () => ({
     en: "Specifies the min and max times this element can be repeated. X means unlimited.",
     sv: "Anger hur många gånger detta element kan upprepas. X betyder obegränsat.",
   },
-  finalValue: { en: "Final value", sv: "Slutvärde" },
+  finalValue: { en: "Final value", sv: "Slutgiltigt värde" },
   finalValueTitle: {
     en: "Value must be set to the final value",
-    sv: "Värdet måste vara satt till slutvärdet",
+    sv: "Värdet måste vara satt till det slutgiltiga värdet",
   },
-  regex: { en: " value (RegEx)", sv: "värde (RegEx)" },
+  regex: { en: "Text value (RegEx)", sv: "Textvärde (RegEx)" },
   regexTitle: {
     en: "Value must match regular expression",
     sv: "Värdet måste matcha reguljära uttrycket",
@@ -91,6 +91,22 @@ export const getTranslations = () => ({
     en: "Some dynamic value, such as a record ID",
     sv: "Ett dynamiskt värde, till exempel ett post-ID",
   },
+  "recordPartConstraint.readWrite.title": {
+    en: "Read and write restriction",
+    sv: "Läs- och skrivbegränsning",
+  },
+  "recordPartConstraint.readWrite.description": {
+    en: "The field can only be read and written to by users with the appropriate permission",
+    sv: "Fältet kan endast läsas och skrivas till av användare med särskild behörighet",
+  },
+  "recordPartConstraint.write.title": {
+    en: "Write restriction",
+    sv: "Skrivbegränsning",
+  },
+  "recordPartConstraint.write.description": {
+    en: "The field can only be written to by users with the appropriate permission",
+    sv: "Fältet kan endast skrivas till av användare med särskild behörighet",
+  },
   permissionControlled: {
     en: "The field is permission controlled. Only certain users may read and/or write this field",
     sv: "Fältet är rättighetsstyrt. Endast vissa användare får läsa och/eller skriva i fältet",
@@ -105,7 +121,7 @@ export const getTranslations = () => ({
   },
   requestConfig: {
     en: "Request config",
-    sv: "Begäranskonfiguration",
+    sv: "Request-konfiguration",
   },
   requestBodyFormat: {
     en: "Request body format",
@@ -113,7 +129,7 @@ export const getTranslations = () => ({
   },
   responseBodyFormat: {
     en: "Response body format",
-    sv: "Format för svarsbody",
+    sv: "Format för response-body",
   },
   searchDataFormat: {
     en: "Search data format",

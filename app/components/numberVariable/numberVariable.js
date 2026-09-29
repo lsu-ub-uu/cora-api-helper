@@ -7,7 +7,7 @@ export default function numberVariable({
   metadata,
   repeatMin,
   repeatMax,
-  hasPermissions = false,
+  recordPartConstraint,
   lastChild,
 }) {
   const min = getFirstChildWithName(metadata, "min")?.value;
@@ -20,7 +20,7 @@ export default function numberVariable({
     metadata,
     repeatMin,
     repeatMax,
-    hasPermissions,
+    recordPartConstraint,
     children: el("div", {
       className: "number-variable",
       textContent: `${Number(min).toFixed(numberOfDecimals)} - ${Number(

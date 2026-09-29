@@ -8,7 +8,7 @@ export default function collectionVariable({
   metadataPool,
   repeatMin,
   repeatMax,
-  hasPermissions = false,
+  recordPartConstraint,
   lastChild = true,
 }) {
   const collectionReference = getFirstChildWithName(metadata, "refCollection");
@@ -17,7 +17,7 @@ export default function collectionVariable({
     metadata,
     repeatMin,
     repeatMax,
-    hasPermissions,
+    recordPartConstraint,
     children: collectionValue({
       children: itemCollection({ metadata, metadataPool, collectionReference }),
     }),

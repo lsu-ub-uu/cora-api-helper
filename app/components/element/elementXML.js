@@ -1,7 +1,7 @@
 import { el } from "../../utils/el.js";
 import expandButton from "../expandButton/expandButton.js";
 import multiplicity from "../multiplicity/multiplicity.js";
-import permissionIndicator from "../permissionIndicator/permissionIndicator.js";
+import recordPartConstraintIndicator from "../recordPartConstraintIndicator/recordPartConstraintIndicator.js";
 
 export default function elementXML({
   name,
@@ -11,7 +11,7 @@ export default function elementXML({
   children,
   inline = false,
   defaultExpanded = true,
-  hasPermissions = false,
+  recordPartConstraint,
 }) {
   const root = el("div", {
     className: `element${defaultExpanded ? "" : " collapsed"}`,
@@ -26,7 +26,9 @@ export default function elementXML({
       attributes,
       el("span", { textContent: ">", className: "closing-bracket" }),
       !inline && multiplicity({ repeatMin, repeatMax }),
-      !inline && hasPermissions && permissionIndicator(),
+      !inline &&
+        recordPartConstraint &&
+        recordPartConstraintIndicator({ recordPartConstraint }),
       inline ? children : el("div", { className: "indent", children }),
       el("span", {
         className: "closing-tag",

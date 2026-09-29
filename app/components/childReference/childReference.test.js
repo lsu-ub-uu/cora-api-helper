@@ -124,7 +124,7 @@ describe("childReference", () => {
     );
   });
 
-  it("marks an element when its child reference has permission terms", () => {
+  it("marks an element when its child reference has write recordPartConstraint", () => {
     const metadataPool = {
       textVar1: {
         attributes: { type: "textVariable" },
@@ -143,15 +143,15 @@ describe("childReference", () => {
             children: [{ name: "linkedRecordId", value: "textVar1" }],
           },
           {
-            name: "childRefCollectTerm",
-            attributes: { type: "permission" },
+            name: "recordPartConstraint",
+            value: "write",
           },
         ],
       },
     });
 
     expect(textVariable).toHaveBeenCalledWith(
-      expect.objectContaining({ hasPermissions: true }),
+      expect.objectContaining({ recordPartConstraint: "write" }),
     );
   });
 

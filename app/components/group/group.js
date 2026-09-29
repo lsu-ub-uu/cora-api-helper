@@ -8,7 +8,7 @@ export default function group({
   metadataPool,
   groupId,
   mode,
-  hasPermissions = false,
+  recordPartConstraint,
   repeatMin = "1",
   repeatMax = "1",
   depth = 0,
@@ -36,7 +36,7 @@ export default function group({
       metadata: groupMetadata,
       repeatMin,
       repeatMax,
-      hasPermissions,
+      recordPartConstraint,
       children: childReferences.map((childRef, index) =>
         childReference({
           metadataPool,

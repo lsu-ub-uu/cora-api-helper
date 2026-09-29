@@ -12,7 +12,7 @@ export default function element({
   repeatMax,
   children,
   lastChild = true,
-  hasPermissions = false,
+  recordPartConstraint,
 }) {
   const format = getFormat();
 
@@ -25,7 +25,7 @@ export default function element({
       children,
       lastChild,
       isRecordLink: metadata.attributes?.type === "recordLink",
-      hasPermissions,
+      recordPartConstraint,
     });
   }
 
@@ -35,6 +35,6 @@ export default function element({
     repeatMin,
     repeatMax,
     children,
-    hasPermissions,
+    recordPartConstraint,
   });
 }

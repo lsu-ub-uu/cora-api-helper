@@ -93,7 +93,6 @@ hr {
 .navigation-panel {
   padding-right: 1rem;
   min-height: 100vh;
- 
 }
 
 #app.navigation-hidden {
@@ -106,7 +105,7 @@ hr {
   .navigation-panel {
     padding-right: 0;
   }
-  
+
   .main-nav {
     display: none;
   }
@@ -126,7 +125,7 @@ button {
   background: var(--button-background);
   cursor: pointer;
   font-family: inherit;
-  border-radius: 2px;h1
+  border-radius: 2px;
   font-size: inherit;
   &:hover {
     background: var(--button-background-hover);
@@ -289,9 +288,10 @@ select {
 
 .legend {
   float: right;
+  position: relative;
+  z-index: 1;
   margin-left: 1rem;
   margin-bottom: 1rem;
-
   font-size: 0.9rem;
 
   line-height: 1.5;
@@ -301,6 +301,7 @@ select {
     display: grid;
     grid-template-columns: max-content 1fr;
     column-gap: 0.5rem;
+    row-gap: 0.3rem;
   }
   dt {
     text-align: right;
@@ -308,7 +309,6 @@ select {
   dd {
     margin: 0;
     font-family: sans-serif;
-    cursor: help;
   }
 }
 
@@ -323,9 +323,9 @@ select {
   user-select: text;
   padding: 0;
   cursor: pointer;
-  border-radius: 2px; 
+  border-radius: 2px;
   font-size: inherit;
-  
+
   button {
     padding: 0;
   }
@@ -504,4 +504,21 @@ summary {
 
 .xml-declaration {
   color: var(--color-xml-declaration);
+}
+
+.record-part-constraint-icon {
+  position: relative;
+  transform: scale(0.8);
+
+  &::after {
+    content: "🚫";
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: scale(1.4);
+  }
+}
+
+button[popovertarget] {
+  cursor: help;
 }
