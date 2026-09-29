@@ -1,11 +1,12 @@
 import { el } from "../utils/el.js";
 import { getApiUrl } from "../utils/searchParams.js";
+import updateDocumentTitle from "../utils/updateDocumentTitle.js";
 import t from "../utils/t.js";
 
 export default function authentication() {
   const apiUrl = getApiUrl();
 
-  document.title = `${t("authentication")} | ${document.title.split(" | ")[1] ?? document.title}`;
+  updateDocumentTitle(t("authentication"));
 
   return el("article", {
     children: [

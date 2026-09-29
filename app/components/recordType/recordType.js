@@ -10,6 +10,7 @@ import requestConfigDoc from "./requestConfigDoc.js";
 import recordTypeList from "./recordTypeList.js";
 import { recordTypeSearch } from "./recordTypeSearch.js";
 import errorBoundary from "../errorBoundary/errorBoundary.js";
+import updateDocumentTitle from "../../utils/updateDocumentTitle.js";
 
 export default function recordType({
   recordTypeId,
@@ -29,6 +30,7 @@ export default function recordType({
     });
   }
   function render({ recordTypeText, recordTypeDefText }) {
+    updateDocumentTitle(recordTypeText);
     root.replaceChildren(
       el("div", {
         children: [
