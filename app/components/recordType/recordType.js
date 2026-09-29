@@ -61,6 +61,7 @@ function pageTitle({ recordTypePool, recordTypeId }) {
   const recordTypeTextId = getFirstChildWithName(recordType, "textId");
   getTextFromLink(recordTypeTextId).then((text) => {
     root.textContent = `${text} (${recordTypeId})`;
+    document.title = `${text} | ${document.title.split(" | ")[1] ?? document.title}`;
   });
 
   return root;

@@ -1,4 +1,5 @@
 import getDeploymentInfo from "../services/getDeploymentInfo.js";
+import { getTextById } from "../services/getTextFromLink.js";
 import { getBasePath } from "./routing.js";
 
 const applicationStylesheets = {
@@ -10,12 +11,22 @@ const applicationStylesheets = {
 export default async function renderDeploymentInfo() {
   try {
     const deploymentInfo = await getDeploymentInfo();
+
+    const capitalizedAppName =
+      deploymentInfo.applicationName.slice(0, 1).toUpperCase() +
+      deploymentInfo.applicationName.slice(1);
+
+    const appNameFromApi = await getTextById(
+      `${deploymentInfo.applicationName}Text`,
+    );
+
+    const appName = appNameFromApi || capitalizedAppName;
     loadApplicationStylesheet(deploymentInfo.applicationName);
     document.getElementById("deployment-info").textContent =
       `${deploymentInfo.deploymentName} (${deploymentInfo.applicationVersion})`;
-    document.getElementById("system-name").textContent =
-      deploymentInfo.applicationName.slice(0, 1).toUpperCase() +
-      deploymentInfo.applicationName.slice(1);
+    document.getElementById("system-name").textContent = appName;
+
+    document.title = appName + " API Helper";
   } catch (error) {
     console.error("Failed to render deployment info:", error);
   }

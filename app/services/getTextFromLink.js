@@ -1,5 +1,5 @@
 import { getFirstChildWithName } from "../utils/coraDataUtils.js";
-import { getLanguage } from "../utils/searchParams.js";
+import { getApiUrl, getLanguage } from "../utils/searchParams.js";
 
 const textCache = new Map();
 
@@ -37,3 +37,15 @@ export default async function getTextFromLink(textLink) {
     return "";
   }
 }
+
+export const getTextById = async (id) => {
+  const textLink = {
+    actionLinks: {
+      read: {
+        url: `${getApiUrl()}/record/text/${id}`,
+        accept: "application/vnd.cora.record+json",
+      },
+    },
+  };
+  return getTextFromLink(textLink);
+};

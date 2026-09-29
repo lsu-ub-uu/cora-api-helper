@@ -5,6 +5,8 @@ import t from "../utils/t.js";
 export default function authentication() {
   const apiUrl = getApiUrl();
 
+  document.title = `${t("authentication")} | ${document.title.split(" | ")[1] ?? document.title}`;
+
   return el("article", {
     children: [
       el("h1", { textContent: t("authentication") }),

@@ -1,8 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import getDeploymentInfo from "../services/getDeploymentInfo.js";
 import renderDeploymentInfo from "./renderDeploymentInfo.js";
+import { getTextById } from "../services/getTextFromLink.js";
 
 vi.mock("../services/getDeploymentInfo.js");
+vi.mock("../services/getTextFromLink.js");
 
 describe("renderDeploymentInfo", () => {
   it("renders deployment info", async () => {
@@ -48,6 +50,41 @@ describe("renderDeploymentInfo", () => {
       );
     },
   );
+
+  it("sets page title to system name", async () => {
+    getTextById.mockResolvedValue("TestAPP");
+    document.body.innerHTML = `<div id="deployment-info"></div>
+      <div id="system-name"></div>
+    `;
+
+    vi.mocked(getDeploymentInfo).mockResolvedValue({
+      deploymentName: "Test Deployment",
+      applicationVersion: "1.0.0",
+      applicationName: "testApp",
+    });
+
+    await renderDeploymentInfo();
+
+    expect(document.title).toBe("TestAPP API Helper");
+  });
+
+  it("falls back to capitalized application name if getTextById returns empty", async () => {
+    getTextById.mockResolvedValue("");
+    document.body.innerHTML = `<div id="deployment-info"></div>
+      <div id="system-name"></div>
+    `;
+
+    vi.mocked(getDeploymentInfo).mockResolvedValue({
+      deploymentName: "Test Deployment",
+      applicationVersion: "1.0.0",
+      applicationName: "testApp",
+    });
+
+    await renderDeploymentInfo();
+
+    expect(document.getElementById("system-name").textContent).toBe("TestApp");
+    expect(document.title).toBe("TestApp API Helper");
+  });
 
   it("handles errors gracefully", async () => {
     document.body.innerHTML = `<div id="deployment-info"></div>
