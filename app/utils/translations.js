@@ -1,4 +1,6 @@
-export const getTranslations = () => ({
+export const getTranslations = () => translations;
+
+const translations = {
   welcome: {
     en: "Welcome to the API helper!",
     sv: "Välkommen till API helpern",
@@ -205,4 +207,4 @@ export const getTranslations = () => ({
   collapseNavigation: { en: "Collapse navigation", sv: "Fäll ihop navigering" },
   expandNavigation: { en: "Expand navigation", sv: "Expandera navigering" },
   details: { en: "Details", sv: "Detaljer" },
-});
+};

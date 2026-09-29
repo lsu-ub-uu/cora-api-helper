@@ -1,3 +1,5 @@
+import t from "./t.js";
+
 export default function initSettings() {
   // Set header labels using translations
   const params = new URLSearchParams(window.location.search);
@@ -9,6 +11,8 @@ export default function initSettings() {
 
   const lang = params.get("lang") ?? "en";
   document.getElementById("lang").value = lang;
+
+  document.getElementById("lang-label").textContent = t("language");
 
   document.getElementById("load-form").addEventListener("change", (event) => {
     event.currentTarget.submit();
