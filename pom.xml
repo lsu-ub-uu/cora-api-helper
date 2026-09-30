@@ -59,7 +59,7 @@
         <version>${frontend-maven-plugin.version}</version>
         <configuration>
           <installDirectory>${project.build.directory}/nodeJs</installDirectory>
-          <workingDirectory>${project.build.directory}/nodeJs</workingDirectory>
+          <workingDirectory>${project.basedir}</workingDirectory>
         </configuration>
         <executions>
           <execution>
@@ -89,7 +89,7 @@
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>test</arguments>
+              <arguments>run test:ci</arguments>
             </configuration>
           </execution>
         </executions>

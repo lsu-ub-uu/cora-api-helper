@@ -6,6 +6,7 @@
   "scripts": {
     "start": "web-dev-server --app-index index.html --base-path /api-helper --open --watch",
     "test": "vitest",
+    "test:ci": "vitest run --reporter=default --reporter=junit --outputFile=./target/surefire-reports/TEST-vitest.xml --coverage --coverage.reporter=text --coverage.reporter=cobertura --coverage.reporter=lcov --coverage.reportsDirectory=./target/site/coverage --exclude=**/target/**",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint . --ext .js --fix"
   },
