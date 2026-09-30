@@ -35,17 +35,14 @@ function recordWrapperJSON({ children, recordType }) {
           permissions(),
           jsonObject({
             name: "actionLinks",
-            children: [
-              actionLink({ method: "read", recordType, lastChild: false }),
-              actionLink({
-                method: "readIncomingLinks",
-                recordType,
-                lastChild: false,
-              }),
-              actionLink({ method: "update", recordType, lastChild: false }),
-              actionLink({ method: "delete", recordType, lastChild: false }),
-              actionLink({ method: "index", recordType }),
-            ],
+            children: getRecordActionLinks(recordType).map(
+              (method, index, array) =>
+                actionLink({
+                  method,
+                  recordType,
+                  lastChild: index === array.length - 1,
+                }),
+            ),
           }),
           recordType === "binary" &&
             jsonObject({
@@ -86,13 +83,13 @@ function recordWrapperXML({ children, recordType, repeating }) {
         name: "actionLinks",
         repeatMin: "1",
         repeatMax: "1",
-        children: [
-          actionLink({ method: "read", recordType }),
-          actionLink({ method: "readIncomingLinks", recordType }),
-          actionLink({ method: "update", recordType }),
-          actionLink({ method: "delete", recordType }),
-          actionLink({ method: "index", recordType }),
-        ],
+        children: getRecordActionLinks(recordType).map((method, index, array) =>
+          actionLink({
+            method,
+            recordType,
+            lastChild: index === array.length - 1,
+          }),
+        ),
       }),
       recordType === "binary" &&
         elementXML({
@@ -135,4 +132,25 @@ function recordWrapperXML({ children, recordType, repeating }) {
 
 function getIIIFServerUrl() {
   return getApiUrl().replace("/rest", "/iiif/");
+}
+
+function getRecordActionLinks(recordType) {
+  const baseLinks = ["read", "readIncomingLinks", "update", "delete", "index"];
+  if (recordType === "recordType") {
+    return [
+      ...baseLinks,
+      "search",
+      "create",
+      "list",
+      "batch_index",
+      "validate",
+    ];
+  }
+  if (recordType === "binary") {
+    return [...baseLinks, "upload"];
+  }
+  if (recordType === "search") {
+    return [...baseLinks, "search"];
+  }
+  return baseLinks;
 }

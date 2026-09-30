@@ -263,6 +263,115 @@ describe("actionLink", () => {
     expect(result.querySelectorAll("button")).toHaveLength(7);
   });
 
+  const actionLinkCases = [
+    {
+      method: "search",
+      name: "search",
+      requestMethod: "GET",
+      url: "https://someapiurl.com/rest/record/searchResult/{searchId}",
+      accept: "application/vnd.cora.recordList+xml",
+    },
+    {
+      method: "create",
+      name: "create",
+      requestMethod: "POST",
+      url: "https://someapiurl.com/rest/record/someRecordType",
+      contentType: "application/vnd.cora.recordgroup+xml",
+      accept: "application/vnd.cora.record+xml",
+    },
+    {
+      method: "list",
+      name: "list",
+      requestMethod: "GET",
+      url: "https://someapiurl.com/rest/record/someRecordType",
+      accept: "application/vnd.cora.recordList+xml",
+    },
+    {
+      method: "batch_index",
+      name: "batch_index",
+      requestMethod: "POST",
+      url: "https://someapiurl.com/rest/record/index/someRecordType",
+      contentType: "application/vnd.cora.recordgroup+xml",
+      accept: "application/vnd.cora.record+xml",
+      body: true,
+    },
+    {
+      method: "validate",
+      name: "validate",
+      requestMethod: "POST",
+      url: "https://someapiurl.com/rest/record/workOrder",
+      contentType: "application/vnd.cora.workorder+xml",
+      accept: "application/vnd.cora.record+xml",
+    },
+    {
+      method: "upload",
+      name: "upload",
+      requestMethod: "POST",
+      url: "https://someapiurl.com/rest/record/someRecordType/{recordId}/master",
+      contentType: "multipart/form-data",
+    },
+  ];
+
+  it.each(actionLinkCases)("returns $method XML action link", (action) => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: action.method,
+      recordType: "someRecordType",
+    });
+    const text = normalize(result.textContent);
+
+    expect(text).toContain(`-<${action.name}>(0-1)`);
+    expect(text).toContain(
+      `<requestMethod>${action.requestMethod}</requestMethod>(1-1)`,
+    );
+    expect(text).toContain(`<url>${action.url}</url>(1-1)`);
+    if (action.contentType) {
+      expect(text).toContain(
+        `<contentType>${action.contentType}</contentType>(1-1)`,
+      );
+    }
+    if (action.accept) {
+      expect(text).toContain(`<accept>${action.accept}</accept>(1-1)`);
+    }
+    if (action.body) {
+      expect(text).toContain(
+        "<linkedRecordId>someRecordType</linkedRecordId>(1-1)",
+      );
+      expect(text).toContain("<type>index</type>(1-1)");
+    }
+  });
+
+  it.each(actionLinkCases)("returns $method JSON action link", (action) => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+
+    const result = actionLink({
+      method: action.method,
+      recordType: "someRecordType",
+    });
+    const text = normalize(result.textContent);
+
+    expect(text).toContain(`-"${action.name}":{`);
+    expect(text).toContain(`"requestMethod":"${action.requestMethod}"`);
+    expect(text).toContain(`"url":"${action.url}"`);
+    if (action.contentType) {
+      expect(text).toContain(
+        `"contentType":"${action.contentType.replace("+xml", "+json")}"`,
+      );
+    }
+    if (action.accept) {
+      expect(text).toContain(
+        `"accept":"${action.accept.replace("+xml", "+json")}"`,
+      );
+    }
+    if (action.body) {
+      expect(text).toContain('"linkedRecordId","value":"someRecordType"');
+      expect(text).toContain('"name":"type","value":"index"');
+    }
+  });
+
   it("throws for an unsupported method", () => {
     getApiUrl.mockReturnValue("https://someapiurl.com");
 

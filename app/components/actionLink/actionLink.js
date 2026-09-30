@@ -62,6 +62,64 @@ export default function actionLink({
         lastChild,
         defaultExpanded,
       });
+    case "search":
+      return actionLinkElement({
+        name: "search",
+        requestMethod: "GET",
+        url: `${apiUrl}/rest/record/searchResult/{searchId}`,
+        accept: "application/vnd.cora.recordList+xml",
+        lastChild,
+        defaultExpanded,
+      });
+    case "create":
+      return actionLinkElement({
+        name: "create",
+        requestMethod: "POST",
+        url: `${apiUrl}/rest/record/${recordType}`,
+        accept: "application/vnd.cora.record+xml",
+        contentType: "application/vnd.cora.recordgroup+xml",
+        lastChild,
+        defaultExpanded,
+      });
+    case "list":
+      return actionLinkElement({
+        name: "list",
+        requestMethod: "GET",
+        url: `${apiUrl}/rest/record/${recordType}`,
+        accept: "application/vnd.cora.recordList+xml",
+        lastChild,
+        defaultExpanded,
+      });
+    case "batch_index":
+      return actionLinkElement({
+        name: "batch_index",
+        requestMethod: "POST",
+        accept: "application/vnd.cora.record+xml",
+        contentType: "application/vnd.cora.recordgroup+xml",
+        url: `${apiUrl}/rest/record/index/${recordType}`,
+        body: indexBody(recordType, format),
+        lastChild,
+        defaultExpanded,
+      });
+    case "validate":
+      return actionLinkElement({
+        name: "validate",
+        requestMethod: "POST",
+        url: `${apiUrl}/rest/record/workOrder`,
+        accept: "application/vnd.cora.record+xml",
+        contentType: "application/vnd.cora.workorder+xml",
+        lastChild,
+        defaultExpanded,
+      });
+    case "upload":
+      return actionLinkElement({
+        name: "upload",
+        requestMethod: "POST",
+        url: `${apiUrl}/rest/record/${recordType}/{recordId}/master`,
+        contentType: "multipart/form-data",
+        lastChild,
+        defaultExpanded,
+      });
     default:
       throw new Error(`Unsupported method: ${method}`);
   }

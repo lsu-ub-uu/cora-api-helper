@@ -95,7 +95,7 @@ describe("recordType", () => {
     expect(result.className).toBe("record-type");
   });
 
-  it("renders page title with recordTypeId initially", () => {
+  it("renders page title after text is resolved", async () => {
     const result = recordType({
       recordTypeId: "person",
       recordTypePool: { person: recordTypeData },
@@ -103,7 +103,11 @@ describe("recordType", () => {
       metadataPool: {},
     });
 
-    expect(result.querySelector("h2").textContent).toBe("person");
+    await waitFor(() => {
+      expect(result.querySelector("h2").textContent).toBe(
+        "translated (person)",
+      );
+    });
   });
 
   it("updates title after text is resolved", async () => {
@@ -121,7 +125,7 @@ describe("recordType", () => {
     });
   });
 
-  it("renders method radio buttons", () => {
+  it("renders method radio buttons", async () => {
     const result = recordType({
       recordTypeId: "person",
       recordTypePool: { person: recordTypeData },
@@ -129,11 +133,13 @@ describe("recordType", () => {
       metadataPool: {},
     });
 
-    expect(result.querySelector("fieldset")).toBeTruthy();
-    expect(result.textContent).toContain("Select operation");
+    await waitFor(() => {
+      expect(result.querySelector("fieldset")).toBeTruthy();
+      expect(result.textContent).toContain("Select operation");
+    });
   });
 
-  it("renders createOrUpdate for create method", () => {
+  it("renders createOrUpdate for create method", async () => {
     const recordTypePool = { person: recordTypeData };
     const result = recordType({
       recordTypeId: "person",
@@ -142,7 +148,9 @@ describe("recordType", () => {
       metadataPool: {},
     });
 
-    expect(result.textContent).toContain("mock-createOrUpdate");
+    await waitFor(() => {
+      expect(result.textContent).toContain("mock-createOrUpdate");
+    });
     expect(createOrUpdateRecordType).toHaveBeenCalledWith(
       expect.objectContaining({ recordTypePool }),
     );
@@ -159,7 +167,9 @@ describe("recordType", () => {
       metadataPool: {},
     });
 
-    expect(result.textContent).toContain("mock-read");
+    await waitFor(() => {
+      expect(result.textContent).toContain("mock-read");
+    });
   });
 
   it("renders list view for list method", async () => {
@@ -173,8 +183,10 @@ describe("recordType", () => {
       metadataPool: {},
     });
 
-    expect(result.textContent).toContain("mock-list");
-    expect(result.textContent).toContain("List");
+    await waitFor(() => {
+      expect(result.textContent).toContain("mock-list");
+      expect(result.textContent).toContain("List");
+    });
   });
 
   it("renders requestConfigDoc for delete method", async () => {
@@ -188,6 +200,8 @@ describe("recordType", () => {
       metadataPool: {},
     });
 
-    expect(result.textContent).toContain("mock-requestConfigDoc");
+    await waitFor(() => {
+      expect(result.textContent).toContain("mock-requestConfigDoc");
+    });
   });
 });

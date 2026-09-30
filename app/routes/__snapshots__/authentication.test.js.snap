@@ -123,5 +123,107 @@ exports[`authentication > renders the authentication message 1`] = `
   }
 }
   </p>
+  <h2>
+    Keeping the session alive
+  </h2>
+  <p>
+    To keep your session alive for longer running scripts, you need to renew your auth token before it expires. Use the "renew" actionLink provided in the login response to renew the token.
+  </p>
+  <h3>
+    Request body
+  </h3>
+  <p
+    class="code-block"
+  >
+    <div>
+      POST http://localhost:3000/rest/login/rest/authToken/&lt;renew-token-from-actionLink&gt;
+    </div>
+    <div>
+      <br />
+      <div>
+        Accept: application/vnd.cora.authentication+json
+      </div>
+      <div>
+        Authtoken: &lt;your-auth-token&gt;
+      </div>
+    </div>
+  </p>
+  <h3>
+    Response
+  </h3>
+  <p
+    class="code-block"
+  >
+    {
+  "authentication": {
+    "data": {
+      "children": [
+        {
+          "name": "token",
+          "value": "
+    <span
+      class="highlight"
+    >
+      your-auth-token-valid-for-10-minutes
+    </span>
+    "
+        },
+        {
+          "name": "validUntil",
+          "value": "1778398137837"
+        },
+        {
+          "name": "renewUntil",
+          "value": "1778483937837"
+        },
+        {
+          "name": "userId",
+          "value": "coraUser:491144693381458"
+        },
+        {
+          "name": "loginId",
+          "value": "john.doe@example."
+        },
+        {
+          "name": "firstName",
+          "value": "John"
+        },
+        {
+          "name": "lastName",
+          "value": "Doe"
+        },
+        {
+          "repeatId": "1",
+          "children": [
+            {
+              "name": "linkedRecordType",
+              "value": "permissionUnit"
+            },
+            {
+              "name": "linkedRecordId",
+              "value": "uu"
+            }
+          ],
+          "name": "permissionUnit"
+        }
+      ],
+      "name": "authToken"
+    },
+    "actionLinks": {
+      "renew": {
+        "requestMethod": "POST",
+        "rel": "renew",
+        "url": "https://preview.diva.cora.epc.ub.uu.se/login/rest/authToken/4f81baa5-b173-492a-bf32-bf3a093e61c5",
+        "accept": "application/vnd.cora.authentication+json"
+      },
+      "delete": {
+        "requestMethod": "DELETE",
+        "rel": "delete",
+        "url": "https://preview.diva.cora.epc.ub.uu.se/login/rest/authToken/4f81baa5-b173-492a-bf32-bf3a093e61c5"
+      }
+    }
+  }
+}
+  </p>
 </article>
 `;

@@ -157,4 +157,112 @@ describe("recordWrapper", () => {
 
     expect(text).not.toContain("otherProtocols");
   });
+
+  it("renders xml actionLinks for recordType recordType", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "recordType",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain("actionLinks");
+
+    expect(text).toContain("<search>");
+    expect(text).toContain("<create>");
+    expect(text).toContain("<list>");
+    expect(text).toContain("<batch_index>");
+    expect(text).toContain("<validate>");
+    expect(text).toContain(
+      "https://someapiurl.com/rest/record/searchResult/{searchId}",
+    );
+    expect(text).toContain("https://someapiurl.com/rest/record/recordType");
+    expect(text).toContain(
+      "https://someapiurl.com/rest/record/index/recordType",
+    );
+  });
+
+  it("renders json actionLinks for recordType recordType", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "recordType",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain("actionLinks");
+
+    expect(text).toContain("search");
+    expect(text).toContain("create");
+    expect(text).toContain("list");
+    expect(text).toContain("batch_index");
+    expect(text).toContain("validate");
+    expect(text).toContain(
+      "https://someapiurl.com/rest/record/searchResult/{searchId}",
+    );
+    expect(text).toContain("https://someapiurl.com/rest/record/recordType");
+    expect(text).toContain(
+      "https://someapiurl.com/rest/record/index/recordType",
+    );
+  });
+
+  it("renders xml actionLinks for binary record", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "binary",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain("actionLinks");
+    expect(text).toContain("upload");
+  });
+
+  it("renders json actionLinks for binary record", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "binary",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain("actionLinks");
+    expect(text).toContain("upload");
+  });
+
+  it("renders xml actionLinks for search record", () => {
+    getFormat.mockReturnValue("xml");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "search",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain("actionLinks");
+    expect(text).toContain("search");
+  });
+
+  it("renders json actionLinks for search record", () => {
+    getFormat.mockReturnValue("json");
+    getApiUrl.mockReturnValue("https://someapiurl.com");
+    const result = recordWrapper({
+      children: "child",
+      recordType: "search",
+    });
+
+    const text = normalize(result.textContent);
+
+    expect(text).toContain("actionLinks");
+    expect(text).toContain("search");
+  });
 });

@@ -4,15 +4,15 @@ import { describe, expect, it, vi } from "vitest";
 import initSettings from "./initSettings";
 
 const mockHTML = `<form id="load-form">
-        <label id="format-label">
-          Format
+        <label>
+          <span id="format-label">Format</span>
           <select id="format" name="format">
             <option value="xml">XML</option>
             <option value="json">JSON</option>
           </select>
         </label>
-        <label id="lang-label">
-          Language
+        <label>
+          <span id="lang-label">Language</span>
           <select id="lang" name="lang">
             <option value="en">English</option>
             <option value="sv">Swedish</option>
