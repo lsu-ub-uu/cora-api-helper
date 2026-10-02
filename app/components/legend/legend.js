@@ -16,6 +16,7 @@ export default function legend() {
 function legendItem(term, titleKey, descriptionKey) {
   const popover = el("div", {
     className: "popover",
+    "data-alignment": "left",
     popover: "auto",
     children: [
       el("h3", { textContent: t(titleKey) }),

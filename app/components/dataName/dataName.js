@@ -7,6 +7,7 @@ export default function dataName({ metadata }) {
 
   const popover = el("div", {
     className: "popover",
+    "data-alignment": "right",
     popover: "auto",
     onBeforetoggle: async (toggleEvent) => {
       const { target, newState } = toggleEvent;

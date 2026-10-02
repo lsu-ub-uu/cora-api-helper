@@ -334,7 +334,7 @@ select {
 .popover {
   margin: 0;
   inset: unset;
-  position-area: bottom span-right;
+  position-area: bottom center;
   position-try-fallbacks: flip-block;
   font-family: sans-serif;
   margin-top: 0.5rem;
@@ -344,6 +344,14 @@ select {
   border-radius: 0.5rem;
   padding: 0.5rem;
   border: none;
+
+  &[data-alignment="right"] {
+    position-area: bottom span-right;
+  }
+
+  &[data-alignment="left"] {
+    position-area: bottom span-left;
+  }
 
   h3 {
     margin-bottom: 0.5rem;
