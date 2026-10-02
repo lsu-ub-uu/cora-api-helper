@@ -15,6 +15,7 @@ export default function elementXML({
 }) {
   const root = el("div", {
     className: `element${defaultExpanded ? "" : " collapsed"}`,
+    "data-inline": inline,
     children: [
       !inline &&
         expandButton({

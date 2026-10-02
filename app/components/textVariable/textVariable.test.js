@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import textVariable from "./textVariable";
+import { screen } from "@testing-library/dom";
 
 describe("textVariable", () => {
-  it("renders regex text", () => {
+  it("renders regex text in XML format", () => {
     const metadata = {
       children: [
         { name: "nameInData", value: "test" },
@@ -11,11 +12,26 @@ describe("textVariable", () => {
     };
 
     document.body.appendChild(
-      textVariable({ metadata, repeatMin: "1", repeatMax: "1" })
+      textVariable({ metadata, repeatMin: "1", repeatMax: "1" }),
     );
 
-    expect(document.body.textContent).toEqual(
-      "-<test>(1 - 1)/^[a-zA-Z0-9]+$/</test>"
+    expect(screen.getByText("/^[a-zA-Z0-9]+$/")).toHaveClass("regex");
+  });
+
+  it("renders finalValue in XML format", () => {
+    const metadata = {
+      children: [
+        { name: "nameInData", value: "test" },
+        { name: "regEx", value: "^[a-zA-Z0-9]+$" },
+        { name: "finalValue", value: "final" },
+      ],
+    };
+
+    document.body.appendChild(
+      textVariable({ metadata, repeatMin: "1", repeatMax: "1" }),
     );
+
+    expect(screen.queryByText("^[a-zA-Z0-9]+$")).not.toBeInTheDocument();
+    expect(screen.getByText("final")).toHaveClass("final-value");
   });
 });

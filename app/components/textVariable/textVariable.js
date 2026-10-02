@@ -11,6 +11,7 @@ export default function textVariable({
   lastChild,
 }) {
   const regexText = getFirstChildWithName(metadata, "regEx")?.value;
+  const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
 
   return element({
     metadataPool,
@@ -18,7 +19,9 @@ export default function textVariable({
     repeatMin,
     repeatMax,
     recordPartConstraint,
-    children: el("div", { className: "regex", textContent: `/${regexText}/` }),
+    children: finalValue
+      ? el("span", { className: "final-value", textContent: finalValue })
+      : el("span", { className: "regex", textContent: `/${regexText}/` }),
     lastChild,
   });
 }

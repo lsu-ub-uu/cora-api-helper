@@ -1,3 +1,4 @@
+import { getFirstChildWithName } from "../../utils/coraDataUtils.js";
 import { getFormat } from "../../utils/searchParams.js";
 import attributesJSON from "../attributes/attributesJSON.js";
 import attributesXML from "../attributes/attributesXML.js";
@@ -13,6 +14,7 @@ export default function element({
   children,
   lastChild = true,
   recordPartConstraint,
+  inline,
 }) {
   const format = getFormat();
 
@@ -23,9 +25,9 @@ export default function element({
       repeatMin,
       repeatMax,
       children,
-      lastChild,
       isRecordLink: metadata.attributes?.type === "recordLink",
       recordPartConstraint,
+      lastChild,
     });
   }
 
@@ -36,5 +38,6 @@ export default function element({
     repeatMax,
     children,
     recordPartConstraint,
+    inline,
   });
 }

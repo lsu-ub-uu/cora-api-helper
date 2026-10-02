@@ -14,6 +14,16 @@ export default function numberVariable({
   const max = getFirstChildWithName(metadata, "max")?.value;
   const numberOfDecimals =
     getFirstChildWithName(metadata, "numberOfDecimals")?.value ?? 0;
+  const finalValue = getFirstChildWithName(metadata, "finalValue")?.value;
+
+  const children = finalValue
+    ? el("span", { className: "final-value", textContent: finalValue })
+    : el("div", {
+        className: "number-variable",
+        textContent: `${Number(min).toFixed(numberOfDecimals)} - ${Number(
+          max,
+        ).toFixed(numberOfDecimals)}`,
+      });
 
   return element({
     metadataPool,
@@ -21,12 +31,7 @@ export default function numberVariable({
     repeatMin,
     repeatMax,
     recordPartConstraint,
-    children: el("div", {
-      className: "number-variable",
-      textContent: `${Number(min).toFixed(numberOfDecimals)} - ${Number(
-        max,
-      ).toFixed(numberOfDecimals)}`,
-    }),
+    children,
     lastChild,
   });
 }

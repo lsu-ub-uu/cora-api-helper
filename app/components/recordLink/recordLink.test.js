@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { getApiUrl, getFormat } from "../../utils/searchParams.js";
 import recordLink from "./recordLink.js";
 import { normalize } from "../../utils/normalize.js";
+import { screen } from "@testing-library/dom";
 
 vi.mock("../../utils/searchParams.js");
 
@@ -15,7 +16,7 @@ describe("recordLink", () => {
     const metadata = {
       name: "animalLink",
       children: [
-        { name: "nameInData", value: "animal" },
+        { name: "nameInData", value: "favouriteAnimal" },
         {
           name: "linkedRecordType",
           children: [{ name: "linkedRecordId", value: "animal" }],
@@ -35,7 +36,7 @@ describe("recordLink", () => {
 
     expect(normalize(document.body.textContent)).toEqual(
       normalize(`
-        -<animal>(0 - 1)
+        -<favouriteAnimal>(0 - 1)
           <linkedRecordType>animal</linkedRecordType>
           <linkedRecordId>{id}</linkedRecordId>
           +<actionLinks>(0 - 1)
@@ -46,9 +47,12 @@ describe("recordLink", () => {
               <accept>application/vnd.cora.record+xml</accept>(1 - 1)
             </read>
           </actionLinks>
-        </animal>
+        </favouriteAnimal>
     `),
     );
+
+    expect(screen.getByText("animal")).toHaveClass("final-value");
+    expect(screen.getByText("{id}")).toHaveClass("id");
   });
 
   it("renders a record link in XML format with a finalValue", () => {
@@ -107,7 +111,7 @@ describe("recordLink", () => {
       name: "animalLink",
       attributes: { type: "recordLink" },
       children: [
-        { name: "nameInData", value: "animal" },
+        { name: "nameInData", value: "favouriteAnimal" },
         {
           name: "linkedRecordType",
           children: [{ name: "linkedRecordId", value: "animal" }],
@@ -128,7 +132,7 @@ describe("recordLink", () => {
     expect(normalize(document.body.textContent)).toEqual(
       normalize(`
         -{
-          "name": "animal",(0 - 1)
+          "name": "favouriteAnimal",(0 - 1)
           "children": [
             {"name": "linkedRecordType","value": "animal"},
             {"name": "linkedRecordId","value": "{id}"}
@@ -143,13 +147,15 @@ describe("recordLink", () => {
           }
         }`),
     );
+    expect(screen.getByText("animal")).toHaveClass("final-value");
+    expect(screen.getByText("{id}")).toHaveClass("id");
     expect(document.querySelectorAll("button")).toHaveLength(4);
     expect(document.querySelectorAll(".json-element.collapsed")).toHaveLength(
       1,
     );
   });
 
-  it("uses finalValue in the JSON read action link URL", () => {
+  it("renders a final value in JSON format", () => {
     vi.mocked(getFormat).mockReturnValue("json");
     vi.mocked(getApiUrl).mockReturnValue("https://someapiurl.com");
 
@@ -157,7 +163,7 @@ describe("recordLink", () => {
       name: "animalLink",
       attributes: { type: "recordLink" },
       children: [
-        { name: "nameInData", value: "animal" },
+        { name: "nameInData", value: "favouriteAnimal" },
         { name: "finalValue", value: "dog" },
         {
           name: "linkedRecordType",
@@ -166,20 +172,39 @@ describe("recordLink", () => {
       ],
     };
 
-    const result = recordLink({
-      metadataPool: {},
-      metadata,
-      mode: "read",
-      repeatMin: "0",
-      repeatMax: "1",
-    });
-
-    expect(result.textContent).toContain(
-      '"url": "https://someapiurl.com/rest/record/animal/dog"',
+    document.body.appendChild(
+      recordLink({
+        metadataPool: {},
+        metadata,
+        mode: "read",
+        repeatMin: "0",
+        repeatMax: "1",
+      }),
     );
+
+    expect(normalize(document.body.textContent)).toEqual(
+      normalize(`
+        -{
+          "name": "favouriteAnimal",(0 - 1)
+          "children": [
+            {"name": "linkedRecordType","value": "animal"},
+            {"name": "linkedRecordId", "value": "dog"}
+          ],
+          +"actionLinks": {
+            -"read": {
+              "requestMethod": "GET",
+              "rel": "read",
+              "url": "https://someapiurl.com/rest/record/animal/dog",
+              "accept": "application/vnd.cora.record+json"
+            }
+          }
+        }`),
+    );
+
+    expect(screen.getByText("dog")).toHaveClass("final-value");
   });
 
-  it("uses a record type placeholder when linkedRecordType is absent", () => {
+  it("renders anyTypeRecordLink", () => {
     vi.mocked(getFormat).mockReturnValue("xml");
     vi.mocked(getApiUrl).mockReturnValue("https://someapiurl.com");
 

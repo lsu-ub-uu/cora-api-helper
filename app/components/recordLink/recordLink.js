@@ -32,13 +32,28 @@ export default function recordLink({
     recordPartConstraint,
     children:
       format === "json"
-        ? recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode })
-        : recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }),
+        ? recordLinkJson({
+            linkedRecordTypeValue,
+            linkedRecordId,
+            mode,
+            finalValue,
+          })
+        : recordLinkXml({
+            linkedRecordTypeValue,
+            linkedRecordId,
+            mode,
+            finalValue,
+          }),
     lastChild,
   });
 }
 
-function recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode }) {
+function recordLinkJson({
+  linkedRecordTypeValue,
+  linkedRecordId,
+  mode,
+  finalValue,
+}) {
   const linkedRecordTypeClass =
     linkedRecordTypeValue === "{recordType}" ? "id" : "final-value";
 
@@ -107,7 +122,7 @@ function recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode }) {
                   ': "',
                   linkedRecordId !== "{id}"
                     ? el("span", {
-                        className: "final-value",
+                        className: finalValue ? "final-value" : "id",
                         textContent: linkedRecordId,
                       })
                     : el("span", {
@@ -141,7 +156,15 @@ function recordLinkJson({ linkedRecordTypeValue, linkedRecordId, mode }) {
   });
 }
 
-function recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }) {
+function recordLinkXml({
+  linkedRecordTypeValue,
+  linkedRecordId,
+  mode,
+  finalValue,
+}) {
+  const linkedRecordTypeClass =
+    linkedRecordTypeValue === "{recordType}" ? "id" : "final-value";
+
   return el("div", {
     className: "record-link",
     children: [
@@ -149,8 +172,7 @@ function recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }) {
         children: [
           "<linkedRecordType>",
           el("span", {
-            className:
-              linkedRecordTypeValue === "{recordType}" ? "id" : "final-value",
+            className: linkedRecordTypeClass,
             textContent: linkedRecordTypeValue,
           }),
           "</linkedRecordType>",
@@ -160,7 +182,7 @@ function recordLinkXml({ linkedRecordTypeValue, linkedRecordId, mode }) {
         children: [
           `<linkedRecordId>`,
           el("span", {
-            className: "id",
+            className: finalValue ? "final-value" : "id",
             textContent: linkedRecordId,
           }),
           `</linkedRecordId>`,

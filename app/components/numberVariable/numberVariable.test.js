@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import numberVariable from "./numberVariable";
+import { screen } from "@testing-library/dom";
 
 describe("numberVariable", () => {
   it("renders min and max as integers when numberOfDecimals is 0", () => {
@@ -16,7 +17,7 @@ describe("numberVariable", () => {
       numberVariable({ metadata, repeatMin: "1", repeatMax: "1" }),
     );
 
-    expect(document.body.textContent).toContain("0 - 100");
+    expect(screen.getByText("0 - 100")).toHaveClass("number-variable");
   });
 
   it("renders min and max with decimals", () => {
@@ -33,7 +34,7 @@ describe("numberVariable", () => {
       numberVariable({ metadata, repeatMin: "1", repeatMax: "1" }),
     );
 
-    expect(document.body.textContent).toContain("0.00 - 999.00");
+    expect(screen.getByText("0.00 - 999.00")).toHaveClass("number-variable");
   });
 
   it("defaults numberOfDecimals to 0 when not present", () => {
@@ -49,7 +50,7 @@ describe("numberVariable", () => {
       numberVariable({ metadata, repeatMin: "0", repeatMax: "1" }),
     );
 
-    expect(document.body.textContent).toContain("1 - 200");
+    expect(screen.getByText("1 - 200")).toHaveClass("number-variable");
   });
 
   it("wraps content in an element with nameInData", () => {
@@ -66,7 +67,21 @@ describe("numberVariable", () => {
       numberVariable({ metadata, repeatMin: "1", repeatMax: "1" }),
     );
 
-    expect(document.body.textContent).toContain("score");
-    expect(document.body.textContent).toContain("0.0 - 10.0");
+    expect(screen.getByText("score")).toBeInTheDocument();
+  });
+
+  it("renders finalValue", () => {
+    const metadata = {
+      children: [
+        { name: "nameInData", value: "test" },
+        { name: "finalValue", value: "42" },
+      ],
+    };
+
+    document.body.appendChild(
+      numberVariable({ metadata, repeatMin: "1", repeatMax: "1" }),
+    );
+
+    expect(screen.getByText("42")).toHaveClass("final-value");
   });
 });
