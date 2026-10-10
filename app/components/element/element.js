@@ -33,7 +33,11 @@ export default function element({
 
   return elementXML({
     name: dataName({ metadata }),
-    attributes: attributesXML({ metadataPool, metadata }),
+    attributes: attributesXML({
+      metadataPool,
+      metadata,
+      isRepeating: repeatMax !== "1",
+    }),
     repeatMin,
     repeatMax,
     children,
